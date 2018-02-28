@@ -2,21 +2,21 @@
 
 A set of jest matchers for marble testing integrated with RxJs test scheduler.
 
-#Usage
+# Usage
 
-```
+```sh
 npm i jest-marbles -D
 ```
 
 In the test file:
 
-```
+```js
 import {cold, hot, time} from 'jest-marbles';
 ```
 
 ## toBeObservable
 
-```
+```js
 describe('Test', () => {
     it('Should merge two hot observables and start emitting from the subscription point', () => {
         const e1 = hot('----a--^--b-------c--|', {a: 0});
@@ -30,7 +30,7 @@ describe('Test', () => {
 
 ## toBeMarble
 
-```
+```js
 describe('Test', () => {
     it('Should concatenate two cold observables into single cold observable', () => {
         const a$ = cold('-a-|');
@@ -43,7 +43,7 @@ describe('Test', () => {
 
 ## toHaveSubscriptions
 
-```
+```js
 describe('Test', () => {
     it('Should figure out subscription points', () => {
         const x = cold(        '--a---b---c--|');
