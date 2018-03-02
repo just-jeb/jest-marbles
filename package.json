@@ -15,6 +15,7 @@
   "engines": {
     "node": ">=8.9.4"
   },
+  "keywords": ["jest","marbles","marble","testing","test","rxjs","observable"],
   "scripts": {
     "cleanup": "shx rm -rf umd lib lib-esm lib-fesm typings coverage docs",
     "prebuild": "npm run cleanup && npm run verify",
