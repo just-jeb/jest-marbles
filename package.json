@@ -1,6 +1,6 @@
 {
   "name": "jest-marbles",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Marble testing helpers library for RxJs and Jest",
   "main": "umd/jest-marbles.js",
   "module": "lib/index.js",
@@ -15,7 +15,15 @@
   "engines": {
     "node": ">=8.9.4"
   },
-  "keywords": ["jest","marbles","marble","testing","test","rxjs","observable"],
+  "keywords": [
+    "jest",
+    "marbles",
+    "marble",
+    "testing",
+    "test",
+    "rxjs",
+    "observable"
+  ],
   "scripts": {
     "cleanup": "shx rm -rf umd lib lib-esm lib-fesm typings coverage docs",
     "prebuild": "npm run cleanup && npm run verify",
@@ -42,7 +50,7 @@
     "prerelease": "npm run build",
     "release": "standard-version",
     "postrelease": "npm run release:github && npm run release:npm",
-    "release:github": "git push --no-verify --follow-tags origin master",
+    "release:github": "git push --follow-tags origin master",
     "release:npm": "npm publish",
     "release:preflight:package": "npm pack",
     "size": "shx echo \"Gzipped Size:\" && cross-var strip-json-comments --no-whitespace $npm_package_main | gzip-size"
