@@ -1,6 +1,8 @@
-# jest-marbles
+# jest-marbles 
+[![npm version](https://badge.fury.io/js/jest-marbles.svg)](https://badge.fury.io/js/jest-marbles) [![Build Status](https://travis-ci.org/meltedspark/jest-marbles.svg?branch=master)](https://travis-ci.org/meltedspark/jest-marbles) ![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)
 
-A set of jest matchers for marble testing integrated with RxJs test scheduler.
+
+A set of helper functions and jest matchers for RxJs marble testing.
 
 # Usage
 

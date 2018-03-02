@@ -1,10 +1,5 @@
 language: node_js
 node_js: '8'
-cache: yarn
-notifications:
-  email: false
-# allow this once https://github.com/travis-ci/travis-ci/issues/6933 is fixed
-# install:
-#  - yarn
+cache: node_modules
 script:
   - npm run build
