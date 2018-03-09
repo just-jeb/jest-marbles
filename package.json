@@ -1,6 +1,6 @@
 {
   "name": "jest-marbles",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Marble testing helpers library for RxJs and Jest",
   "main": "umd/jest-marbles.js",
   "module": "lib/index.js",
@@ -25,8 +25,10 @@
     "observable"
   ],
   "scripts": {
+    "e2e": "jest --config=e2e/jest-browser.config.js && jest --config=e2e/jest-node.config.js",
     "cleanup": "shx rm -rf umd lib lib-esm lib-fesm typings coverage docs",
     "prebuild": "npm run cleanup && npm run verify",
+    "postbuild": "npm run e2e",
     "build": "tsc && tsc --target es2017 --outDir lib-esm && webpack && webpack --env.prod",
     "build:fesm:min": "uglifyjs lib-fesm/index.js --compress --mangle --source-map --output lib-fesm/index.min.js",
     "docs": "typedoc -p . --theme minimal --target 'es6' --excludeNotExported --excludePrivate --ignoreCompilerErrors --exclude \"**/src/**/__tests__/*.*\" --out docs src/",
@@ -75,7 +77,7 @@
     "transform": {
       "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "testRegex": "/spec/.*\\.(ts|tsx|js)$",
     "moduleFileExtensions": [
       "ts",
       "tsx",
