@@ -50,7 +50,7 @@
     "commitmsg": "validate-commit-msg",
     "prepush": "npm run ts:style && npm run test:only-changed",
     "prerelease": "npm run build",
-    "release": "standard-version",
+    "release": "standard-version --sign",
     "postrelease": "npm run release:github && npm run release:npm",
     "release:github": "git push --follow-tags origin master",
     "release:npm": "npm publish",
