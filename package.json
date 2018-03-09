@@ -69,7 +69,7 @@
   "lint-staged": {
     "src/**/*.{ts,tsx}": [
       "npm run prettier:ts -- --write",
-      "ts:lint:fix",
+      "npm run ts:lint:fix",
       "git add"
     ]
   },

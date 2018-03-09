@@ -225,15 +225,17 @@ function stringify(x: any): string {
 function deleteErrorNotificationStack(marble: any) {
   const { notification } = marble
   if (notification) {
-    const { kind, exception } = notification
-    if (kind === 'E' && exception instanceof Error) {
-      notification.exception = {
-        name: exception.name,
-        message: exception.message,
-      }
+    const { kind, error } = notification
+    if (kind === 'E' && error instanceof Error) {
+      notification.error = { name: error.name, message: error.message }
     }
   }
   return marble
+}
+
+const marbleToStringReducer = (message: string, x: any) => {
+  message += `\t${stringify(x)}\n`
+  return message
 }
 
 export function observableMatcher(actual: any, expected: any) {
@@ -245,13 +247,11 @@ export function observableMatcher(actual: any, expected: any) {
       return
     }
 
-    let message = '\nExpected \n'
-    actual.forEach((x: any) => (message += `\t${stringify(x)}\n`))
+    const prettyActual = actual.reduce(marbleToStringReducer, '')
 
-    message += '\t\nto deep equal \n'
-    expected.forEach((x: any) => (message += `\t${stringify(x)}\n`))
+    const prettyExpected = expected.reduce(marbleToStringReducer, '')
 
-    expect(passed).toEqual(message)
+    expect(prettyActual).toEqual(prettyExpected)
   } else {
     expect(actual).toEqual(expected)
   }
