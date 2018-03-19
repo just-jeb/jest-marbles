@@ -202,57 +202,59 @@
  * limitations under the License.
  */
 
-import * as _ from 'lodash'
+import * as _ from 'lodash';
 
 function stringify(x: any): string {
-  return JSON.stringify(x, function(key, value) {
+  const pretty = JSON.stringify(x, function(key, value) {
     if (Array.isArray(value)) {
       return (
         '[' +
         value.map(function(i) {
-          return '\n\t' + stringify(i)
+          return '\n\t' + stringify(i);
         }) +
         '\n]'
-      )
+      );
     }
-    return value
-  })
-    .replace(/\\"/g, '"')
+    return value;
+  });
+
+  return pretty
+    .replace(/"/g, "'")
     .replace(/\\t/g, '\t')
-    .replace(/\\n/g, '\n')
+    .replace(/\\n/g, '\n');
 }
 
 function deleteErrorNotificationStack(marble: any) {
-  const { notification } = marble
+  const { notification } = marble;
   if (notification) {
-    const { kind, error } = notification
+    const { kind, error } = notification;
     if (kind === 'E' && error instanceof Error) {
-      notification.error = { name: error.name, message: error.message }
+      notification.error = { name: error.name, message: error.message };
     }
   }
-  return marble
+  return marble;
 }
 
 const marbleToStringReducer = (message: string, x: any) => {
-  message += `\t${stringify(x)}\n`
-  return message
-}
+  message += `\t${stringify(x)}\n`;
+  return message;
+};
 
 export function observableMatcher(actual: any, expected: any) {
   if (Array.isArray(actual) && Array.isArray(expected)) {
-    actual = actual.map(deleteErrorNotificationStack)
-    expected = expected.map(deleteErrorNotificationStack)
-    const passed = _.isEqual(actual, expected)
+    actual = actual.map(deleteErrorNotificationStack);
+    expected = expected.map(deleteErrorNotificationStack);
+    const passed = _.isEqual(actual, expected);
     if (passed) {
-      return
+      return;
     }
 
-    const prettyActual = actual.reduce(marbleToStringReducer, '')
+    const prettyActual = actual.reduce(marbleToStringReducer, '');
 
-    const prettyExpected = expected.reduce(marbleToStringReducer, '')
+    const prettyExpected = expected.reduce(marbleToStringReducer, '');
 
-    expect(prettyActual).toEqual(prettyExpected)
+    expect(prettyActual).toEqual(prettyExpected);
   } else {
-    expect(actual).toEqual(expected)
+    expect(actual).toEqual(expected);
   }
 }
