@@ -47,8 +47,10 @@
       "check-function-in-method"
     ],
     "interface-name": [
-      false
+      true,
+      "never-prefix"
     ],
+    "semicolon": [true, "always"],
     "object-literal-shorthand": true,
     "typeof-compare": true,
     "arrow-return-shorthand": [
