@@ -1,49 +1,20 @@
 import { TestMessage } from 'rxjs/testing/TestMessage';
 import { SubscriptionLog } from 'rxjs/testing/SubscriptionLog';
 import { MarblesGlossary } from './marbles-glossary';
-import { NotificationKindChars } from './notification-kind';
+import { NotificationKindChars, ValueLiteral } from './notification-kind';
+import { NotificationEvent } from './notification-event';
 
 const frameStep = 10;
 
 export class Marblizer {
   public static marblize(messages: TestMessage[]): string {
-    let openGroup = false;
-    let previousMessage = { frame: -frameStep };
-    let marble = '';
-    let previousFrame = 0;
-    for (const message of messages) {
-      // Same notification group
-      if (previousMessage.frame === message.frame) {
-        if (!openGroup) {
-          const lastChar = marble.charAt(marble.length - 1);
-          marble = marble.slice(0, -1) + MarblesGlossary.GroupStart + lastChar;
-          openGroup = true;
-          previousFrame += frameStep;
-        }
-      } else {
-        // Different notifications groups
-        if (openGroup) {
-          // Close the group if open
-          marble += MarblesGlossary.GroupEnd;
-          previousFrame += frameStep;
-          openGroup = false;
-        }
-      }
-      const nextChar = NotificationKindChars[message.notification.kind] || message.notification.value;
-      if (nextChar === undefined) throw Error('Unsupported notification kind');
-
-      const frames = (message.frame - previousFrame) / frameStep;
-      if (frames > 0) {
-        marble += '-'.repeat(frames);
-        previousFrame = message.frame;
-      }
-      marble += nextChar;
-      previousFrame += frameStep;
-
-      previousMessage = message;
+    const emissions = Marblizer.getNotificationEvents(messages);
+    let marbles = '';
+    for (let i = 0, prevEndFrame = 0; i < emissions.length; prevEndFrame = emissions[i].end, i++) {
+      marbles = `${marbles}${MarblesGlossary.TimeFrame.repeat(emissions[i].start - prevEndFrame) +
+        emissions[i].marbles}`;
     }
-
-    return marble;
+    return marbles;
   }
 
   public static marblizeSubscriptions(logs: SubscriptionLog[]): string[] {
@@ -54,5 +25,36 @@ export class Marblizer {
         MarblesGlossary.TimeFrame.repeat((log.unsubscribedFrame - log.subscribedFrame) / frameStep - 1) +
         MarblesGlossary.Unsubscription
     );
+  }
+
+  private static getNotificationEvents(messages: TestMessage[]) {
+    const framesToEmissions = messages.reduce<{ [frame: number]: NotificationEvent }>((result, message) => {
+      if (!result[message.frame]) {
+        result[message.frame] = new NotificationEvent(message.frame / frameStep);
+      }
+      const event = result[message.frame];
+      event.marbles += Marblizer.extractMarble(message);
+      return result;
+    }, {});
+
+    const events = Object.keys(framesToEmissions).map<NotificationEvent>(frame => framesToEmissions[frame]);
+
+    Marblizer.encloseGroupEvents(events);
+    return events;
+  }
+
+  private static extractMarble(message: TestMessage) {
+    let marble = NotificationKindChars[message.notification.kind];
+    if (marble === ValueLiteral) marble = message.notification.value;
+    if (marble === undefined) throw Error('Unsupported notification kind');
+    return marble;
+  }
+
+  private static encloseGroupEvents(events: NotificationEvent[]) {
+    events.forEach(event => {
+      if (event.marbles.length > 1) {
+        event.marbles = `${MarblesGlossary.GroupStart}${event.marbles}${MarblesGlossary.GroupEnd}`;
+      }
+    });
   }
 }

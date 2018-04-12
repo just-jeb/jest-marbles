@@ -6,8 +6,10 @@ export enum NotificationKind {
   Error = 'E',
 }
 
+export const ValueLiteral = {};
+
 export const NotificationKindChars = {
-  [NotificationKind.Value]: undefined,
+  [NotificationKind.Value]: ValueLiteral,
   [NotificationKind.Completion]: MarblesGlossary.Completion,
   [NotificationKind.Error]: MarblesGlossary.Error,
 };
