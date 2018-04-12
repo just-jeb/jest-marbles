@@ -52,7 +52,6 @@
     ],
     "semicolon": [true, "always"],
     "object-literal-shorthand": true,
-    "typeof-compare": true,
     "arrow-return-shorthand": [
       true
     ],
