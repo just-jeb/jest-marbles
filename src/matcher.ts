@@ -8,23 +8,34 @@ declare global {
   namespace jest {
     interface Matchers<R> {
       toBeNotifications(notifications: TestMessage[]): void;
+
       toBeSubscriptions(subscriptions: SubscriptionLog[]): void;
     }
   }
 }
 
-export function observableMatcher(
-  actual: TestMessage[] | SubscriptionLog[],
-  expected: TestMessage[] | SubscriptionLog[]
-) {
-  if (actual[0] instanceof SubscriptionLog && expected[0] instanceof SubscriptionLog) {
-    expect(actual).toBeSubscriptions(expected as SubscriptionLog[]);
+export type MessageOrSubscription = TestMessage[] | SubscriptionLog[];
+
+function expectedIsSubscriptionLogArray(
+  actual: MessageOrSubscription,
+  expected: MessageOrSubscription
+): expected is SubscriptionLog[] {
+  return (
+    (actual.length === 0 && expected.length === 0) ||
+    (actual.length !== 0 && actual[0] instanceof SubscriptionLog) ||
+    (expected.length !== 0 && expected[0] instanceof SubscriptionLog)
+  );
+}
+
+export function observableMatcher(actual: MessageOrSubscription, expected: MessageOrSubscription) {
+  if (expectedIsSubscriptionLogArray(actual, expected)) {
+    expect(actual).toBeSubscriptions(expected);
   } else {
-    expect(actual).toBeNotifications(expected as TestMessage[]);
+    expect(actual).toBeNotifications(expected);
   }
 }
 
-expect.extend({
+export const customTestMatchers = {
   toBeNotifications(actual: TestMessage[], expected: TestMessage[]) {
     const actualMarble = Marblizer.marblize(actual);
     const expectedMarble = Marblizer.marblize(expected);
@@ -61,33 +72,46 @@ expect.extend({
     const actualMarbleArray = Marblizer.marblizeSubscriptions(actual);
     const expectedMarbleArray = Marblizer.marblizeSubscriptions(expected);
 
-    const actualMarble = actualMarbleArray.length === 1 ? actualMarbleArray[0] : actualMarbleArray;
-    const expectedMarble = expectedMarbleArray.length === 1 ? expectedMarbleArray[0] : expectedMarbleArray;
-
-    const pass = JSON.stringify(actualMarble) === JSON.stringify(expectedMarble);
+    const pass = subscriptionsPass(actualMarbleArray, expectedMarbleArray);
     const message = pass
       ? () =>
           matcherHint('.not.toHaveSubscriptions') +
           '\n\n' +
           `Expected observable to not have the following subscription points:\n` +
-          `  ${printExpected(expectedMarble)}\n` +
+          `  ${printExpected(expectedMarbleArray)}\n` +
           `But got:\n` +
-          `  ${printReceived(actualMarble)}`
+          `  ${printReceived(actualMarbleArray)}`
       : () => {
-          const diffString = diff(expectedMarble, actualMarble, {
+          const diffString = diff(expectedMarbleArray, actualMarbleArray, {
             expand: true,
           });
           return (
             matcherHint('.toHaveSubscriptions') +
             '\n\n' +
             `Expected observable to have the following subscription points:\n` +
-            `  ${printExpected(expectedMarble)}\n` +
+            `  ${printExpected(expectedMarbleArray)}\n` +
             `But got:\n` +
-            `  ${printReceived(actualMarble)}` +
+            `  ${printReceived(actualMarbleArray)}` +
             (diffString ? `\n\nDifference:\n\n${diffString}` : '')
           );
         };
 
     return { actual, message, pass };
   },
-});
+};
+
+expect.extend(customTestMatchers);
+
+function subscriptionsPass(actualMarbleArray: string[], expectedMarbleArray: string[]): boolean {
+  if (actualMarbleArray.length !== expectedMarbleArray.length) {
+    return false;
+  }
+  let pass = true;
+  for (const actualMarble of actualMarbleArray) {
+    if (!expectedMarbleArray.includes(actualMarble)) {
+      pass = false;
+      break;
+    }
+  }
+  return pass;
+}
