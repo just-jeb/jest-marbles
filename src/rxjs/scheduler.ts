@@ -2,13 +2,13 @@ import { Observable } from 'rxjs/Observable';
 import { TestMessage } from 'rxjs/testing/TestMessage';
 import { TestScheduler } from 'rxjs/testing/TestScheduler';
 
-import { observableMatcher } from './matcher';
+import { assertDeepEqual } from './assert-deep-equal';
 
 export class Scheduler {
   public static instance: TestScheduler | null;
 
   public static init(): void {
-    Scheduler.instance = new TestScheduler(observableMatcher);
+    Scheduler.instance = new TestScheduler(assertDeepEqual);
   }
 
   public static get(): TestScheduler {
