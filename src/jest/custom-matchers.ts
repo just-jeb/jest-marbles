@@ -1,39 +1,8 @@
-import { TestMessage } from 'rxjs/testing/TestMessage';
-import { Marblizer } from './marblizer';
+import { Marblizer } from '../marblizer';
 import diff from 'jest-diff';
 import { printExpected, printReceived, matcherHint } from 'jest-matcher-utils';
+import { TestMessage } from 'rxjs/testing/TestMessage';
 import { SubscriptionLog } from 'rxjs/testing/SubscriptionLog';
-
-declare global {
-  namespace jest {
-    interface Matchers<R> {
-      toBeNotifications(notifications: TestMessage[]): void;
-
-      toBeSubscriptions(subscriptions: SubscriptionLog[]): void;
-    }
-  }
-}
-
-export type MessageOrSubscription = TestMessage[] | SubscriptionLog[];
-
-function expectedIsSubscriptionLogArray(
-  actual: MessageOrSubscription,
-  expected: MessageOrSubscription
-): expected is SubscriptionLog[] {
-  return (
-    (actual.length === 0 && expected.length === 0) ||
-    (actual.length !== 0 && actual[0] instanceof SubscriptionLog) ||
-    (expected.length !== 0 && expected[0] instanceof SubscriptionLog)
-  );
-}
-
-export function observableMatcher(actual: MessageOrSubscription, expected: MessageOrSubscription) {
-  if (expectedIsSubscriptionLogArray(actual, expected)) {
-    expect(actual).toBeSubscriptions(expected);
-  } else {
-    expect(actual).toBeNotifications(expected);
-  }
-}
 
 export const customTestMatchers = {
   toBeNotifications(actual: TestMessage[], expected: TestMessage[]) {
@@ -100,8 +69,6 @@ export const customTestMatchers = {
   },
 };
 
-expect.extend(customTestMatchers);
-
 function subscriptionsPass(actualMarbleArray: string[], expectedMarbleArray: string[]): boolean {
   if (actualMarbleArray.length !== expectedMarbleArray.length) {
     return false;
@@ -115,3 +82,15 @@ function subscriptionsPass(actualMarbleArray: string[], expectedMarbleArray: str
   }
   return pass;
 }
+
+declare global {
+  namespace jest {
+    interface Matchers<R> {
+      toBeNotifications(notifications: TestMessage[]): void;
+
+      toBeSubscriptions(subscriptions: SubscriptionLog[]): void;
+    }
+  }
+}
+
+expect.extend(customTestMatchers);

@@ -4,7 +4,7 @@ jest.mock('jest-diff');
 jest.mock('jest-matcher-utils');
 
 import {Marblizer} from '../src/marblizer';
-import {observableMatcher} from '../src/matcher';
+import {assertDeepEqual} from '../src/rxjs/assert-deep-equal';
 import {SubscriptionLog} from 'rxjs/testing/SubscriptionLog';
 import {Notification} from 'rxjs';
 
@@ -17,14 +17,14 @@ const expectMock = jest.fn(() => matchersMock);
 global.expect = expectMock;
 // expectMock.mockReturnValue(customTestMatchers);
 
-describe('observableMatcher test', ()=>{
+describe('assertDeepEqual test', ()=>{
   beforeEach(() => {
     matchersMock.toBeNotifications.mockClear();
     matchersMock.toBeSubscriptions.mockClear();
   });
 
   it('Should call subscriptions matcher if received arrays of subscriptions', () => {
-    observableMatcher([
+    assertDeepEqual([
       new SubscriptionLog(30, 60),
       new SubscriptionLog(10, 50)
     ],[
@@ -35,21 +35,21 @@ describe('observableMatcher test', ()=>{
   });
 
   it('Should call subscriptions matcher if actual is empty array and expected is array of subscriptions', () => {
-    observableMatcher([],[
+    assertDeepEqual([],[
       new SubscriptionLog(30, 60),
       new SubscriptionLog(10, 50)])
     jestExpect(matchersMock.toBeSubscriptions).toHaveBeenCalledTimes(1);
   });
 
   it('Should call subscriptions matcher if expected is empty array and actual is array of subscriptions', () => {
-    observableMatcher([
+    assertDeepEqual([
       new SubscriptionLog(30, 60),
       new SubscriptionLog(10, 50)],[])
     jestExpect(matchersMock.toBeSubscriptions).toHaveBeenCalledTimes(1);
   });
 
   it('Should call notifications matcher if received arrays of notifications', () => {
-    observableMatcher([
+    assertDeepEqual([
       {frame: 30, notification: new Notification('N', 'b')},
       {frame: 110, notification: new Notification('N', 'e')}
     ],[
@@ -60,7 +60,7 @@ describe('observableMatcher test', ()=>{
   });
 
   it('Should call notifications matcher when the actual is empty array and expected is array of notifications', () => {
-    observableMatcher([],[
+    assertDeepEqual([],[
       {frame: 30, notification: new Notification('N', 'b')},
       {frame: 110, notification: new Notification('N', 'e')}
     ]);
@@ -68,7 +68,7 @@ describe('observableMatcher test', ()=>{
   });
 
   it('Should call notifications matcher when expected is empty array and actual is array of notifications', () => {
-    observableMatcher([
+    assertDeepEqual([
       {frame: 30, notification: new Notification('N', 'b')},
       {frame: 110, notification: new Notification('N', 'e')}
     ],[]);

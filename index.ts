@@ -1,10 +1,10 @@
-import {ColdObservable} from './src/cold-observable';
-import {HotObservable} from './src/hot-observable';
-import {Scheduler} from './src/scheduler';
+import {ColdObservable} from './src/rxjs/cold-observable';
+import {HotObservable} from './src/rxjs/hot-observable';
+import {Scheduler} from './src/rxjs/scheduler';
 
 export type ObservableWithSubscriptions = ColdObservable | HotObservable;
 
-export {Scheduler} from './src/scheduler';
+export {Scheduler} from './src/rxjs/scheduler';
 
 declare global {
     namespace jest {
