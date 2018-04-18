@@ -1,21 +1,12 @@
 const jestExpect = expect;
 
-jest.mock('jest-diff');
-jest.mock('jest-matcher-utils');
-
-import {Marblizer} from '../src/marblizer';
 import {assertDeepEqual} from '../src/rxjs/assert-deep-equal';
 import {SubscriptionLog} from 'rxjs/testing/SubscriptionLog';
 import {Notification} from 'rxjs';
 
-const subscriptionsMock = jest.fn();
-Marblizer.marblizeSubscriptions = subscriptionsMock;
-subscriptionsMock.mockReturnValueOnce([]).mockReturnValueOnce(['foo','bar']);
-
 const matchersMock = {toBeSubscriptions: jest.fn(), toBeNotifications: jest.fn()};
 const expectMock = jest.fn(() => matchersMock);
 global.expect = expectMock;
-// expectMock.mockReturnValue(customTestMatchers);
 
 describe('assertDeepEqual test', ()=>{
   beforeEach(() => {
@@ -30,7 +21,7 @@ describe('assertDeepEqual test', ()=>{
     ],[
       new SubscriptionLog(30, 60),
       new SubscriptionLog(10, 50)
-    ])
+    ]);
     jestExpect(matchersMock.toBeSubscriptions).toHaveBeenCalledTimes(1);
   });
 
@@ -76,6 +67,4 @@ describe('assertDeepEqual test', ()=>{
   });
 });
 
-describe('custom test matchers test', () => {
-  // TODO: implement
-});
+
