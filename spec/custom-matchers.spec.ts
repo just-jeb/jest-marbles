@@ -73,3 +73,34 @@ describe('toBeNotifications test', () => {
     expect(result.pass).toBeFalsy();
   });
 });
+
+describe('toHaveEmptySubscriptions test', () => {
+  const actual = [new SubscriptionLog(30, 60)];
+  beforeEach(() => {
+    marblizeSubscriptionsMock.mockClear();
+  });
+  it('Should call marblizeSubscriptions if fails', () => {
+    marblizeSubscriptionsMock.mockReturnValueOnce([]);
+    customTestMatchers.toHaveEmptySubscriptions(actual);
+    expect(marblizeSubscriptionsMock).toHaveBeenCalledTimes(1);
+    expect(marblizeSubscriptionsMock).toHaveBeenCalledWith(actual);
+  });
+
+  it('Should fail if the actual subscriptions array is not empty', () => {
+    marblizeSubscriptionsMock.mockReturnValueOnce(['--^--!']);
+    const result = customTestMatchers.toHaveEmptySubscriptions(actual);
+    expect(result.pass).toBeFalsy();
+  });
+
+  it('Should pass if the actual subscriptions array is undefined', () => {
+    marblizeSubscriptionsMock.mockReturnValueOnce(['--^--!', '^--!']);
+    const result = customTestMatchers.toHaveEmptySubscriptions(undefined);
+    expect(result.pass).toBeTruthy();
+  });
+
+  it('Should pass if the actual subscriptions array is empty', () => {
+    marblizeSubscriptionsMock.mockReturnValueOnce(['--^--!', '--^---!']);
+    const result = customTestMatchers.toHaveEmptySubscriptions([]);
+    expect(result.pass).toBeTruthy();
+  });
+});

@@ -67,6 +67,27 @@ export const customTestMatchers = {
 
     return { actual, message, pass };
   },
+
+  toHaveEmptySubscriptions(actual: SubscriptionLog[] | undefined) {
+    const pass = !(actual && actual.length > 0);
+    let marbles: string[];
+    if (actual && actual.length > 0) {
+      marbles = Marblizer.marblizeSubscriptions(actual);
+    }
+    const message = pass
+      ? () =>
+          matcherHint('.not.toHaveNoSubscriptions') +
+          '\n\n' +
+          `Expected observable to have at least one subscription point, but got nothing` +
+          printReceived('')
+      : () =>
+          matcherHint('.toHaveNoSubscriptions') +
+          '\n\n' +
+          `Expected observable to have no subscription points\n` +
+          `But got:\n` +
+          `  ${printReceived(marbles)}\n\n`;
+    return { actual, message, pass };
+  },
 };
 
 function subscriptionsPass(actualMarbleArray: string[], expectedMarbleArray: string[]): boolean {
@@ -89,6 +110,8 @@ declare global {
       toBeNotifications(notifications: TestMessage[]): void;
 
       toBeSubscriptions(subscriptions: SubscriptionLog[]): void;
+
+      toHaveEmptySubscriptions(): void;
     }
   }
 }
