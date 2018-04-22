@@ -9,14 +9,21 @@ function expectedIsSubscriptionLogArray(
   expected: MessageOrSubscription
 ): expected is SubscriptionLog[] {
   return (
-    (actual.length === 0 && expected.length === 0) ||
-    (actual.length !== 0 && actual[0] instanceof SubscriptionLog) ||
-    (expected.length !== 0 && expected[0] instanceof SubscriptionLog)
+    (actual.length === 0 && expected.length === 0) || (expected.length !== 0 && expected[0] instanceof SubscriptionLog)
   );
 }
 
+function actualIsSubscriptionsAndExpectedIsEmpty(
+  actual: MessageOrSubscription,
+  expected: MessageOrSubscription
+): actual is SubscriptionLog[] {
+  return expected.length === 0 && actual.length !== 0 && actual[0] instanceof SubscriptionLog;
+}
+
 export function assertDeepEqual(actual: MessageOrSubscription, expected: MessageOrSubscription) {
-  if (expectedIsSubscriptionLogArray(actual, expected)) {
+  if (actualIsSubscriptionsAndExpectedIsEmpty(actual, expected)) {
+    expect(actual).toHaveEmptySubscriptions();
+  } else if (expectedIsSubscriptionLogArray(actual, expected)) {
     expect(actual).toBeSubscriptions(expected);
   } else {
     expect(actual).toBeNotifications(expected);
