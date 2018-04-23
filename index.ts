@@ -60,7 +60,6 @@ expect.extend({
   }
 });
 
-
 beforeEach(() => Scheduler.init());
 afterEach(() => {
   Scheduler.get().flush();
