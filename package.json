@@ -13,7 +13,7 @@
   "author": "Evgeny Barabanov",
   "license": "MIT",
   "engines": {
-    "node": ">=4.7.1"
+    "node": ">=6.11.5"
   },
   "keywords": [
     "jest",
