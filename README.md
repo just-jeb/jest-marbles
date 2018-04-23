@@ -2,7 +2,10 @@
 [![npm version](https://badge.fury.io/js/jest-marbles.svg)](https://badge.fury.io/js/jest-marbles) [![Build Status](https://travis-ci.org/meltedspark/jest-marbles.svg?branch=master)](https://travis-ci.org/meltedspark/jest-marbles) ![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg) [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
 
-A set of helper functions and jest matchers for RxJs marble testing.
+A set of helper functions and Jest matchers for RxJs marble testing.
+
+# Read this first
+ - [Writing marble tests](https://github.com/ReactiveX/rxjs/blob/master/doc/writing-marble-tests.md)
 
 # Usage
 
