@@ -4,11 +4,11 @@ import {switchAll} from 'rxjs/operators';
 describe('toHaveSubscriptions matcher', () => {
 
   it('Should figure out single subscription points', () => {
-    const x = cold('--a---b---c--|');
-    const xsubs = '------^-------!';
-    const y = cold('---d--e---f---|');
-    const ysubs = '--------------^-------------!';
-    const e1 = hot('------x-------y------|', {x, y});
+    const x = cold(        '--a---b---c--|');
+    const xsubs =    '------^-------!';
+    const y = cold(                '---d--e---f---|');
+    const ysubs =    '--------------^-------------!';
+    const e1 = hot(  '------x-------y------|', { x, y });
     const expected = cold('--------a---b----d--e---f---|');
 
     expect(e1.pipe(switchAll())).toBeObservable(expected);
@@ -17,18 +17,18 @@ describe('toHaveSubscriptions matcher', () => {
   });
 
   it('Should figure out multiple subscription points', () => {
-    const x = cold('--a---b---c--|');
+    const x = cold(                    '--a---b---c--|');
 
-    const y = cold('----x---x|', {x});
-    const ySubscription1 = '----^---!';
+    const y = cold(                '----x---x|', {x});
+    const ySubscription1 =         '----^---!';
     //                                     '--a---b---c--|'
-    const ySubscription2 = '--------^------------!';
-    const expectedY = cold('------a---a---b---c--|');
+    const ySubscription2 =         '--------^------------!';
+    const expectedY = cold( '------a---a---b---c--|');
 
-    const z = cold('-x|', {x});
+    const z = cold(                   '-x|', {x});
     //                                 '--a---b---c--|'
-    const zSubscription = '-^------------!';
-    const expectedZ = cold('---a---b---c--|');
+    const zSubscription =             '-^------------!';
+    const expectedZ = cold(           '---a---b---c--|');
 
     expect(y.pipe(switchAll())).toBeObservable(expectedY);
     expect(z.pipe(switchAll())).toBeObservable(expectedZ);
@@ -36,8 +36,11 @@ describe('toHaveSubscriptions matcher', () => {
     expect(x).toHaveSubscriptions([ySubscription1, ySubscription2, zSubscription]);
   });
 
-  it('Should verify that there are no subscriptions', () => {
+  it('Should verify that switchMap was not performed due to an error', () => {
     const x = cold('--a---b---c--|');
+    const y = cold('----x--|', {x});
+    const result = y.pipe(switchAll());
+    expect(result).toBeMarble('------a---b---c--|');
     expect(x).toHaveNoSubscriptions();
   });
 
