@@ -38,9 +38,9 @@ describe('toHaveSubscriptions matcher', () => {
 
   it('Should verify that switchMap was not performed due to an error', () => {
     const x = cold('--a---b---c--|');
-    const y = cold('----x--|', {x});
+    const y = cold('---#-x--', {x});
     const result = y.pipe(switchAll());
-    expect(result).toBeMarble('------a---b---c--|');
+    expect(result).toBeMarble('---a---b---c--|');
     expect(x).toHaveNoSubscriptions();
   });
 
