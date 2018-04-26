@@ -40,7 +40,7 @@ describe('toHaveSubscriptions matcher', () => {
     const x = cold('--a---b---c--|');
     const y = cold('---#-x--', {x});
     const result = y.pipe(switchAll());
-    expect(result).toBeMarble('---a---b---c--|');
+    expect(result).toBeMarble('---#');
     expect(x).toHaveNoSubscriptions();
   });
 
