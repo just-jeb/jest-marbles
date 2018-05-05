@@ -4,10 +4,25 @@ import { printExpected, printReceived, matcherHint } from 'jest-matcher-utils';
 import { TestMessage } from 'rxjs/testing/TestMessage';
 import { SubscriptionLog } from 'rxjs/testing/SubscriptionLog';
 
+function haveValueObjects(actual: TestMessage[], expected: TestMessage[]) {
+  return (
+    actual.some(m => m.notification.value instanceof Object) ||
+    expected.some(m => m.notification.value instanceof Object)
+  );
+}
+
 export const customTestMatchers = {
   toBeNotifications(actual: TestMessage[], expected: TestMessage[]) {
-    const actualMarble = Marblizer.marblize(actual);
-    const expectedMarble = Marblizer.marblize(expected);
+    let actualMarble: string;
+    let expectedMarble: string;
+
+    if (haveValueObjects(actual, expected)) {
+      actualMarble = JSON.stringify(actual);
+      expectedMarble = JSON.stringify(expected);
+    } else {
+      actualMarble = Marblizer.marblize(actual);
+      expectedMarble = Marblizer.marblize(expected);
+    }
 
     const pass = actualMarble === expectedMarble;
 

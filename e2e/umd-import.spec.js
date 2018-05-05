@@ -13,4 +13,10 @@ describe('Imports test', () => {
         expect(h).not.toBeNull();
         expect(t).not.toBeNull();
     });
+
+    it('Should work with value objects', () => {
+      const c = cold('--a-|', {a: {prop: "blah"}});
+      expect(c).toBeObservable(cold('--a-|', {a: {prop: "blah"}}));
+    });
+
 });
