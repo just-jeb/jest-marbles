@@ -5,6 +5,10 @@
 A set of helper functions and Jest matchers for RxJs marble testing.  
 This library will help you to test your reactive code in easy and clear way.  
 
+# NOTICE: 
+There is a [bug](https://github.com/meltedspark/jest-marbles/issues/22) in latest version which will cause exception when emitted value in expected observable is an object.  
+If you do such kind of tests use version **1.0.6**
+
 # Features
  - Multiple bundle formats: UMD, ES5 + ES2015 for module shaking, FESM
  - Typescript 
