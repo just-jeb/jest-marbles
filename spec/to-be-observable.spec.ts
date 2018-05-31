@@ -11,6 +11,14 @@ describe('toBeObservable matcher test', () => {
         expect(a$.pipe(concat(b$))).toBeObservable(expected);
     });
 
+    it('Should work for value objects', () => {
+        const valueObject = {foo: 'bar'};
+        const a$ = cold('-a-|', {a: valueObject});
+        const expected = cold('-a-|', {a: valueObject});
+
+        expect(a$).toBeObservable(expected);
+    });
+
     it('Should merge two hot observables and start emitting from the subscription point', () => {
         const e1 = hot('----a--^--b-------c--|', );
         const e2 = hot(  '---d-^--e---------f-----|', );
