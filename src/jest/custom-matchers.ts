@@ -1,6 +1,5 @@
 import { Marblizer } from '../marblizer';
 import diff from 'jest-diff';
-import equal from 'fast-deep-equal';
 import { printExpected, printReceived, matcherHint } from 'jest-matcher-utils';
 import { TestMessage } from 'rxjs/testing/TestMessage';
 import { SubscriptionLog } from 'rxjs/testing/SubscriptionLog';
@@ -14,18 +13,19 @@ function haveValueObjects(actual: TestMessage[], expected: TestMessage[]) {
 
 export const customTestMatchers = {
   toBeNotifications(actual: TestMessage[], expected: TestMessage[]) {
-    let actualMarble: string | TestMessage[];
-    let expectedMarble: string | TestMessage[];
+    let actualMarble: string;
+    let expectedMarble: string;
 
     if (haveValueObjects(actual, expected)) {
-      actualMarble = actual;
-      expectedMarble = expected;
+      const spaces = 2;
+      actualMarble = JSON.stringify(actual, null, spaces);
+      expectedMarble = JSON.stringify(expected, null, spaces);
     } else {
       actualMarble = Marblizer.marblize(actual);
       expectedMarble = Marblizer.marblize(expected);
     }
 
-    const pass = equal(actualMarble, expectedMarble);
+    const pass = actualMarble === expectedMarble;
 
     const message = pass
       ? () =>
