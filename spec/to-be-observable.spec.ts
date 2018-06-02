@@ -20,10 +20,8 @@ describe('toBeObservable matcher test', () => {
     });
 
     it('Should delay the emission by provided timeout with provided scheduler', () => {
-
         const delay = time('-----d|');
         const provided = timer(delay, Scheduler.get()).pipe(mapTo(0));
-
         const expected = hot('------(d|)', {d: 0});
 
         expect(provided).toBeObservable(expected);
