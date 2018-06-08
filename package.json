@@ -119,18 +119,18 @@
     "standard-version": "^4.3.0",
     "strip-json-comments-cli": "^1.0.1",
     "ts-jest": "^22.4.0",
-    "tslint": "^5.9.1",
+    "tslint": "5.10.0",
     "tslint-config-prettier": "^1.9.0",
     "tslint-config-standard": "^7.0.0",
     "tslint-react": "^3.5.1",
     "typedoc": "^0.10.0",
-    "typescript": "^2.7.2",
+    "typescript": "2.9.1",
     "validate-commit-msg": "2.14.0",
     "webpack": "^4.0.1",
     "webpack-cli": "2.0.9",
     "webpack-config-utils": "^2.3.0"
   },
   "peerDependencies": {
-    "rxjs": "^5.0.0"
+    "rxjs": " >= 5.0.0"
   }
 }
