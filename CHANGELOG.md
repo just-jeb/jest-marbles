@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/meltedspark/jest-marbles/compare/v1.1.2...v1.2.0) (2018-06-02)
+
+
+### Features
+
+* **output:** pretty print marble differences for value objects ([2a29e92](https://github.com/meltedspark/jest-marbles/commit/2a29e92))
+* **output:** use native JSON.stringify pretty print option ([b050d60](https://github.com/meltedspark/jest-marbles/commit/b050d60))
+
+
+
 <a name="1.1.2"></a>
 ## [1.1.2](https://github.com/meltedspark/jest-marbles/compare/v1.1.1...v1.1.2) (2018-05-05)
 

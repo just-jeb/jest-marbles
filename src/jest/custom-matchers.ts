@@ -17,8 +17,9 @@ export const customTestMatchers = {
     let expectedMarble: string;
 
     if (haveValueObjects(actual, expected)) {
-      actualMarble = JSON.stringify(actual);
-      expectedMarble = JSON.stringify(expected);
+      const spaces = 2;
+      actualMarble = JSON.stringify(actual, null, spaces);
+      expectedMarble = JSON.stringify(expected, null, spaces);
     } else {
       actualMarble = Marblizer.marblize(actual);
       expectedMarble = Marblizer.marblize(expected);
