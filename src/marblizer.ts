@@ -1,5 +1,5 @@
-import { TestMessage } from 'rxjs/testing/TestMessage';
-import { SubscriptionLog } from 'rxjs/testing/SubscriptionLog';
+import { TestMessage } from './rxjs/internal/TestMessage';
+import { SubscriptionLog } from './rxjs/internal/SubscriptionLog';
 import { MarblesGlossary } from './marbles-glossary';
 import { NotificationKindChars, ValueLiteral } from './notification-kind';
 import { NotificationEvent } from './notification-event';
