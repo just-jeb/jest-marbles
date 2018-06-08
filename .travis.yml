@@ -1,5 +1,10 @@
 language: node_js
-node_js: '6'
+node_js: '8'
 cache: node_modules
+env:
+  - RXJS_VERSION=5
+  - RXJS_VERSION=6
+before_script:
+  - 'if [ "$RXJS_VERSION" ]; then npm install rxjs@^$RXJS_VERSION; fi'
 script:
   - npm run build

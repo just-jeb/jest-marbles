@@ -50,12 +50,12 @@ expect.extend({
   },
 
   toBeObservable(actual: ObservableWithSubscriptions, expected: ObservableWithSubscriptions) {
-    Scheduler.get().expectObservable(actual).toBe(expected.marbles, expected.values, expected.error);
+    Scheduler.get().expectObservable(actual, ).toBe(expected.marbles, expected.values, expected.error);
     return dummyResult;
   },
 
   toBeMarble(actual: ObservableWithSubscriptions, marbles: string) {
-    Scheduler.get().expectObservable(actual).toBe(marbles);
+    Scheduler.get().expectObservable(actual, ).toBe(marbles);
     return dummyResult;
   }
 });

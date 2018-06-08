@@ -1,6 +1,6 @@
 import {Marblizer} from "../src/marblizer";
 import {customTestMatchers} from "../src/jest/custom-matchers";
-import {SubscriptionLog} from 'rxjs/testing/SubscriptionLog';
+import {SubscriptionLog} from '../src/rxjs/internal/SubscriptionLog';
 import {Notification} from 'rxjs';
 
 jest.mock('jest-diff');

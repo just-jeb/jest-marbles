@@ -1,8 +1,8 @@
 import { Marblizer } from '../marblizer';
 import diff from 'jest-diff';
 import { printExpected, printReceived, matcherHint } from 'jest-matcher-utils';
-import { TestMessage } from 'rxjs/testing/TestMessage';
-import { SubscriptionLog } from 'rxjs/testing/SubscriptionLog';
+import { TestMessage } from '../rxjs/internal/TestMessage';
+import { SubscriptionLog } from '../rxjs/internal/SubscriptionLog';
 
 function haveValueObjects(actual: TestMessage[], expected: TestMessage[]) {
   return (
