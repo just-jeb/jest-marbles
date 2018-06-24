@@ -1,5 +1,5 @@
-import { TestMessage } from 'rxjs/testing/TestMessage';
-import { SubscriptionLog } from 'rxjs/testing/SubscriptionLog';
+import { TestMessage } from 'rxjs/internal/testing/TestMessage';
+import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
 import '../jest/custom-matchers';
 
 export type MessageOrSubscription = TestMessage[] | SubscriptionLog[];

@@ -1,6 +1,6 @@
 import {cold, hot, Scheduler, time} from '../index';
 import {concat, merge, mapTo} from 'rxjs/operators';
-import {timer} from 'rxjs/observable/timer';
+import {timer} from 'rxjs';
 
 describe('To be marble matcher', () => {
     it('Should concatenate two cold observables into single cold observable', () => {

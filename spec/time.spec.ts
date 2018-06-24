@@ -1,5 +1,5 @@
 import {mapTo} from 'rxjs/operators';
-import {timer} from 'rxjs/observable/timer';
+import {timer} from 'rxjs';
 
 import {hot, Scheduler, time} from '../index';
 
