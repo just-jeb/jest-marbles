@@ -1,7 +1,7 @@
 import {Marblizer} from '../src/marblizer';
-import {TestMessage} from 'rxjs/testing/TestMessage';
+import {TestMessage} from 'rxjs/internal/testing/TestMessage';
 import {Notification} from 'rxjs';
-import {SubscriptionLog} from 'rxjs/testing/SubscriptionLog';
+import {SubscriptionLog} from 'rxjs/internal/testing/SubscriptionLog';
 
 describe('Marblizer test', () => {
   it('Should marblize TestMessages', () => {

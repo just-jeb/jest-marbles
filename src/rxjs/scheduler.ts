@@ -1,6 +1,6 @@
-import { Observable } from 'rxjs/Observable';
-import { TestMessage } from 'rxjs/testing/TestMessage';
-import { TestScheduler } from 'rxjs/testing/TestScheduler';
+import { Observable } from 'rxjs';
+import { TestMessage } from 'rxjs/internal/testing/TestMessage';
+import { TestScheduler } from 'rxjs/internal/testing/TestScheduler';
 
 import { assertDeepEqual } from './assert-deep-equal';
 
