@@ -1,6 +1,6 @@
 {
   "name": "jest-marbles",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "Marble testing helpers library for RxJs and Jest",
   "main": "umd/jest-marbles.js",
   "module": "lib/index.js",
