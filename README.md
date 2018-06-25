@@ -17,8 +17,14 @@ This library will help you to test your reactive code in easy and clear way.
 
 # Usage
 
+For RxJs 5:
 ```sh
-npm i jest-marbles -D
+npm i jest-marbles@1 -D
+```  
+
+For RxJs 6:
+```sh
+npm i jest-marbles@latest -D
 ```
 
 In the test file:
