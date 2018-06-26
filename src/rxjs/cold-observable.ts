@@ -1,6 +1,6 @@
-import { Observable } from 'rxjs/Observable';
-import { ColdObservable as RxJsColdObservable } from 'rxjs/testing/ColdObservable';
-import { SubscriptionLog } from 'rxjs/testing/SubscriptionLog';
+import { Observable } from 'rxjs';
+import { ColdObservable as RxJsColdObservable } from 'rxjs/internal/testing/ColdObservable';
+import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
 
 import { Scheduler } from './scheduler';
 

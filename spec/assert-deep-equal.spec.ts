@@ -1,7 +1,7 @@
 const jestExpect = expect;
 
 import {assertDeepEqual} from '../src/rxjs/assert-deep-equal';
-import {SubscriptionLog} from 'rxjs/testing/SubscriptionLog';
+import {SubscriptionLog} from 'rxjs/internal/testing/SubscriptionLog';
 import {Notification} from 'rxjs';
 
 const matchersMock = {toBeSubscriptions: jest.fn(), toBeNotifications: jest.fn(), toHaveEmptySubscriptions: jest.fn()};

@@ -1,6 +1,6 @@
 {
   "name": "jest-marbles",
-  "version": "1.1.2",
+  "version": "2.0.0",
   "description": "Marble testing helpers library for RxJs and Jest",
   "main": "umd/jest-marbles.js",
   "module": "lib/index.js",
@@ -114,6 +114,8 @@
     "jest": "^22.4.2",
     "lint-staged": "^7.0.0",
     "prettier": "1.12.1",
+    "rxjs": "6.2.1",
+    "rxjs-compat": "6.2.1",
     "shx": "^0.2.2",
     "standard-version": "^4.3.0",
     "strip-json-comments-cli": "^1.0.1",
@@ -130,6 +132,6 @@
     "webpack-config-utils": "^2.3.0"
   },
   "peerDependencies": {
-    "rxjs": "^5.0.0"
+    "rxjs": "^6.0.0"
   }
 }
