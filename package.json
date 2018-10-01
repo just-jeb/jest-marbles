@@ -106,7 +106,7 @@
     "@types/jest-matcher-utils": "21.0.1",
     "@types/node": "^10.10.2",
     "awesome-typescript-loader": "^5.2.0",
-    "commitizen": "^2.10.1",
+    "commitizen": "^3.0.0",
     "cross-var": "^1.1.0",
     "cz-conventional-changelog": "^2.1.0",
     "gzip-size-cli": "^3.0.0",
