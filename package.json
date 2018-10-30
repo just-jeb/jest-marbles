@@ -101,7 +101,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@types/jest": "23.3.8",
+    "@types/jest": "23.3.9",
     "@types/jest-diff": "20.0.0",
     "@types/jest-matcher-utils": "21.0.1",
     "@types/node": "^10.10.2",
