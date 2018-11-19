@@ -1,18 +1,18 @@
-import {Marblizer} from '../src/marblizer';
-import {TestMessage} from 'rxjs/internal/testing/TestMessage';
-import {Notification} from 'rxjs';
-import {SubscriptionLog} from 'rxjs/internal/testing/SubscriptionLog';
+import { Notification } from 'rxjs';
+import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
+import { TestMessage } from 'rxjs/internal/testing/TestMessage';
+import { Marblizer } from '../src/marblizer';
 
 describe('Marblizer test', () => {
   it('Should marblize TestMessages', () => {
     // First dash is frame 0
     // ---(be)----c-f-----|
     const sample: TestMessage[] = [
-      {frame: 30, notification: new Notification('N', 'b')},
-      {frame: 30, notification: new Notification('N', 'e')},
-      {frame: 110, notification: new Notification('N', 'c')},
-      {frame: 130, notification: new Notification('N', 'f')},
-      {frame: 190, notification: new Notification('C')}
+      { frame: 30, notification: new Notification('N', 'b') },
+      { frame: 30, notification: new Notification('N', 'e') },
+      { frame: 110, notification: new Notification('N', 'c') },
+      { frame: 130, notification: new Notification('N', 'f') },
+      { frame: 190, notification: new Notification('C') }
     ];
 
     const marble = Marblizer.marblize(sample);
@@ -21,9 +21,9 @@ describe('Marblizer test', () => {
 
   it('Should marblize TestMessages with error', () => {
     const sample: TestMessage[] = [
-      {frame: 30, notification: new Notification('N', 'b')},
-      {frame: 30, notification: new Notification('N', 'e')},
-      {frame: 110, notification: new Notification('E')}
+      { frame: 30, notification: new Notification('N', 'b') },
+      { frame: 30, notification: new Notification('N', 'e') },
+      { frame: 110, notification: new Notification('E') }
     ];
 
     const marble = Marblizer.marblize(sample);
@@ -43,8 +43,8 @@ describe('Marblizer test', () => {
 
   it('Should marblize TestMessages without completion', () => {
     const sample: TestMessage[] = [
-      {frame: 30, notification: new Notification('N', 'b')},
-      {frame: 110, notification: new Notification('N', 'e')}
+      { frame: 30, notification: new Notification('N', 'b') },
+      { frame: 110, notification: new Notification('N', 'e') }
     ];
 
     const marble = Marblizer.marblize(sample);
@@ -53,7 +53,7 @@ describe('Marblizer test', () => {
 
   it('Should marblize TestMessages without emission (but with completion)', () => {
     const sample: TestMessage[] = [
-      {frame: 110, notification: new Notification('C')}
+      { frame: 110, notification: new Notification('C') }
     ];
 
     const marble = Marblizer.marblize(sample);
@@ -62,8 +62,8 @@ describe('Marblizer test', () => {
 
   it('Should throw exception if there was any unsupported notification kind', () => {
     const sample: TestMessage[] = [
-      {frame: 30, notification: new Notification('N', 'b')},
-      {frame: 110, notification: new Notification('A', 'e')}
+      { frame: 30, notification: new Notification('N', 'b') },
+      { frame: 110, notification: new Notification('A', 'e') }
     ];
     expect(() => Marblizer.marblize(sample)).toThrow('Unsupported notification kind');
   });
