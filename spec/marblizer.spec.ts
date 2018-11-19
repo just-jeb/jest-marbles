@@ -30,6 +30,17 @@ describe('Marblizer test', () => {
     expect(marble).toEqual('---(be)----#');
   });
 
+  fit('should marblize TestMessages with multi-character literals', () => {
+    const sample: TestMessage[] = [
+      { frame: 20, notification: new Notification('N', true) },
+      { frame: 40, notification: new Notification('N', false) },
+      { frame: 60, notification: new Notification('N', null) },
+      { frame: 80, notification: new Notification('C') }
+    ];
+    const marble = Marblizer.marblize(sample);
+    expect(marble).toEqual('--(true)--(false)--(null)--|');
+  });
+
   it('Should marblize TestMessages without completion', () => {
     const sample: TestMessage[] = [
       {frame: 30, notification: new Notification('N', 'b')},
