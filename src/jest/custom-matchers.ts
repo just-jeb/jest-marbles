@@ -1,14 +1,22 @@
-import { Marblizer } from '../marblizer';
 import diff from 'jest-diff';
-import { printExpected, printReceived, matcherHint } from 'jest-matcher-utils';
-import { TestMessage } from 'rxjs/internal/testing/TestMessage';
+import { matcherHint, printExpected, printReceived } from 'jest-matcher-utils';
 import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
+import { TestMessage } from 'rxjs/internal/testing/TestMessage';
+import { Marblizer } from '../marblizer';
 
 function haveValueObjects(actual: TestMessage[], expected: TestMessage[]) {
   return (
-    actual.some(m => m.notification.value instanceof Object) ||
-    expected.some(m => m.notification.value instanceof Object)
+    actual.some(m => isObject(m.notification.value) || isLiteral(m.notification.value)) ||
+    expected.some(m => isObject(m.notification.value) || isLiteral(m.notification.value))
   );
+}
+
+function isObject(maybeObject: any) {
+  return maybeObject instanceof Object;
+}
+
+function isLiteral(maybeLiteral: any) {
+  return ['boolean', 'undefined'].some(type => typeof maybeLiteral === type);
 }
 
 export const customTestMatchers = {
