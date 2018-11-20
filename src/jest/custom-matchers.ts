@@ -4,19 +4,12 @@ import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
 import { TestMessage } from 'rxjs/internal/testing/TestMessage';
 import { Marblizer } from '../marblizer';
 
-function haveValueObjects(actual: TestMessage[], expected: TestMessage[]) {
-  return (
-    actual.some(m => isObject(m.notification.value) || isLiteral(m.notification.value)) ||
-    expected.some(m => isObject(m.notification.value) || isLiteral(m.notification.value))
-  );
+function shouldMarblize(...messages: TestMessage[][]) {
+  return messages.map(message => message.some(m => marblizeCheck(m))).includes(true);
 }
 
-function isObject(maybeObject: any) {
-  return maybeObject instanceof Object;
-}
-
-function isLiteral(maybeLiteral: any) {
-  return ['boolean', 'undefined'].some(type => typeof maybeLiteral === type);
+function marblizeCheck(m: TestMessage): boolean {
+  return typeof m.notification.value === 'string' && m.notification.value.length === 1;
 }
 
 export const customTestMatchers = {
@@ -24,13 +17,13 @@ export const customTestMatchers = {
     let actualMarble: string;
     let expectedMarble: string;
 
-    if (haveValueObjects(actual, expected)) {
+    if (shouldMarblize(actual, expected)) {
+      actualMarble = Marblizer.marblize(actual);
+      expectedMarble = Marblizer.marblize(expected);
+    } else {
       const spaces = 2;
       actualMarble = JSON.stringify(actual, null, spaces);
       expectedMarble = JSON.stringify(expected, null, spaces);
-    } else {
-      actualMarble = Marblizer.marblize(actual);
-      expectedMarble = Marblizer.marblize(expected);
     }
 
     const pass = actualMarble === expectedMarble;
