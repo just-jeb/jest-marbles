@@ -10,8 +10,8 @@ export class Marblizer {
   public static marblize(messages: TestMessage[]): string {
     const emissions = Marblizer.getNotificationEvents(messages);
     let marbles = '';
-    for (let i = 0; i < emissions.length; i++) {
-      marbles = `${marbles}${MarblesGlossary.TimeFrame.repeat(emissions[i].diff(emissions[i - 1])) +
+    for (let i = 0, prevEndFrame = 0; i < emissions.length; prevEndFrame = emissions[i].end, i++) {
+      marbles = `${marbles}${MarblesGlossary.TimeFrame.repeat(emissions[i].start - prevEndFrame) +
         emissions[i].marbles}`;
     }
     return marbles;
