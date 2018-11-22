@@ -5,7 +5,7 @@ import { TestMessage } from 'rxjs/internal/testing/TestMessage';
 import { Marblizer } from '../marblizer';
 
 function containNonCharacterValue(...messages: TestMessage[][]) {
-  return messages.map(message => message.some(m => !isCharacter(m))).includes(true);
+  return messages.some(message => message.some(m => !isCharacter(m)));
 }
 
 function isCharacter(m: TestMessage): boolean {
