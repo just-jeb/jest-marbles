@@ -27,6 +27,16 @@ describe('toBeObservable matcher test', () => {
 
     expect(mapped).toBeObservable(expected);
   });
+  
+  it('should work for mixed literals', () => {
+    const falses$ = cold('--a-----a-----|', {a: false});
+    const trues$ = cold('-----b-----b--|', {b: true});
+	const characters$ = cold('-------------c-|')
+    const expected = cold('--f--t--f--t--c-|', { t: true, f: false });
+    const mapped = merge(falses$, trues$, characters$);
+
+    expect(mapped).toBeObservable(expected);
+  });
 
   it('Should merge two hot observables and start emitting from the subscription point', () => {
     const e1 = hot('----a--^--b-------c--|');

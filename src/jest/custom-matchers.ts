@@ -1,4 +1,4 @@
-import diff from 'jest-diff';
+import * as diff from 'jest-diff';
 import { matcherHint, printExpected, printReceived } from 'jest-matcher-utils';
 import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
 import { TestMessage } from 'rxjs/internal/testing/TestMessage';
