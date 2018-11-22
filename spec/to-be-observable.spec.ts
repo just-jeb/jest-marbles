@@ -32,7 +32,7 @@ describe('toBeObservable matcher test', () => {
     const falses$ = cold('--a-----a-----|', {a: false});
     const trues$ = cold('-----b-----b--|', {b: true});
 	const characters$ = cold('-------------c-|')
-    const expected = cold('--f--t--f--t--c-|', { t: true, f: false });
+    const expected = cold('--f--t--f--t-c-|', { t: true, f: false, c: 'c' });
     const mapped = merge(falses$, trues$, characters$);
 
     expect(mapped).toBeObservable(expected);
