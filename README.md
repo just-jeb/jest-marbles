@@ -50,7 +50,7 @@ Verifies that the resulting stream emits certain values at certain time frames
 ```js
     it('Should merge two hot observables and start emitting from the subscription point', () => {
         const e1 = hot('----a--^--b-------c--|', {a: 0});
-        const e2 = hot(  '---d-^--e---------f-----|', {a: 0});
+        const e2 = hot('  ---d-^--e---------f-----|', {a: 0});
         const expected = cold('---(be)----c-f-----|', {a: 0});
 
         expect(e1.pipe(merge(e2))).toBeObservable(expected);
@@ -80,11 +80,11 @@ Verifies that the observable was subscribed in the provided time frames.
 Useful, for example, when you want to verify that particular `switchMap` worked as expected:
 ```js
   it('Should figure out single subscription points', () => {
-    const x = cold(        '--a---b---c--|');
-    const xsubs =    '------^-------!';
-    const y = cold(                '---d--e---f---|');
-    const ysubs =    '--------------^-------------!';
-    const e1 = hot(  '------x-------y------|', { x, y });
+    const x = cold('        --a---b---c--|');
+    const xsubs = '   ------^-------!';
+    const y = cold('                ---d--e---f---|');
+    const ysubs = '   --------------^-------------!';
+    const e1 = hot('  ------x-------y------|', { x, y });
     const expected = cold('--------a---b----d--e---f---|');
 
     expect(e1.pipe(switchAll())).toBeObservable(expected);
@@ -95,18 +95,18 @@ Useful, for example, when you want to verify that particular `switchMap` worked 
 The matcher can also accept multiple subscription marbles:
 ```js
   it('Should figure out multiple subscription points', () => {
-    const x = cold(                    '--a---b---c--|');
+    const x = cold('                    --a---b---c--|');
 
-    const y = cold(                '----x---x|', {x});
-    const ySubscription1 =         '----^---!';
+    const y = cold('                ----x---x|', {x});
+    const ySubscription1 = '        ----^---!';
     //                                     '--a---b---c--|'
-    const ySubscription2 =         '--------^------------!';
-    const expectedY = cold(        '------a---a---b---c--|');
+    const ySubscription2 = '        --------^------------!';
+    const expectedY = cold('        ------a---a---b---c--|');
 	
-    const z = cold(                   '-x|', {x});
+    const z = cold('                   -x|', {x});
     //                                 '--a---b---c--|'
-    const zSubscription =             '-^------------!';
-    const expectedZ = cold(           '---a---b---c--|');
+    const zSubscription = '            -^------------!';
+    const expectedZ = cold('           ---a---b---c--|');
 
     expect(y.pipe(switchAll())).toBeObservable(expectedY);
     expect(z.pipe(switchAll())).toBeObservable(expectedZ);

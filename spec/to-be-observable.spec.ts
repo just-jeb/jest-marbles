@@ -31,7 +31,7 @@ describe('toBeObservable matcher test', () => {
   it('should work for mixed literals', () => {
     const falses$ = cold('--a-----a-----|', {a: false});
     const trues$ = cold('-----b-----b--|', {b: true});
-	const characters$ = cold('-------------c-|')
+	  const characters$ = cold('-------------c-|');
     const expected = cold('--f--t--f--t-c-|', { t: true, f: false, c: 'c' });
     const mapped = merge(falses$, trues$, characters$);
 
@@ -54,4 +54,12 @@ describe('toBeObservable matcher test', () => {
     expect(provided).toBeObservable(expected);
   });
 
+  it('Should ignore whitespace to allow vertical alignment', () => {
+    const hotInput = hot('  ---^--a|');
+    const coldInput = cold('   ---a|');
+    const expected = cold('    ---a|');
+
+    expect(hotInput).toBeObservable(expected);
+    expect(coldInput).toBeObservable(expected);
+  });
 });
