@@ -48,4 +48,14 @@ describe('toHaveSubscriptions matcher', () => {
   //   const x = cold('--a---b---c--|');
   //   expect(x).not.toHaveNoSubscriptions();
   // });
+
+  it('Should ignore whitespace to allow vertical alignment', () => {
+    const x = hot('          -----a|');
+    const expected = '       -----a|';
+    const xSubscription = '  ^-----!';
+
+    expect(x).toBeMarble(expected);
+    expect(x).toHaveSubscriptions(xSubscription);
+    expect(x).toHaveSubscriptions([xSubscription]);
+  });
 });

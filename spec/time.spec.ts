@@ -13,4 +13,11 @@ describe('', () => {
 
         expect(provided).toBeObservable(expected);
     });
+
+    it('Should ignore whitespace to allow vertical alignment', () => {
+        const referenceDelay = time('-----d|');
+        const alignedDelay = time('  -----d|');
+
+        expect(alignedDelay).toBe(referenceDelay);
+    });
 });

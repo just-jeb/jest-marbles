@@ -1,6 +1,7 @@
 import {ColdObservable} from './src/rxjs/cold-observable';
 import {HotObservable} from './src/rxjs/hot-observable';
 import {Scheduler} from './src/rxjs/scheduler';
+import { stripAlignmentChars } from './src/rxjs/strip-alignment-chars';
 
 export type ObservableWithSubscriptions = ColdObservable | HotObservable;
 
@@ -21,15 +22,15 @@ declare global {
 }
 
 export function hot(marbles: string, values?: any, error?: any): HotObservable {
-  return new HotObservable(marbles, values, error);
+  return new HotObservable(stripAlignmentChars(marbles), values, error);
 }
 
 export function cold(marbles: string, values?: any, error?: any): ColdObservable {
-  return new ColdObservable(marbles, values, error);
+  return new ColdObservable(stripAlignmentChars(marbles), values, error);
 }
 
 export function time(marbles: string): number {
-  return Scheduler.get().createTime(marbles);
+  return Scheduler.get().createTime(stripAlignmentChars(marbles));
 }
 
 const dummyResult = {
@@ -40,7 +41,8 @@ const dummyResult = {
 expect.extend({
 
   toHaveSubscriptions(actual: ObservableWithSubscriptions, marbles: string | string[]) {
-    Scheduler.get().expectSubscriptions(actual.getSubscriptions()).toBe(marbles);
+    const sanitizedMarbles = Array.isArray(marbles) ? marbles.map(stripAlignmentChars) : stripAlignmentChars(marbles);
+    Scheduler.get().expectSubscriptions(actual.getSubscriptions()).toBe(sanitizedMarbles);
     return dummyResult;
   },
 
@@ -55,7 +57,7 @@ expect.extend({
   },
 
   toBeMarble(actual: ObservableWithSubscriptions, marbles: string) {
-    Scheduler.get().expectObservable(actual).toBe(marbles);
+    Scheduler.get().expectObservable(actual).toBe(stripAlignmentChars(marbles));
     return dummyResult;
   }
 });

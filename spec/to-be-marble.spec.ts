@@ -28,4 +28,12 @@ describe('To be marble matcher', () => {
         expect(provided).toBeMarble(expected);
     });
 
+    it('Should ignore whitespace to allow vertical alignment', () => {
+        const hotInput = hot('   --a|');
+        const coldInput = cold(' --a|');
+        const expected = '       --a|';
+
+        expect(hotInput).toBeMarble(expected);
+        expect(coldInput).toBeMarble(expected);
+    });
 });
