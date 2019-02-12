@@ -3,6 +3,7 @@ import { matcherHint, printExpected, printReceived } from 'jest-matcher-utils';
 import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
 import { TestMessage } from 'rxjs/internal/testing/TestMessage';
 import { Marblizer } from '../marblizer';
+import { equals } from 'expect/build/jasmine_utils';
 
 function containNonCharacterValue(...messages: TestMessage[][]) {
   return messages.some(message => message.some(m => !isCharacter(m)));
@@ -14,19 +15,15 @@ function isCharacter(m: TestMessage): boolean {
 
 export const customTestMatchers = {
   toBeNotifications(actual: TestMessage[], expected: TestMessage[]) {
-    let actualMarble: string;
-    let expectedMarble: string;
+    let actualMarble: string | TestMessage[] = actual;
+    let expectedMarble: string | TestMessage[] = expected;
 
     if (!containNonCharacterValue(actual, expected)) {
       actualMarble = Marblizer.marblize(actual);
       expectedMarble = Marblizer.marblize(expected);
-    } else {
-      const spaces = 2;
-      actualMarble = JSON.stringify(actual, null, spaces);
-      expectedMarble = JSON.stringify(expected, null, spaces);
     }
 
-    const pass = actualMarble === expectedMarble;
+    const pass = equals(actualMarble, expectedMarble);
 
     const message = pass
       ? () =>
