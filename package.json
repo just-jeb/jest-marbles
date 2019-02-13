@@ -102,7 +102,7 @@
   "dependencies": {},
   "devDependencies": {
     "@types/jest": "24.0.1",
-    "@types/jest-diff": "20.0.0",
+    "@types/jest-diff": "20.0.1",
     "@types/jest-matcher-utils": "21.0.1",
     "@types/node": "^11.9.0",
     "awesome-typescript-loader": "^5.2.0",
