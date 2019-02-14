@@ -63,7 +63,7 @@ describe("toBeObservable matcher test", () => {
     expect(coldInput).toBeObservable(expected);
   });
 
-  it("Should work with custom matchers", () => {
+  it("Should work with asymmetric matchers", () => {
     const e$ = hot("-a", { a: { someprop: "hey", x: { y: 1, z: 2 }, blah: "3" } });
     expect(e$).toBeObservable(cold("-b", { b: expect.objectContaining({
         x: expect.objectContaining({
@@ -71,5 +71,10 @@ describe("toBeObservable matcher test", () => {
         }),
         blah: "3"
     })}));
+  });
+
+  it("Should pass if the two objects hacve the same properties but in different order", () => {
+    const e$ = hot("-a", { a: { someprop: "hey", b: 1 }});
+    expect(e$).toBeObservable(cold("-b", { b: { b: 1, someprop: "hey" }}));
   });
 });
