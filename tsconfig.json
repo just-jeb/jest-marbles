@@ -22,7 +22,8 @@
     "declaration": true,
     "declarationDir": "typings",
     "stripInternal": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "typeRoots": ["@types", "node_modules/@types"]
   },
   "files": [
     "index.ts"
