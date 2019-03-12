@@ -72,6 +72,18 @@ describe('toBeNotifications test', () => {
     const result = customTestMatchers.toBeNotifications(actual, expected);
     expect(result.pass).toBeFalsy();
   });
+
+  it('Should call marblizer when all the values are characters and there is a completion notification', () => {
+    marblizeMock.mockReturnValueOnce([]).mockReturnValueOnce([]);
+    customTestMatchers.toBeNotifications(actual, [...expected, {frame: 40, notification: new Notification('C')}]);
+    expect(marblizeMock).toHaveBeenCalled();
+  });
+
+  it('Should call marblizer when all the values are characters and there is an error notification', () => {
+    marblizeMock.mockReturnValueOnce([]).mockReturnValueOnce([]);
+    customTestMatchers.toBeNotifications(actual, [...expected, {frame: 40, notification: new Notification('E')}]);
+    expect(marblizeMock).toHaveBeenCalled();
+  });
 });
 
 describe('toHaveEmptySubscriptions test', () => {

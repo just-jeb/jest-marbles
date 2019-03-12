@@ -5,20 +5,19 @@ import { TestMessage } from 'rxjs/internal/testing/TestMessage';
 import { Marblizer } from '../marblizer';
 import { equals } from 'expect/build/jasmine_utils';
 
-function containNonCharacterValue(...messages: TestMessage[][]) {
-  return messages.some(message => message.some(m => !isCharacter(m)));
+function canMarblize(...messages: TestMessage[][]) {
+  return messages.every(message => message.filter(({ notification: { kind } }) => kind === 'N').every(isCharacter));
 }
 
-function isCharacter(m: TestMessage): boolean {
-  return typeof m.notification.value === 'string' && m.notification.value.length === 1;
+function isCharacter({ notification: { value } }: TestMessage): boolean {
+  return typeof value === 'string' && value.length === 1;
 }
 
 export const customTestMatchers = {
   toBeNotifications(actual: TestMessage[], expected: TestMessage[]) {
     let actualMarble: string | TestMessage[] = actual;
     let expectedMarble: string | TestMessage[] = expected;
-
-    if (!containNonCharacterValue(actual, expected)) {
+    if (canMarblize(actual, expected)) {
       actualMarble = Marblizer.marblize(actual);
       expectedMarble = Marblizer.marblize(expected);
     }
