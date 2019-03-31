@@ -1,12 +1,15 @@
 import * as diff from 'jest-diff';
 import { matcherHint, printExpected, printReceived } from 'jest-matcher-utils';
 import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
+import { NotificationKind } from 'rxjs/internal/Notification';
 import { TestMessage } from 'rxjs/internal/testing/TestMessage';
 import { Marblizer } from '../marblizer';
-import { equals } from 'expect/build/jasmine_utils';
+import { equals } from 'expect/build/jasmineUtils';
 
 function canMarblize(...messages: TestMessage[][]) {
-  return messages.every(message => message.filter(({ notification: { kind } }) => kind === 'N').every(isCharacter));
+  return messages.every(message =>
+    message.filter(({ notification: { kind } }) => kind === NotificationKind.NEXT).every(isCharacter)
+  );
 }
 
 function isCharacter({ notification: { value } }: TestMessage): boolean {

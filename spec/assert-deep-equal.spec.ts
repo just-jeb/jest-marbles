@@ -3,10 +3,11 @@ const jestExpect = expect;
 import {assertDeepEqual} from '../src/rxjs/assert-deep-equal';
 import {SubscriptionLog} from 'rxjs/internal/testing/SubscriptionLog';
 import {Notification} from 'rxjs';
+import {NotificationKind} from 'rxjs/internal/Notification';
 
 const matchersMock = {toBeSubscriptions: jest.fn(), toBeNotifications: jest.fn(), toHaveEmptySubscriptions: jest.fn()};
 const expectMock = jest.fn(() => matchersMock);
-global.expect = expectMock;
+(global as any).expect = expectMock;
 
 describe('assertDeepEqual test', () => {
   beforeEach(() => {
@@ -35,27 +36,27 @@ describe('assertDeepEqual test', () => {
 
   it('Should call notifications matcher if received arrays of notifications', () => {
     assertDeepEqual([
-      {frame: 30, notification: new Notification('N', 'b')},
-      {frame: 110, notification: new Notification('N', 'e')}
+      {frame: 30, notification: new Notification(NotificationKind.NEXT, 'b')},
+      {frame: 110, notification: new Notification(NotificationKind.NEXT, 'e')}
     ], [
-      {frame: 30, notification: new Notification('N', 'b')},
-      {frame: 110, notification: new Notification('N', 'e')}
+      {frame: 30, notification: new Notification(NotificationKind.NEXT, 'b')},
+      {frame: 110, notification: new Notification(NotificationKind.NEXT, 'e')}
     ]);
     jestExpect(matchersMock.toBeNotifications).toHaveBeenCalledTimes(1);
   });
 
   it('Should call notifications matcher when the actual is empty array and expected is array of notifications', () => {
     assertDeepEqual([], [
-      {frame: 30, notification: new Notification('N', 'b')},
-      {frame: 110, notification: new Notification('N', 'e')}
+      {frame: 30, notification: new Notification(NotificationKind.NEXT, 'b')},
+      {frame: 110, notification: new Notification(NotificationKind.NEXT, 'e')}
     ]);
     jestExpect(matchersMock.toBeNotifications).toHaveBeenCalledTimes(1);
   });
 
   it('Should call notifications matcher when expected is empty array and actual is array of notifications', () => {
     assertDeepEqual([
-      {frame: 30, notification: new Notification('N', 'b')},
-      {frame: 110, notification: new Notification('N', 'e')}
+      {frame: 30, notification: new Notification(NotificationKind.NEXT, 'b')},
+      {frame: 110, notification: new Notification(NotificationKind.NEXT, 'e')}
     ], []);
     jestExpect(matchersMock.toBeNotifications).toHaveBeenCalledTimes(1);
   });

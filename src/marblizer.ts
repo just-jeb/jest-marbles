@@ -46,7 +46,6 @@ export class Marblizer {
   private static extractMarble(message: TestMessage) {
     let marble = NotificationKindChars[message.notification.kind];
     if (marble === ValueLiteral) marble = message.notification.value;
-    if (marble === undefined) throw Error('Unsupported notification kind');
     return marble;
   }
 

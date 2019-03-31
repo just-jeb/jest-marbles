@@ -1,15 +1,9 @@
 import { MarblesGlossary } from './marbles-glossary';
-
-export enum NotificationKind {
-  Value = 'N',
-  Completion = 'C',
-  Error = 'E',
-}
-
+import { NotificationKind } from 'rxjs/internal/Notification';
 export const ValueLiteral = {};
 
-export const NotificationKindChars = {
-  [NotificationKind.Value]: ValueLiteral,
-  [NotificationKind.Completion]: MarblesGlossary.Completion,
-  [NotificationKind.Error]: MarblesGlossary.Error,
+export const NotificationKindChars: { [key in NotificationKind]: any } = {
+  [NotificationKind.NEXT]: ValueLiteral,
+  [NotificationKind.COMPLETE]: MarblesGlossary.Completion,
+  [NotificationKind.ERROR]: MarblesGlossary.Error,
 };

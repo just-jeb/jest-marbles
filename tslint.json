@@ -1,21 +1,10 @@
 {
   "extends": [
     "tslint-config-standard",
-    "tslint-react",
     "tslint-config-prettier"
   ],
   "rules": {
-    // tslint-react rules
-    "jsx-no-lambda": true,
-    "jsx-no-string-ref": true,
-    "jsx-self-close": true,
-    "jsx-boolean-value": [
-      true,
-      "never"
-    ],
-    // core ts-lint rules
     "await-promise": true,
-    "no-unused-variable": true,
     "forin": true,
     "no-bitwise": true,
     "no-console": [
