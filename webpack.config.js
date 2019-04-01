@@ -15,9 +15,13 @@ const PATHS = {
 // this is equal to 'webpack --env=dev'
 const DEFAULT_ENV = 'dev';
 
-const EXTERNALS = {
-  rxjs: 'rxjs'
-};
+const EXTERNALS = [
+  'jest',
+  'jest-diff',
+  'jest-matcher-utils',
+  /^expect\/.*$/,
+  /^rxjs.*$/,
+];
 
 const RULES = {
   ts: {
@@ -82,7 +86,7 @@ const config = (env = DEFAULT_ENV) => {
       filename: '[name].js',
       libraryTarget: 'umd',
       library: LIB_NAME,
-      globalObject: 'this',
+      globalObject: `(typeof self !== 'undefined' ? self : this)`,
       // libraryExport:  LIB_NAME,
       // will name the AMD module of the UMD build. Otherwise an anonymous define is used.
       umdNamedDefine: true,
