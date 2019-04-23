@@ -115,7 +115,7 @@
     "lint-staged": "^8.0.5",
     "prettier": "1.15.3",
     "rxjs": "6.2.1",
-    "rxjs-compat": "6.3.3",
+    "rxjs-compat": "6.5.0",
     "shx": "^0.3.1",
     "standard-version": "^5.0.0",
     "strip-json-comments-cli": "^1.0.1",
