@@ -128,7 +128,7 @@
     "typescript": "^2.9.2",
     "validate-commit-msg": "2.14.0",
     "webpack": "^4.12.1",
-    "webpack-cli": "3.2.3",
+    "webpack-cli": "3.3.4",
     "webpack-config-utils": "^2.3.0"
   },
   "peerDependencies": {
