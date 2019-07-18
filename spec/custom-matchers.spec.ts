@@ -1,6 +1,7 @@
 import {Marblizer} from "../src/marblizer";
 import {customTestMatchers} from "../src/jest/custom-matchers";
 import {SubscriptionLog} from 'rxjs/internal/testing/SubscriptionLog';
+import {NotificationKind} from 'rxjs/internal/Notification';
 import {Notification} from 'rxjs';
 
 jest.mock('jest-diff');
@@ -45,10 +46,10 @@ describe('toBeSubscriptions test', () => {
 
 describe('toBeNotifications test', () => {
   const actual = [
-    {frame: 30, notification: new Notification('N', 'b')},
-    {frame: 110, notification: new Notification('N', 'e')}
+    {frame: 30, notification: new Notification(NotificationKind.NEXT, 'b')},
+    {frame: 110, notification: new Notification(NotificationKind.NEXT, 'e')}
   ], expected = [
-    {frame: 30, notification: new Notification('N', 'b')}
+    {frame: 30, notification: new Notification(NotificationKind.NEXT, 'b')}
   ];
   beforeEach(() => {
     marblizeMock.mockClear();
@@ -75,13 +76,13 @@ describe('toBeNotifications test', () => {
 
   it('Should call marblizer when all the values are characters and there is a completion notification', () => {
     marblizeMock.mockReturnValueOnce([]).mockReturnValueOnce([]);
-    customTestMatchers.toBeNotifications(actual, [...expected, {frame: 40, notification: new Notification('C')}]);
+    customTestMatchers.toBeNotifications(actual, [...expected, {frame: 40, notification: new Notification(NotificationKind.COMPLETE)}]);
     expect(marblizeMock).toHaveBeenCalled();
   });
 
   it('Should call marblizer when all the values are characters and there is an error notification', () => {
     marblizeMock.mockReturnValueOnce([]).mockReturnValueOnce([]);
-    customTestMatchers.toBeNotifications(actual, [...expected, {frame: 40, notification: new Notification('E')}]);
+    customTestMatchers.toBeNotifications(actual, [...expected, {frame: 40, notification: new Notification(NotificationKind.ERROR)}]);
     expect(marblizeMock).toHaveBeenCalled();
   });
 });

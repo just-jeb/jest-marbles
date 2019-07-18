@@ -14,16 +14,12 @@
     "suppressImplicitAnyIndexErrors": true,
     "forceConsistentCasingInFileNames": true,
     "pretty": true,
-    "jsx": "react",
-    // change this to any hyperscript like function that you're using
-    "jsxFactory": "React.createElement",
     "sourceMap": true,
     "outDir": "lib",
     "declaration": true,
     "declarationDir": "typings",
     "stripInternal": true,
     "skipLibCheck": true,
-    "typeRoots": ["@types", "node_modules/@types"]
   },
   "files": [
     "index.ts"
