@@ -6,7 +6,7 @@ import {Notification} from 'rxjs';
 
 const matchersMock = {toBeSubscriptions: jest.fn(), toBeNotifications: jest.fn(), toHaveEmptySubscriptions: jest.fn()};
 const expectMock = jest.fn(() => matchersMock);
-global.expect = expectMock;
+(global as any).expect = expectMock;
 
 describe('assertDeepEqual test', () => {
   beforeEach(() => {
