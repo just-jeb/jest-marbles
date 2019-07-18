@@ -9,11 +9,11 @@ describe('Marblizer test', () => {
     // First dash is frame 0
     // ---(be)----c-f-----|
     const sample: TestMessage[] = [
-      { frame: 30, notification: new Notification(NotificationKind.NEXT, 'b') },
-      { frame: 30, notification: new Notification(NotificationKind.NEXT, 'e') },
-      { frame: 110, notification: new Notification(NotificationKind.NEXT, 'c') },
-      { frame: 130, notification: new Notification(NotificationKind.NEXT, 'f') },
-      { frame: 190, notification: new Notification(NotificationKind.COMPLETE) }
+      { frame: 30, notification: new Notification('N', 'b') },
+      { frame: 30, notification: new Notification('N', 'e') },
+      { frame: 110, notification: new Notification('N', 'c') },
+      { frame: 130, notification: new Notification('N', 'f') },
+      { frame: 190, notification: new Notification('C') }
     ];
 
     const marble = Marblizer.marblize(sample);
@@ -22,9 +22,9 @@ describe('Marblizer test', () => {
 
   it('Should marblize TestMessages with error', () => {
     const sample: TestMessage[] = [
-      { frame: 30, notification: new Notification(NotificationKind.NEXT, 'b') },
-      { frame: 30, notification: new Notification(NotificationKind.NEXT, 'e') },
-      { frame: 110, notification: new Notification(NotificationKind.ERROR) }
+      { frame: 30, notification: new Notification('N', 'b') },
+      { frame: 30, notification: new Notification('N', 'e') },
+      { frame: 110, notification: new Notification('E') }
     ];
 
     const marble = Marblizer.marblize(sample);
@@ -33,8 +33,8 @@ describe('Marblizer test', () => {
 
   it('Should marblize TestMessages without completion', () => {
     const sample: TestMessage[] = [
-      { frame: 30, notification: new Notification(NotificationKind.NEXT, 'b') },
-      { frame: 110, notification: new Notification(NotificationKind.NEXT, 'e') }
+      { frame: 30, notification: new Notification('N', 'b') },
+      { frame: 110, notification: new Notification('N', 'e') }
     ];
 
     const marble = Marblizer.marblize(sample);
@@ -43,7 +43,7 @@ describe('Marblizer test', () => {
 
   it('Should marblize TestMessages without emission (but with completion)', () => {
     const sample: TestMessage[] = [
-      { frame: 110, notification: new Notification(NotificationKind.COMPLETE) }
+      { frame: 110, notification: new Notification('C') }
     ];
 
     const marble = Marblizer.marblize(sample);
