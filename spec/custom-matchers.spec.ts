@@ -19,7 +19,7 @@ describe('toBeSubscriptions test', () => {
   });
   it('Should call marblizeSubscriptions for both expected and actual subscriptions', () => {
     marblizeSubscriptionsMock.mockReturnValueOnce([]).mockReturnValueOnce([]);
-    customTestMatchers.toBeSubscriptions(actual, expected)
+    customTestMatchers.toBeSubscriptions(actual, expected);
     expect(marblizeSubscriptionsMock).toHaveBeenCalledTimes(2);
     expect(marblizeSubscriptionsMock).toHaveBeenCalledWith(actual);
     expect(marblizeSubscriptionsMock).toHaveBeenCalledWith(expected);
@@ -56,7 +56,7 @@ describe('toBeNotifications test', () => {
   });
   it('Should call marblize for both expected and actual subscriptions', () => {
     marblizeMock.mockReturnValueOnce([]).mockReturnValueOnce([]);
-    customTestMatchers.toBeNotifications(actual, expected)
+    customTestMatchers.toBeNotifications(actual, expected);
     expect(marblizeMock).toHaveBeenCalledTimes(2);
     expect(marblizeMock).toHaveBeenCalledWith(actual);
     expect(marblizeMock).toHaveBeenCalledWith(expected);
@@ -83,6 +83,12 @@ describe('toBeNotifications test', () => {
   it('Should call marblizer when all the values are characters and there is an error notification', () => {
     marblizeMock.mockReturnValueOnce([]).mockReturnValueOnce([]);
     customTestMatchers.toBeNotifications(actual, [...expected, {frame: 40, notification: new Notification(NotificationKind.ERROR)}]);
+    expect(marblizeMock).toHaveBeenCalled();
+  });
+
+  it('Should call marblizer when values are serialiable to a single character', () => {
+    marblizeMock.mockReturnValueOnce([]).mockReturnValueOnce([]);
+    customTestMatchers.toBeNotifications(actual, [...expected, {frame: 40, notification: new Notification('N', 0)}]);
     expect(marblizeMock).toHaveBeenCalled();
   });
 });
