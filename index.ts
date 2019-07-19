@@ -21,11 +21,23 @@ declare global {
   }
 }
 
-export function hot(marbles: string, values?: any, error?: any): HotObservable {
+export function hot<T = string>(
+  marbles: string,
+  values?: {
+    [marble: string]: T;
+  },
+  error?: any
+): HotObservable<T> {
   return new HotObservable(stripAlignmentChars(marbles), values, error);
 }
 
-export function cold(marbles: string, values?: any, error?: any): ColdObservable {
+export function cold<T = string>(
+  marbles: string,
+  values?: {
+    [marble: string]: T;
+  },
+  error?: any
+): ColdObservable<T> {
   return new ColdObservable(stripAlignmentChars(marbles), values, error);
 }
 
