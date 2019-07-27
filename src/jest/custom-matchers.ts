@@ -10,7 +10,9 @@ function canMarblize(...messages: TestMessage[][]) {
 }
 
 function isCharacter({ notification: { value } }: TestMessage): boolean {
-  return (typeof value === 'string' && value.length === 1) || JSON.stringify(value).length === 1;
+  return (
+    (typeof value === 'string' && value.length === 1) || (value !== undefined && JSON.stringify(value).length === 1)
+  );
 }
 
 export const customTestMatchers = {
