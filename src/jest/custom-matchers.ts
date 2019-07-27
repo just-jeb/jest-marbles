@@ -10,6 +10,10 @@ function canMarblize(...messages: TestMessage[][]) {
 }
 
 function isCharacter({ notification: { value } }: TestMessage): boolean {
+  if (typeof value === 'undefined') {
+    return false;
+  }
+
   return (typeof value === 'string' && value.length === 1) || JSON.stringify(value).length === 1;
 }
 
