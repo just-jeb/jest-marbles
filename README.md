@@ -6,7 +6,6 @@ A set of helper functions and Jest matchers for RxJs marble testing.
 This library will help you to test your reactive code in easy and clear way.  
 
 # Features
- - Multiple bundle formats: UMD, ES5 + ES2015 for module shaking, FESM
  - Typescript 
  - Marblized error messages
 

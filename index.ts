@@ -1,11 +1,11 @@
-import {ColdObservable} from './src/rxjs/cold-observable';
-import {HotObservable} from './src/rxjs/hot-observable';
-import {Scheduler} from './src/rxjs/scheduler';
+import { ColdObservable } from './src/rxjs/cold-observable';
+import { HotObservable } from './src/rxjs/hot-observable';
+import { Scheduler } from './src/rxjs/scheduler';
 import { stripAlignmentChars } from './src/rxjs/strip-alignment-chars';
 
 export type ObservableWithSubscriptions = ColdObservable | HotObservable;
 
-export {Scheduler} from './src/rxjs/scheduler';
+export { Scheduler } from './src/rxjs/scheduler';
 
 declare global {
   namespace jest {
@@ -65,6 +65,7 @@ expect.extend({
 
   toSatisfyOnFlush(actual: ObservableWithSubscriptions, func: () => void) {
     Scheduler.get().expectObservable(actual);
+    // tslint:disable:no-string-literal
     const flushTests = Scheduler.get()['flushTests'];
     flushTests[flushTests.length - 1].ready = true;
     onFlush.push(func);
@@ -72,13 +73,13 @@ expect.extend({
   }
 });
 
-let onFlush: (()=>void)[] = [];
+let onFlush: (() => void)[] = [];
 
-beforeEach(() => { Scheduler.init(); onFlush = []});
+beforeEach(() => { Scheduler.init(); onFlush = []; });
 afterEach(() => {
   Scheduler.get().flush();
-  while(onFlush.length > 0){
-    //@ts-ignore
+  while (onFlush.length > 0) {
+    // @ts-ignore
     onFlush.shift()();
   }
   Scheduler.reset();
