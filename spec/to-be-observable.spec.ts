@@ -84,4 +84,5 @@ describe("toBeObservable matcher test", () => {
     const e$ = hot("-a", { a: { someprop: "hey", b: 1 }});
     expect(e$).toBeObservable(cold("-b", { b: { b: 1, someprop: "hey" }}));
   });
+
 });

@@ -17,6 +17,8 @@ declare global {
       toHaveNoSubscriptions(): void;
 
       toBeMarble(marble: string): void;
+
+      toSatisfyOnFlush(func: () => void): void;
     }
   }
 }
@@ -51,7 +53,7 @@ expect.extend({
     return dummyResult;
   },
 
-  toBeObservable(actual: ObservableWithSubscriptions, expected: ObservableWithSubscriptions) {
+  toBeObservable(actual, expected: ObservableWithSubscriptions) {
     Scheduler.get().expectObservable(actual).toBe(expected.marbles, expected.values, expected.error);
     return dummyResult;
   },
@@ -59,11 +61,25 @@ expect.extend({
   toBeMarble(actual: ObservableWithSubscriptions, marbles: string) {
     Scheduler.get().expectObservable(actual).toBe(stripAlignmentChars(marbles));
     return dummyResult;
+  },
+
+  toSatisfyOnFlush(actual: ObservableWithSubscriptions, func: () => void) {
+    Scheduler.get().expectObservable(actual);
+    const flushTests = Scheduler.get()['flushTests'];
+    flushTests[flushTests.length - 1].ready = true;
+    onFlush.push(func);
+    return dummyResult;
   }
 });
 
-beforeEach(() => Scheduler.init());
+let onFlush: (()=>void)[] = [];
+
+beforeEach(() => { Scheduler.init(); onFlush = []});
 afterEach(() => {
   Scheduler.get().flush();
+  while(onFlush.length > 0){
+    //@ts-ignore
+    onFlush.shift()();
+  }
   Scheduler.reset();
 });

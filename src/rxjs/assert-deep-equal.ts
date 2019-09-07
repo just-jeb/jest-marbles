@@ -21,6 +21,7 @@ function actualIsSubscriptionsAndExpectedIsEmpty(
 }
 
 export function assertDeepEqual(actual: MessageOrSubscription, expected: MessageOrSubscription) {
+  if (!expected) return;
   if (actualIsSubscriptionsAndExpectedIsEmpty(actual, expected)) {
     expect(actual).toHaveEmptySubscriptions();
   } else if (expectedIsSubscriptionLogArray(actual, expected)) {
