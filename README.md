@@ -41,6 +41,9 @@ expect(stream).toBeMarble(marbleString);
 expect(stream).toHaveSubscriptions(marbleString);
 expect(stream).toHaveSubscriptions(marbleStringsArray);
 expect(stream).toHaveNoSubscriptions();
+expect(stream).toSatisfyOnFlush(() => {
+  expect(someMock).toHaveBeenCalled();
+})
 ```
 
 # Examples
@@ -140,6 +143,19 @@ Expected observable to have no subscription points
 But got:
   ["----^------------!"]
 ```
+
+## toSatisfyOnFlush
+Allows you to assert on certain side effects/conditions that should be satisfied when the observable has been flushed (finished)
+```js
+  it('should verify mock has been called', () => {
+      const mock = jest.fn();
+      const stream$ = cold('blah|').pipe(tap(mock));
+      expect(stream$).toSatisfyOnFlush(() => {
+          expect(mock).toHaveBeenCalledTimes(4);
+      });
+  })
+```
+
 
 
 

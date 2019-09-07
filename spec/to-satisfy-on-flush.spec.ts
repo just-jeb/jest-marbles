@@ -6,7 +6,7 @@ describe("toSatisfyOnFlush", () => {
         const mock = jest.fn();
         const stream$ = cold('blah|').pipe(tap(mock));
         expect(stream$).toSatisfyOnFlush(() => {
-          expect(mock.mock.calls.length).toEqual(4);
+            expect(mock).toHaveBeenCalledTimes(4);
         });
-      })
+    })
 })
