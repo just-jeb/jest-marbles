@@ -88,7 +88,7 @@
     "gzip-size-cli": "^3.0.0",
     "husky": "^4.0.0",
     "jest": "^24.5.0",
-    "lint-staged": "^9.2.0",
+    "lint-staged": "^10.0.0",
     "prettier": "^1.16.4",
     "rxjs": "6.5.4",
     "shx": "^0.3.2",
