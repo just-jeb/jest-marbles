@@ -9,7 +9,7 @@ export { Scheduler } from './src/rxjs/scheduler';
 
 declare global {
   namespace jest {
-    interface Matchers<R> {
+    interface Matchers<R, T> {
       toBeObservable(observable: ObservableWithSubscriptions): void;
 
       toHaveSubscriptions(marbles: string | string[]): void;

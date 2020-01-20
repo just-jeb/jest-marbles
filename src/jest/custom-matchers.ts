@@ -121,7 +121,7 @@ function subscriptionsPass(actualMarbleArray: string[], expectedMarbleArray: str
 
 declare global {
   namespace jest {
-    interface Matchers<R> {
+    interface Matchers<R, T> {
       toBeNotifications(notifications: TestMessage[]): void;
 
       toBeSubscriptions(subscriptions: SubscriptionLog[]): void;

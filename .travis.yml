@@ -1,8 +1,6 @@
 language: node_js
 node_js:
   - 12
-  - 9
-  - 6
 cache: node_modules
 before_install:
 - '[[ $(node -v) =~ ^v9.*$ ]] || npm install -g npm@latest'

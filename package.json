@@ -46,9 +46,6 @@
     "verify": "npm run ts:style && npm test",
     "cz": "git-cz",
     "prettier:ts": "prettier --single-quote --print-width 120 --trailing-comma es5 --parser typescript",
-    "precommit": "lint-staged",
-    "commitmsg": "validate-commit-msg",
-    "prepush": "npm run ts:style && npm run test:only-changed",
     "prerelease": "npm run build",
     "release": "standard-version --sign",
     "postrelease": "npm run release:github && npm run release:npm",
@@ -109,5 +106,12 @@
   },
   "peerDependencies": {
     "rxjs": "^6.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "validate-commit-msg",
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run ts:style && npm run test:only-changed"
+    }
   }
 }
