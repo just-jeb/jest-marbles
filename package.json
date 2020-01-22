@@ -46,9 +46,6 @@
     "verify": "npm run ts:style && npm test",
     "cz": "git-cz",
     "prettier:ts": "prettier --single-quote --print-width 120 --trailing-comma es5 --parser typescript",
-    "precommit": "lint-staged",
-    "commitmsg": "validate-commit-msg",
-    "prepush": "npm run ts:style && npm run test:only-changed",
     "prerelease": "npm run build",
     "release": "standard-version --sign",
     "postrelease": "npm run release:github && npm run release:npm",
@@ -77,9 +74,12 @@
     "preset": "ts-jest",
     "testRegex": "/spec/.*\\.(ts|tsx|js)$"
   },
-  "dependencies": {},
+  "dependencies": {
+    "jest-diff": "24.9.0",
+    "jest-matcher-utils": "24.9.0"
+  },
   "devDependencies": {
-    "@types/jest": "^24.0.11",
+    "@types/jest": "^24.9.0",
     "@types/node": "^12.6.8",
     "awesome-typescript-loader": "^5.2.1",
     "commitizen": "^4.0.2",
@@ -87,7 +87,7 @@
     "cz-conventional-changelog": "^3.0.2",
     "gzip-size-cli": "^3.0.0",
     "husky": "^4.0.0",
-    "jest": "^24.5.0",
+    "jest": "^24.9.0",
     "lint-staged": "^10.0.0",
     "prettier": "^1.16.4",
     "rxjs": "6.5.4",
@@ -106,5 +106,12 @@
   },
   "peerDependencies": {
     "rxjs": "^6.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "validate-commit-msg",
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run ts:style && npm run test:only-changed"
+    }
   }
 }
