@@ -76,7 +76,7 @@
   },
   "dependencies": {
     "jest-diff": "24.9.0",
-    "jest-matcher-utils": "25.5.0"
+    "jest-matcher-utils": "26.0.0"
   },
   "devDependencies": {
     "@types/jest": "^25.1.0",
