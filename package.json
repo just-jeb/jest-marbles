@@ -79,7 +79,7 @@
     "jest-matcher-utils": "26.0.1"
   },
   "devDependencies": {
-    "@types/jest": "^25.1.0",
+    "@types/jest": "^26.0.0",
     "@types/node": "^12.6.8",
     "awesome-typescript-loader": "^5.2.1",
     "commitizen": "^4.0.2",
