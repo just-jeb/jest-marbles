@@ -2,6 +2,7 @@ import { ColdObservable } from './src/rxjs/cold-observable';
 import { HotObservable } from './src/rxjs/hot-observable';
 import { Scheduler } from './src/rxjs/scheduler';
 import { stripAlignmentChars } from './src/rxjs/strip-alignment-chars';
+import type { Global } from '@jest/types';
 
 export type ObservableWithSubscriptions = ColdObservable | HotObservable;
 
@@ -11,6 +12,8 @@ declare global {
   namespace jest {
     interface Matchers<R, T> {
       toBeObservable(observable: ObservableWithSubscriptions): void;
+
+      ptoBeObservable(observable: ObservableWithSubscriptions): void;
 
       toHaveSubscriptions(marbles: string | string[]): void;
 
@@ -35,6 +38,41 @@ export function time(marbles: string): number {
   return Scheduler.get().createTime(stripAlignmentChars(marbles));
 }
 
+export function phot(marbles: string, values?: any, error?: any) {
+  return Scheduler.helpers.hot(stripAlignmentChars(marbles), values, error);
+}
+
+export function pcold(marbles: string, values?: any, error?: any) {
+  return Scheduler.helpers.cold(stripAlignmentChars(marbles), values, error);
+}
+
+export const ptest: Global.It = Object.assign(
+  (testName: Global.TestName, fn: Global.TestFn, timeout?: number): void => {
+    test(testName, () => {
+      Scheduler.run((helpers) => {
+        Scheduler.helpers = helpers;
+        fn();
+      });
+    }, timeout);
+  },
+  /**
+   * Only runs this test in the current file.
+   */
+  {
+    only: test.only,
+    /**
+     * Skips running this test in the current file.
+     */
+    skip: test.skip,
+    /**
+     * Sketch out which tests to write in the future.
+     */
+    todo: test.todo,
+
+    each: test.each
+  }
+);
+
 const dummyResult = {
   message: () => '',
   pass: true
@@ -58,6 +96,11 @@ expect.extend({
     return dummyResult;
   },
 
+  ptoBeObservable(actual, expected: ObservableWithSubscriptions) {
+    Scheduler.helpers.expectObservable(actual).toBe(expected.marbles, expected.values, expected.error);
+    return dummyResult;
+  },
+
   toBeMarble(actual: ObservableWithSubscriptions, marbles: string) {
     Scheduler.get().expectObservable(actual).toBe(stripAlignmentChars(marbles));
     return dummyResult;
@@ -75,9 +118,14 @@ expect.extend({
 
 let onFlush: (() => void)[] = [];
 
-beforeEach(() => { Scheduler.init(); onFlush = []; });
+beforeEach(() => {
+  Scheduler.init();
+  onFlush = [];
+
+});
 afterEach(() => {
   Scheduler.get().flush();
+  Scheduler.helpers?.flush();
   while (onFlush.length > 0) {
     // @ts-ignore
     onFlush.shift()();
