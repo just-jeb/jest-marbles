@@ -43,35 +43,49 @@ export function phot(marbles: string, values?: any, error?: any) {
 }
 
 export function pcold(marbles: string, values?: any, error?: any) {
-  return Scheduler.helpers.cold(stripAlignmentChars(marbles), values, error);
+  return new ColdObservable(stripAlignmentChars(marbles), values, error, true);
 }
 
-export const ptest: Global.It = Object.assign(
-  (testName: Global.TestName, fn: Global.TestFn, timeout?: number): void => {
-    test(testName, () => {
+export const ptest = new Proxy(test, {
+  apply: (target, thisArg, [testName, fn, timeout]: Parameters<Global.ItBase>) => {
+    target(testName, () => {
       Scheduler.run((helpers) => {
         Scheduler.helpers = helpers;
         fn();
       });
     }, timeout);
   },
-  /**
-   * Only runs this test in the current file.
-   */
-  {
-    only: test.only,
-    /**
-     * Skips running this test in the current file.
-     */
-    skip: test.skip,
-    /**
-     * Sketch out which tests to write in the future.
-     */
-    todo: test.todo,
+  // get: (target, p) => {
 
-    each: test.each
-  }
-);
+  // }
+});
+
+// export const ptest: Global.It = Object.assign(
+//   (testName: Global.TestName, fn: Global.TestFn, timeout?: number): void => {
+//     test(testName, () => {
+//       Scheduler.run((helpers) => {
+//         Scheduler.helpers = helpers;
+//         fn();
+//       });
+//     }, timeout);
+//   },
+//   /**
+//    * Only runs this test in the current file.
+//    */
+//   {
+//     only: test.only,
+//     /**
+//      * Skips running this test in the current file.
+//      */
+//     skip: test.skip,
+//     /**
+//      * Sketch out which tests to write in the future.
+//      */
+//     todo: test.todo,
+
+//     each: test.each
+//   }
+// );
 
 const dummyResult = {
   message: () => '',
@@ -92,6 +106,7 @@ expect.extend({
   },
 
   toBeObservable(actual, expected: ObservableWithSubscriptions) {
+    console.log(expected);
     Scheduler.get().expectObservable(actual).toBe(expected.marbles, expected.values, expected.error);
     return dummyResult;
   },
