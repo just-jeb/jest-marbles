@@ -46,46 +46,37 @@ export function pcold(marbles: string, values?: any, error?: any) {
   return new ColdObservable(stripAlignmentChars(marbles), values, error, true);
 }
 
-export const ptest = new Proxy(test, {
-  apply: (target, thisArg, [testName, fn, timeout]: Parameters<Global.ItBase>) => {
-    target(testName, () => {
-      Scheduler.run((helpers) => {
-        Scheduler.helpers = helpers;
-        fn();
-      });
-    }, timeout);
+
+
+const scheduledFunctionRunner = (fn?: (...args: any[]) => any) => (...args: any[]) => {
+  Scheduler.run((helpers) => {
+    Scheduler.helpers = helpers;
+    fn?.(...args);
+  });
+};
+
+const testHandler: ProxyHandler<jest.It> = {
+  apply: (target, thisArg, [testName, fn, timeout]: Parameters<jest.It>) => {
+    target(testName, scheduledFunctionRunner(fn), timeout);
   },
-  // get: (target, p) => {
+  get: (target, p) => {
+    const handler = p === 'each' ? eachHandler : testHandler;
+    return new Proxy(target[p], handler);
+  }
+};
 
-  // }
-});
+const eachHandler: ProxyHandler<jest.Each> =  {
+  apply: (target, thisArg, [first, second]): ReturnType<jest.Each> => {
+    // second element exists only in case of template function
+    return (testName, fn, timeout) => {
+      console.log('Args to each', first, second);
+      const testRunner = second ? target(first, second) : target(first);
+      testRunner(testName, scheduledFunctionRunner(fn), timeout);
+    };
+  }
+};
 
-// export const ptest: Global.It = Object.assign(
-//   (testName: Global.TestName, fn: Global.TestFn, timeout?: number): void => {
-//     test(testName, () => {
-//       Scheduler.run((helpers) => {
-//         Scheduler.helpers = helpers;
-//         fn();
-//       });
-//     }, timeout);
-//   },
-//   /**
-//    * Only runs this test in the current file.
-//    */
-//   {
-//     only: test.only,
-//     /**
-//      * Skips running this test in the current file.
-//      */
-//     skip: test.skip,
-//     /**
-//      * Sketch out which tests to write in the future.
-//      */
-//     todo: test.todo,
-
-//     each: test.each
-//   }
-// );
+export const ptest = new Proxy(test, testHandler);
 
 const dummyResult = {
   message: () => '',
