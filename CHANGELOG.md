@@ -1,6 +1,14 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [3.0.1](https://github.com/meltedspark/jest-marbles/compare/v2.5.0...v3.0.1) (2021-09-29)
+
+
+### Bug Fixes
+
+* prevent bug when no unsubscribe point exists ([#113](https://github.com/meltedspark/jest-marbles/issues/113)) ([4ea4592](https://github.com/meltedspark/jest-marbles/commit/4ea45927ebcfed7bcceaa9f5785a42b7b65e63bc))
+* specify direct dependencies in package.json ([#266](https://github.com/meltedspark/jest-marbles/issues/266)) ([8348df7](https://github.com/meltedspark/jest-marbles/commit/8348df77344e6b74b3859fdf020d4380c022b2a3))
 
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/meltedspark/jest-marbles/compare/v1.2.0...v2.0.0) (2018-06-25)
