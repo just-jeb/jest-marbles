@@ -1,10 +1,7 @@
 import { MarblesGlossary } from './marbles-glossary';
-import { Notification } from 'rxjs';
 export const ValueLiteral = {};
 
-export type NotificationKind = Notification<any>['kind'];
-
-export const NotificationKindChars: { [key in NotificationKind]: any } = {
+export const NotificationKindChars = {
   N: ValueLiteral,
   C: MarblesGlossary.Completion,
   E: MarblesGlossary.Error,

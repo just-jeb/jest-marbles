@@ -1,24 +1,24 @@
 import { equals } from 'expect/build/jasmineUtils';
 import * as diff from 'jest-diff';
 import { matcherHint, printExpected, printReceived } from 'jest-matcher-utils';
-import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
-import { TestMessage } from 'rxjs/internal/testing/TestMessage';
+import { TestMessages, SubscriptionLog } from '../rxjs/types';
 import { Marblizer } from '../marblizer';
 
-function canMarblize(...messages: TestMessage[][]) {
+function canMarblize(...messages: TestMessages[]) {
   return messages.every(message => message.filter(({ notification: { kind } }) => kind === 'N').every(isCharacter));
 }
 
-function isCharacter({ notification: { value } }: TestMessage): boolean {
+function isCharacter({ notification }: TestMessages[0]): boolean {
+  const value = (notification as any).value;
   return (
     (typeof value === 'string' && value.length === 1) || (value !== undefined && JSON.stringify(value).length === 1)
   );
 }
 
 export const customTestMatchers = {
-  toBeNotifications(actual: TestMessage[], expected: TestMessage[]) {
-    let actualMarble: string | TestMessage[] = actual;
-    let expectedMarble: string | TestMessage[] = expected;
+  toBeNotifications(actual: TestMessages, expected: TestMessages) {
+    let actualMarble: string | TestMessages = actual;
+    let expectedMarble: string | TestMessages = expected;
     if (canMarblize(actual, expected)) {
       actualMarble = Marblizer.marblize(actual);
       expectedMarble = Marblizer.marblize(expected);
@@ -122,7 +122,7 @@ function subscriptionsPass(actualMarbleArray: string[], expectedMarbleArray: str
 declare global {
   namespace jest {
     interface Matchers<R, T> {
-      toBeNotifications(notifications: TestMessage[]): void;
+      toBeNotifications(notifications: TestMessages): void;
 
       toBeSubscriptions(subscriptions: SubscriptionLog[]): void;
 

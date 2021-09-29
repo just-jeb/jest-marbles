@@ -1,12 +1,12 @@
-# jest-marbles 
+# jest-marbles
 [![npm version](https://badge.fury.io/js/jest-marbles.svg)](https://badge.fury.io/js/jest-marbles) [![Build Status](https://travis-ci.org/just-jeb/jest-marbles.svg?branch=master)](https://travis-ci.org/just-jeb/jest-marbles) ![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg) [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
 
-A set of helper functions and Jest matchers for RxJs marble testing.  
-This library will help you to test your reactive code in easy and clear way.  
+A set of helper functions and Jest matchers for RxJs marble testing.
+This library will help you to test your reactive code in easy and clear way.
 
 # Features
- - Typescript 
+ - Typescript
  - Marblized error messages
 
 # Prerequisites
@@ -14,16 +14,24 @@ This library will help you to test your reactive code in easy and clear way.
  - RxJs
  - Familiarity with [marbles syntax](https://github.com/ReactiveX/rxjs/blob/master/doc/writing-marble-tests.md)
 
+# Not supported (but planning to)
+ - Time progression syntax
+
 # Usage
+
+For RxJs 7:
+```sh
+npm i jest-marbles@latest -D
+```
+
+For RxJs 6:
+```sh
+npm i jest-marbles@2 -D
+```
 
 For RxJs 5:
 ```sh
 npm i jest-marbles@1 -D
-```  
-
-For RxJs 6:
-```sh
-npm i jest-marbles@latest -D
 ```
 
 In the test file:
@@ -78,7 +86,7 @@ Same as `toBeObservable` but receives marble string instead
 ```
 
 ## toHaveSubscriptions
-Verifies that the observable was subscribed in the provided time frames.  
+Verifies that the observable was subscribed in the provided time frames.
 Useful, for example, when you want to verify that particular `switchMap` worked as expected:
 ```js
   it('Should figure out single subscription points', () => {
@@ -104,7 +112,7 @@ The matcher can also accept multiple subscription marbles:
     //                                     '--a---b---c--|'
     const ySubscription2 = '        --------^------------!';
     const expectedY = cold('        ------a---a---b---c--|');
-	
+
     const z = cold('                   -x|', {x});
     //                                 '--a---b---c--|'
     const zSubscription = '            -^------------!';
@@ -125,7 +133,7 @@ But got:
 ```
 
 ## toHaveNoSubscriptions
-Verifies that the observable was not subscribed during the test.  
+Verifies that the observable was not subscribed during the test.
 Especially useful when you want to verify that certain chain was not called due to an error:
 ```js
   it('Should verify that switchMap was not performed due to an error', () => {

@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
-import { TestMessage } from 'rxjs/internal/testing/TestMessage';
-import { TestScheduler } from 'rxjs/internal/testing/TestScheduler';
+import { TestMessages } from './types';
+import { TestScheduler } from 'rxjs/testing';
 
 import { assertDeepEqual } from './assert-deep-equal';
 
@@ -22,7 +22,7 @@ export class Scheduler {
     Scheduler.instance = null;
   }
 
-  public static materializeInnerObservable(observable: Observable<any>, outerFrame: number): TestMessage[] {
+  public static materializeInnerObservable(observable: Observable<any>, outerFrame: number): TestMessages {
     const scheduler = Scheduler.get();
     // @ts-ignore
     return scheduler.materializeInnerObservable(observable, outerFrame);

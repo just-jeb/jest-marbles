@@ -1,19 +1,17 @@
-import { Notification } from 'rxjs';
-import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
-import { TestMessage } from 'rxjs/internal/testing/TestMessage';
+
+import { TestMessages, SubscriptionLog } from '../src/rxjs/types';
 import { Marblizer } from '../src/marblizer';
-import { NotificationKind } from 'rxjs/internal/Notification';
 
 describe('Marblizer test', () => {
   it('Should marblize TestMessages', () => {
     // First dash is frame 0
     // ---(be)----c-f-----|
-    const sample: TestMessage[] = [
-      { frame: 30, notification: new Notification('N', 'b') },
-      { frame: 30, notification: new Notification('N', 'e') },
-      { frame: 110, notification: new Notification('N', 'c') },
-      { frame: 130, notification: new Notification('N', 'f') },
-      { frame: 190, notification: new Notification('C') }
+    const sample: TestMessages = [
+      { frame: 30, notification: { kind: 'N', value: 'b' } },
+      { frame: 30, notification: { kind: 'N', value: 'e' } },
+      { frame: 110, notification: { kind: 'N', value: 'c' } },
+      { frame: 130, notification: { kind: 'N', value: 'f' } },
+      { frame: 190, notification: { kind: 'C' } }
     ];
 
     const marble = Marblizer.marblize(sample);
@@ -21,10 +19,10 @@ describe('Marblizer test', () => {
   });
 
   it('Should marblize TestMessages with error', () => {
-    const sample: TestMessage[] = [
-      { frame: 30, notification: new Notification('N', 'b') },
-      { frame: 30, notification: new Notification('N', 'e') },
-      { frame: 110, notification: new Notification('E') }
+    const sample: TestMessages = [
+      { frame: 30, notification: { kind: 'N', value: 'b' } },
+      { frame: 30, notification: { kind: 'N', value: 'e' } },
+      { frame: 110, notification: { kind: 'E', error: null } }
     ];
 
     const marble = Marblizer.marblize(sample);
@@ -32,15 +30,15 @@ describe('Marblizer test', () => {
   });
 
   it('Should marblize TestMessages without completion', () => {
-    const sample: TestMessage[] = [
-      { frame: 30, notification: new Notification('N', 'b') },
-      { frame: 110, notification: new Notification('N', 'e') }
+    const sample: TestMessages = [
+      { frame: 30, notification: { kind: 'N', value: 'b' } },
+      { frame: 110, notification: { kind: 'N', value: 'e' } }
     ];
 
     const marble = Marblizer.marblize(sample);
     expect(marble).toEqual('---b-------e');
   });
-  
+
    it('Should marblize Subscriptions without completion', () => {
     const sample: SubscriptionLog[] = [
      {  "subscribedFrame": 20,  "unsubscribedFrame": Infinity }
@@ -51,8 +49,8 @@ describe('Marblizer test', () => {
   });
 
   it('Should marblize TestMessages without emission (but with completion)', () => {
-    const sample: TestMessage[] = [
-      { frame: 110, notification: new Notification('C') }
+    const sample: TestMessages = [
+      { frame: 110, notification: { kind: 'C' } }
     ];
 
     const marble = Marblizer.marblize(sample);
@@ -60,7 +58,7 @@ describe('Marblizer test', () => {
   });
 
  it('Should marblize SubscriptionLogs', () => {
-    const marble = Marblizer.marblizeSubscriptions([new SubscriptionLog(30, 60), new SubscriptionLog(10, 50)]);
+    const marble = Marblizer.marblizeSubscriptions([{ subscribedFrame: 30, unsubscribedFrame: 60 }, { subscribedFrame: 10, unsubscribedFrame: 50 }]);
     expect(marble).toEqual(['---^--!', '-^---!']);
   });
 

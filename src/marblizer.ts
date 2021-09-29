@@ -1,5 +1,4 @@
-import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
-import { TestMessage } from 'rxjs/internal/testing/TestMessage';
+import { SubscriptionLog, TestMessages } from './rxjs/types';
 import { MarblesGlossary } from './marbles-glossary';
 import { NotificationEvent } from './notification-event';
 import { NotificationKindChars, ValueLiteral } from './notification-kind';
@@ -7,7 +6,7 @@ import { NotificationKindChars, ValueLiteral } from './notification-kind';
 const frameStep = 10;
 
 export class Marblizer {
-  public static marblize(messages: TestMessage[]): string {
+  public static marblize(messages: TestMessages): string {
     const emissions = Marblizer.getNotificationEvents(messages);
     let marbles = '';
     for (let i = 0, prevEndFrame = 0; i < emissions.length; prevEndFrame = emissions[i].end, i++) {
@@ -36,7 +35,7 @@ export class Marblizer {
     }
   }
 
-  private static getNotificationEvents(messages: TestMessage[]) {
+  private static getNotificationEvents(messages: TestMessages) {
     const framesToEmissions = messages.reduce<{ [frame: number]: NotificationEvent }>((result, message) => {
       if (!result[message.frame]) {
         result[message.frame] = new NotificationEvent(message.frame / frameStep);
@@ -52,9 +51,9 @@ export class Marblizer {
     return events;
   }
 
-  private static extractMarble(message: TestMessage) {
+  private static extractMarble(message: TestMessages[0]) {
     let marble = NotificationKindChars[message.notification.kind];
-    if (marble === ValueLiteral) marble = message.notification.value;
+    if (marble === ValueLiteral) marble = (message.notification as any).value;
     return marble;
   }
 

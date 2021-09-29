@@ -1,7 +1,5 @@
 import { Marblizer } from "../src/marblizer";
 import { customTestMatchers } from "../src/jest/custom-matchers";
-import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
-import { Notification } from 'rxjs';
 
 jest.mock('jest-diff');
 jest.mock('jest-matcher-utils');
@@ -12,7 +10,7 @@ Marblizer.marblize = marblizeMock;
 
 
 describe('toBeSubscriptions test', () => {
-  const actual = [new SubscriptionLog(30, 60), new SubscriptionLog(10, 50)], expected = [new SubscriptionLog(30, 60)];
+  const actual = [{ subscribedFrame: 30, unsubscribedFrame: 60 }, { subscribedFrame: 10, unsubscribedFrame: 50 }], expected = [{ subscribedFrame: 30, unsubscribedFrame: 60 }];
   beforeEach(() => {
     marblizeSubscriptionsMock.mockClear();
   });
@@ -45,10 +43,10 @@ describe('toBeSubscriptions test', () => {
 
 describe('toBeNotifications test', () => {
   const actual = [
-    { frame: 30, notification: new Notification('N', 'b') },
-    { frame: 110, notification: new Notification('N', 'e') }
+    { frame: 30, notification: { kind: 'N', value: 'b' } as const },
+    { frame: 110, notification: { kind: 'N', value: 'e' } as const }
   ], expected = [
-    { frame: 30, notification: new Notification('N', 'b') }
+    { frame: 30, notification: { kind: 'N', value: 'b' } as const }
   ];
   beforeEach(() => {
     marblizeMock.mockClear();
@@ -75,25 +73,25 @@ describe('toBeNotifications test', () => {
 
   it('Should call marblizer when all the values are characters and there is a completion notification', () => {
     marblizeMock.mockReturnValueOnce([]).mockReturnValueOnce([]);
-    customTestMatchers.toBeNotifications(actual, [...expected, { frame: 40, notification: new Notification('C') }]);
+    customTestMatchers.toBeNotifications(actual, [...expected, { frame: 40, notification: { kind: 'C' } }]);
     expect(marblizeMock).toHaveBeenCalled();
   });
 
   it('Should call marblizer when all the values are characters and there is an error notification', () => {
     marblizeMock.mockReturnValueOnce([]).mockReturnValueOnce([]);
-    customTestMatchers.toBeNotifications(actual, [...expected, { frame: 40, notification: new Notification('E') }]);
+    customTestMatchers.toBeNotifications(actual, [...expected, { frame: 40, notification: { kind: 'E', error: null } }]);
     expect(marblizeMock).toHaveBeenCalled();
   });
 
   it('Should call marblizer when values are serialiable to a single character', () => {
     marblizeMock.mockReturnValueOnce([]).mockReturnValueOnce([]);
-    customTestMatchers.toBeNotifications(actual, [...expected, { frame: 40, notification: new Notification('N', 0) }]);
+    customTestMatchers.toBeNotifications(actual, [...expected, { frame: 40, notification: { kind: 'N', value: 0 }}]);
     expect(marblizeMock).toHaveBeenCalled();
   });
 });
 
 describe('toHaveEmptySubscriptions test', () => {
-  const actual = [new SubscriptionLog(30, 60)];
+  const actual = [{ subscribedFrame: 30, unsubscribedFrame: 60 }];
   beforeEach(() => {
     marblizeSubscriptionsMock.mockClear();
   });
