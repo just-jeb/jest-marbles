@@ -12,7 +12,7 @@ This library will help you to test your reactive code in easy and clear way.
 # Prerequisites
  - Jest
  - RxJs
- - Familiarity with [marbles syntax](https://github.com/ReactiveX/rxjs/blob/master/doc/writing-marble-tests.md)
+ - Familiarity with [marbles syntax](https://rxjs.dev/guide/testing/marble-testing#marble-syntax)
 
 # Not supported (but planning to)
  - Time progression syntax
