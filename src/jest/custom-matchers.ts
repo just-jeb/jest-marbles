@@ -1,5 +1,5 @@
 import { equals } from 'expect/build/jasmineUtils';
-import * as diff from 'jest-diff';
+import { diff } from 'jest-diff';
 import { matcherHint, printExpected, printReceived } from 'jest-matcher-utils';
 import { TestMessages, SubscriptionLog } from '../rxjs/types';
 import { Marblizer } from '../marblizer';
