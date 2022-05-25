@@ -1,8 +1,30 @@
-import { equals } from 'expect/build/jasmineUtils';
 import { diff } from 'jest-diff';
 import { matcherHint, printExpected, printReceived } from 'jest-matcher-utils';
 import { TestMessages, SubscriptionLog } from '../rxjs/types';
 import { Marblizer } from '../marblizer';
+
+// Hack from https://github.com/timkindberg/jest-when/commit/5a8cc93cf3f0b8f71c45d68a0c98c632eba1c35e
+/**
+ * A hack to capture a reference to the `equals` jasmineUtil
+ */
+// tslint:disable-next-line:no-empty
+let equals: (a: unknown, b: unknown) => boolean = () => false;
+expect.extend({
+  // @ts-ignore
+  __capture_equals__() {
+    // @ts-ignore
+    // tslint:disable-next-line:no-invalid-this
+    equals = this.equals;
+    return { pass: true };
+  },
+});
+// @ts-ignore
+expect(1).__capture_equals__();
+const JEST_MATCHERS_OBJECT = Symbol.for('$$jest-matchers-object');
+delete global[JEST_MATCHERS_OBJECT].matchers.__capture_equals__;
+/**
+ * End hack
+ */
 
 function canMarblize(...messages: TestMessages[]) {
   return messages.every(message => message.filter(({ notification: { kind } }) => kind === 'N').every(isCharacter));
@@ -16,7 +38,7 @@ function isCharacter({ notification }: TestMessages[0]): boolean {
 }
 
 export const customTestMatchers = {
-  toBeNotifications(actual: TestMessages, expected: TestMessages) {
+  toBeNotifications(this: unknown, actual: TestMessages, expected: TestMessages) {
     let actualMarble: string | TestMessages = actual;
     let expectedMarble: string | TestMessages = expected;
     if (canMarblize(actual, expected)) {
