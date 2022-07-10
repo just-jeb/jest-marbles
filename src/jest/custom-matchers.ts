@@ -1,6 +1,3 @@
-import { equals } from 'expect/build/jasmineUtils';
-import { diff } from 'jest-diff';
-import { matcherHint, printExpected, printReceived } from 'jest-matcher-utils';
 import { TestMessages, SubscriptionLog } from '../rxjs/types';
 import { Marblizer } from '../marblizer';
 
@@ -15,7 +12,7 @@ function isCharacter({ notification }: TestMessages[0]): boolean {
   );
 }
 
-export const customTestMatchers = {
+export const customTestMatchers: jest.ExpectExtendMap = {
   toBeNotifications(actual: TestMessages, expected: TestMessages) {
     let actualMarble: string | TestMessages = actual;
     let expectedMarble: string | TestMessages = expected;
@@ -24,32 +21,32 @@ export const customTestMatchers = {
       expectedMarble = Marblizer.marblize(expected);
     }
 
-    const pass = equals(actualMarble, expectedMarble);
+    const pass = this.equals(actualMarble, expectedMarble);
 
     const message = pass
       ? () =>
-          matcherHint('.not.toBeNotifications') +
+          this.utils.matcherHint('.not.toBeNotifications') +
           '\n\n' +
           `Expected notifications to not be:\n` +
-          `  ${printExpected(expectedMarble)}\n` +
+          `  ${this.utils.printExpected(expectedMarble)}\n` +
           `But got:\n` +
-          `  ${printReceived(actualMarble)}`
+          `  ${this.utils.printReceived(actualMarble)}`
       : () => {
-          const diffString = diff(expectedMarble, actualMarble, {
+          const diffString = this.utils.diff(expectedMarble, actualMarble, {
             expand: true,
           });
           return (
-            matcherHint('.toBeNotifications') +
+            this.utils.matcherHint('.toBeNotifications') +
             '\n\n' +
             `Expected notifications to be:\n` +
-            `  ${printExpected(expectedMarble)}\n` +
+            `  ${this.utils.printExpected(expectedMarble)}\n` +
             `But got:\n` +
-            `  ${printReceived(actualMarble)}` +
+            `  ${this.utils.printReceived(actualMarble)}` +
             (diffString ? `\n\nDifference:\n\n${diffString}` : '')
           );
         };
 
-    return { actual, message, pass };
+    return { message, pass };
   },
 
   toBeSubscriptions(actual: SubscriptionLog[], expected: SubscriptionLog[]) {
@@ -59,28 +56,28 @@ export const customTestMatchers = {
     const pass = subscriptionsPass(actualMarbleArray, expectedMarbleArray);
     const message = pass
       ? () =>
-          matcherHint('.not.toHaveSubscriptions') +
+          this.utils.matcherHint('.not.toHaveSubscriptions') +
           '\n\n' +
           `Expected observable to not have the following subscription points:\n` +
-          `  ${printExpected(expectedMarbleArray)}\n` +
+          `  ${this.utils.printExpected(expectedMarbleArray)}\n` +
           `But got:\n` +
-          `  ${printReceived(actualMarbleArray)}`
+          `  ${this.utils.printReceived(actualMarbleArray)}`
       : () => {
-          const diffString = diff(expectedMarbleArray, actualMarbleArray, {
+          const diffString = this.utils.diff(expectedMarbleArray, actualMarbleArray, {
             expand: true,
           });
           return (
-            matcherHint('.toHaveSubscriptions') +
+            this.utils.matcherHint('.toHaveSubscriptions') +
             '\n\n' +
             `Expected observable to have the following subscription points:\n` +
-            `  ${printExpected(expectedMarbleArray)}\n` +
+            `  ${this.utils.printExpected(expectedMarbleArray)}\n` +
             `But got:\n` +
-            `  ${printReceived(actualMarbleArray)}` +
+            `  ${this.utils.printReceived(actualMarbleArray)}` +
             (diffString ? `\n\nDifference:\n\n${diffString}` : '')
           );
         };
 
-    return { actual, message, pass };
+    return { message, pass };
   },
 
   toHaveEmptySubscriptions(actual: SubscriptionLog[] | undefined) {
@@ -91,17 +88,17 @@ export const customTestMatchers = {
     }
     const message = pass
       ? () =>
-          matcherHint('.not.toHaveNoSubscriptions') +
+          this.utils.matcherHint('.not.toHaveNoSubscriptions') +
           '\n\n' +
           `Expected observable to have at least one subscription point, but got nothing` +
-          printReceived('')
+          this.utils.printReceived('')
       : () =>
-          matcherHint('.toHaveNoSubscriptions') +
+          this.utils.matcherHint('.toHaveNoSubscriptions') +
           '\n\n' +
           `Expected observable to have no subscription points\n` +
           `But got:\n` +
-          `  ${printReceived(marbles)}\n\n`;
-    return { actual, message, pass };
+          `  ${this.utils.printReceived(marbles)}\n\n`;
+    return { message, pass };
   },
 };
 

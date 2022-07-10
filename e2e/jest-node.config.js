@@ -1,3 +1,6 @@
 module.exports = {
-    testEnvironment: 'node'
+    testEnvironment: 'node',
+    moduleNameMapper: {
+      rxjs: '../node_modules/rxjs/dist/cjs'
+    }
 };

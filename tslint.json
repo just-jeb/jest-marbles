@@ -32,10 +32,6 @@
       true,
       "allow-declarations"
     ],
-    "no-invalid-this": [
-      true,
-      "check-function-in-method"
-    ],
     "interface-name": [
       true,
       "never-prefix"
