@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.3](https://github.com/meltedspark/jest-marbles/compare/v3.0.2...v3.0.3) (2022-07-10)
+
+
+### Bug Fixes
+
+* drop deprecated jasmineUtils ([#405](https://github.com/meltedspark/jest-marbles/issues/405)) ([d58c016](https://github.com/meltedspark/jest-marbles/commit/d58c016ac6c614a6231f91914b81c0ddd45062fd))
+
 ### [3.0.2](https://github.com/meltedspark/jest-marbles/compare/v3.0.1...v3.0.2) (2021-12-01)
 
 ### [3.0.1](https://github.com/meltedspark/jest-marbles/compare/v2.5.0...v3.0.1) (2021-09-29)
