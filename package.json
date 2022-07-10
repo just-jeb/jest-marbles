@@ -29,7 +29,7 @@
     "cleanup": "shx rm -rf umd lib lib-esm lib-fesm typings coverage docs",
     "prebuild": "npm run cleanup && npm run verify",
     "postbuild": "npm run e2e",
-    "build": "tsc && tsc --target es2017 --outDir lib-esm && webpack && webpack --env.prod",
+    "build": "tsc && tsc --target es2017 --outDir lib-esm && webpack && webpack --env prod",
     "build:fesm:min": "uglifyjs lib-fesm/index.js --compress --mangle --source-map --output lib-fesm/index.min.js",
     "docs": "typedoc -p . --theme minimal --target 'es6' --excludeNotExported --excludePrivate --ignoreCompilerErrors --exclude \"**/src/**/__tests__/*.*\" --out docs src/",
     "test": "jest",
@@ -79,9 +79,9 @@
     "jest-matcher-utils": "^27.4.2"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.0",
+    "@types/jest": "^27.0.0",
     "@types/node": "^12.6.8",
-    "awesome-typescript-loader": "^5.2.1",
+    "ts-loader": "^9.3.1",
     "commitizen": "^4.0.2",
     "cross-var": "^1.1.0",
     "cz-conventional-changelog": "^3.0.2",
@@ -100,9 +100,9 @@
     "tslint-config-standard": "^9.0.0",
     "typescript": "4.2.4",
     "validate-commit-msg": "^2.14.0",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0",
-    "webpack-config-utils": "^2.3.1"
+    "webpack": "5.73.0",
+    "webpack-cli": "4.10.0",
+    "webpack-config-utils": "2.3.1"
   },
   "peerDependencies": {
     "rxjs": "^7.0.0"

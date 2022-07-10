@@ -1,6 +1,6 @@
-const {resolve} = require('path');
+const { resolve } = require('path');
 const webpack = require('webpack');
-const {getIfUtils, removeEmpty} = require('webpack-config-utils');
+const { getIfUtils, removeEmpty } = require('webpack-config-utils');
 
 const packageJSON = require('./package.json');
 const packageName = normalizePackageName(packageJSON.name);
@@ -29,7 +29,7 @@ const RULES = {
     include: /./,
     use: [
       {
-        loader: 'awesome-typescript-loader',
+        loader: 'ts-loader',
         options: {
           // we don't want any declaration file in the bundles
           // folder since it wouldn't be of any use ans the source
@@ -45,9 +45,11 @@ const RULES = {
     include: /./,
     use: [
       {
-        loader: 'awesome-typescript-loader',
+        loader: 'ts-loader',
         options: {
-          target: 'es2017',
+          compilerOptions: {
+            target: 'es2020',
+          }
         },
       },
     ],
@@ -55,7 +57,7 @@ const RULES = {
 };
 
 const config = (env = DEFAULT_ENV) => {
-  const {ifProd} = getIfUtils(env);
+  const { ifProd } = getIfUtils(env);
   const PLUGINS = removeEmpty([
     // enable scope hoisting
     new webpack.optimize.ModuleConcatenationPlugin(),
@@ -64,7 +66,7 @@ const config = (env = DEFAULT_ENV) => {
       minimize: true,
     }),
     new webpack.DefinePlugin({
-      'process.env': {NODE_ENV: ifProd('"production"', '"development"')},
+      'process.env': { NODE_ENV: ifProd('"production"', '"development"') },
     }),
   ]);
 
@@ -128,10 +130,6 @@ const config = (env = DEFAULT_ENV) => {
 module.exports = config;
 
 // helpers
-
-function camelCaseToDash(myStr) {
-  return myStr.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
-}
 
 function dashToCamelCase(myStr) {
   return myStr.replace(/-([a-z])/g, g => g[1].toUpperCase())
