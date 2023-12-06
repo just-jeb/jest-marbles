@@ -23,6 +23,17 @@ declare global {
   }
 }
 
+// @ts-ignore
+declare module "expect" {
+  interface Matchers<R = void> {
+    toBeObservable(observable: ObservableWithSubscriptions): void;
+    toHaveSubscriptions(marbles: string | string[]): void;
+    toHaveNoSubscriptions(): void;
+    toBeMarble(marble: string): void;
+    toSatisfyOnFlush(func: () => void): void;
+  }
+}
+
 export function hot(marbles: string, values?: any, error?: any): HotObservable {
   return new HotObservable(stripAlignmentChars(marbles), values, error);
 }
