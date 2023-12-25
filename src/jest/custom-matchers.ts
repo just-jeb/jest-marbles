@@ -2,11 +2,19 @@ import { TestMessages, SubscriptionLog } from '../rxjs/types';
 import { Marblizer } from '../marblizer';
 
 function canMarblize(...messages: TestMessages[]) {
-  return messages.every(message => message.filter(({ notification: { kind } }) => kind === 'N').every(isCharacter));
+  return messages.every(isMessagesMarblizable);
 }
 
-function isCharacter({ notification }: TestMessages[0]): boolean {
-  const value = (notification as any).value;
+function isMessagesMarblizable(messages: TestMessages): boolean {
+  return messages.every(
+    ({ notification }) =>
+      notification.kind === 'C' ||
+      (notification.kind === 'E' && notification.error === 'error') ||
+      (notification.kind === 'N' && isCharacter(notification.value))
+  );
+}
+
+function isCharacter(value: any): boolean {
   return (
     (typeof value === 'string' && value.length === 1) || (value !== undefined && JSON.stringify(value).length === 1)
   );
@@ -20,7 +28,6 @@ export const customTestMatchers: jest.ExpectExtendMap = {
       actualMarble = Marblizer.marblize(actual);
       expectedMarble = Marblizer.marblize(expected);
     }
-
     const pass = this.equals(actualMarble, expectedMarble);
 
     const message = pass
