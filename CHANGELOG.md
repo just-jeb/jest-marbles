@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.6](https://github.com/meltedspark/jest-marbles/compare/v3.0.5...v3.0.6) (2023-12-25)
+
+
+### Bug Fixes
+
+* fail on different error values ([#411](https://github.com/meltedspark/jest-marbles/issues/411)) ([8f715c8](https://github.com/meltedspark/jest-marbles/commit/8f715c80b55a8c18a8ce63ab9b6450c80e365507))
+
 ### [3.0.5](https://github.com/jiust-jeb/jest-marbles/compare/v3.0.4...v3.0.5) (2023-12-06)
 
 ### [3.0.4](https://github.com/just-jeb/jest-marbles/compare/v3.0.3...v3.0.4) (2023-12-06)
