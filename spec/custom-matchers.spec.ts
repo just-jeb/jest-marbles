@@ -86,10 +86,16 @@ describe('toBeNotifications test', () => {
     expect(marblizeMock).toHaveBeenCalled();
   });
 
-  it('Should call marblizer when all the values are characters and there is an error notification', () => {
+  it('Should call marblizer when all the values are characters and there is a default error notification', () => {
     marblizeMock.mockReturnValueOnce([]).mockReturnValueOnce([]);
-    toBeNotifications.call(matcherContextMock, actual, [...expected, { frame: 40, notification: { kind: 'E', error: null } }]);
+    toBeNotifications.call(matcherContextMock, actual, [...expected, { frame: 40, notification: { kind: 'E', error: 'error' } }]);
     expect(marblizeMock).toHaveBeenCalled();
+  });
+
+  it('Should not call marblizer when all the values are characters and there is a non-default error notification', () => {
+    marblizeMock.mockReturnValueOnce([]).mockReturnValueOnce([]);
+    toBeNotifications.call(matcherContextMock, actual, [...expected, { frame: 40, notification: { kind: 'E', error: 'A' } }]);
+    expect(marblizeMock).not.toHaveBeenCalled();
   });
 
   it('Should call marblizer when values are serialiable to a single character', () => {

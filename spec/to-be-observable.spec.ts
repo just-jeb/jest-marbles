@@ -37,11 +37,11 @@ describe("toBeObservable matcher test", () => {
 
     expect(mapped).toBeObservable(expected);
   });
-  
+
   it("Should work with undefined values", (  ) => {
     const values$ = cold("u|", { u: undefined });
     const expected = cold("u|", { u:undefined });
-  
+
     expect(values$).toBeObservable(expected);
   });
 
@@ -80,9 +80,13 @@ describe("toBeObservable matcher test", () => {
     })}));
   });
 
-  it("Should pass if the two objects hacve the same properties but in different order", () => {
+  it("Should pass if the two objects have the same properties but in different order", () => {
     const e$ = hot("-a", { a: { someprop: "hey", b: 1 }});
     expect(e$).toBeObservable(cold("-b", { b: { b: 1, someprop: "hey" }}));
   });
 
+  // TODO: uncomment once .not.toBeObservable works
+  // it('Should fail on different errors', () => {
+  //   expect(cold('#', {}, 'A')).not.toBeObservable(cold('#', {}, 'B'))
+  // })
 });
