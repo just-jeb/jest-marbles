@@ -1,5 +1,6 @@
 # jest-marbles
-[![npm version](https://badge.fury.io/js/jest-marbles.svg)](https://badge.fury.io/js/jest-marbles) [![Build Status](https://travis-ci.org/just-jeb/jest-marbles.svg?branch=master)](https://travis-ci.org/just-jeb/jest-marbles) ![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg) [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+[![npm version](https://badge.fury.io/js/jest-marbles.svg)](https://badge.fury.io/js/jest-marbles) ![Build Status](https://github.com/just-jeb/jest-marbles/actions/workflows/build.yml/badge.svg?branch=master) ![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg) [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+
 
 
 A set of helper functions and Jest matchers for RxJs marble testing.
