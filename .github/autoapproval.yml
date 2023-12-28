@@ -1,6 +1,6 @@
 from_owner:
   - just-jeb
-  - dependabot-preview[bot] 
+  - renovate[bot]
 apply_labels:
   - autoapproved
 required_labels: []
