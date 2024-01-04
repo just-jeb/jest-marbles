@@ -52,7 +52,8 @@
     "release:github": "git push --follow-tags origin master",
     "release:npm": "npm publish",
     "release:preflight:package": "npm pack",
-    "size": "shx echo \"Gzipped Size:\" && cross-var strip-json-comments --no-whitespace $npm_package_main | gzip-size"
+    "size": "shx echo \"Gzipped Size:\" && cross-var strip-json-comments --no-whitespace $npm_package_main | gzip-size",
+    "prepare": "husky install"
   },
   "config": {
     "commitizen": {
@@ -80,7 +81,7 @@
     "cross-var": "^1.1.0",
     "cz-conventional-changelog": "^3.0.2",
     "gzip-size-cli": "^4.0.0",
-    "husky": "^4.0.0",
+    "husky": "^8.0.0",
     "jest": "28.1.2",
     "jest-environment-jsdom": "28.1.2",
     "lint-staged": "^10.0.0",
@@ -102,12 +103,5 @@
   },
   "peerDependencies": {
     "rxjs": "^7.0.0"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "validate-commit-msg",
-      "pre-commit": "lint-staged",
-      "pre-push": "npm run ts:style && npm run test:only-changed"
-    }
   }
 }
