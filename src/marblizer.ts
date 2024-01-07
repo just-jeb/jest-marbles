@@ -10,15 +10,16 @@ export class Marblizer {
     const emissions = Marblizer.getNotificationEvents(messages);
     let marbles = '';
     for (let i = 0, prevEndFrame = 0; i < emissions.length; prevEndFrame = emissions[i].end, i++) {
-      marbles = `${marbles}${MarblesGlossary.TimeFrame.repeat(emissions[i].start - prevEndFrame) +
-        emissions[i].marbles}`;
+      marbles = `${marbles}${
+        MarblesGlossary.TimeFrame.repeat(emissions[i].start - prevEndFrame) + emissions[i].marbles
+      }`;
     }
     return marbles;
   }
 
   public static marblizeSubscriptions(logs: SubscriptionLog[]): string[] {
     return logs.map(
-      log =>
+      (log) =>
         this.marblizeLogEntry(log.subscribedFrame / frameStep, MarblesGlossary.Subscription) +
         this.marblizeLogEntry(
           (log.unsubscribedFrame - log.subscribedFrame) / frameStep - 1,
@@ -45,7 +46,7 @@ export class Marblizer {
       return result;
     }, {});
 
-    const events = Object.keys(framesToEmissions).map<NotificationEvent>(frame => framesToEmissions[frame]);
+    const events = Object.keys(framesToEmissions).map<NotificationEvent>((frame) => framesToEmissions[frame]);
 
     Marblizer.encloseGroupEvents(events);
     return events;
@@ -58,7 +59,7 @@ export class Marblizer {
   }
 
   private static encloseGroupEvents(events: NotificationEvent[]) {
-    events.forEach(event => {
+    events.forEach((event) => {
       if (event.marbles.length > 1) {
         event.marbles = `${MarblesGlossary.GroupStart}${event.marbles}${MarblesGlossary.GroupEnd}`;
       }

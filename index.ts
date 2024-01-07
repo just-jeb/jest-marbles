@@ -8,37 +8,37 @@ export type ObservableWithSubscriptions = ColdObservable | HotObservable;
 export { Scheduler } from './src/rxjs/scheduler';
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace jest {
-    interface Matchers<R, T> {
-      toBeObservable(observable: ObservableWithSubscriptions): void;
+    interface Matchers<R extends void | Promise<void>> {
+      toBeObservable(observable: ObservableWithSubscriptions): R;
 
-      toHaveSubscriptions(marbles: string | string[]): void;
+      toHaveSubscriptions(marbles: string | string[]): R;
 
-      toHaveNoSubscriptions(): void;
+      toHaveNoSubscriptions(): R;
 
-      toBeMarble(marble: string): void;
+      toBeMarble(marble: string): R;
 
-      toSatisfyOnFlush(func: () => void): void;
+      toSatisfyOnFlush(func: () => void): R;
     }
   }
 }
 
-// @ts-ignore
-declare module "expect" {
-  interface Matchers<R = void> {
-    toBeObservable(observable: ObservableWithSubscriptions): void;
-    toHaveSubscriptions(marbles: string | string[]): void;
-    toHaveNoSubscriptions(): void;
-    toBeMarble(marble: string): void;
-    toSatisfyOnFlush(func: () => void): void;
+declare module 'expect' {
+  interface Matchers<R extends void | Promise<void>> {
+    toBeObservable(observable: ObservableWithSubscriptions): R;
+    toHaveSubscriptions(marbles: string | string[]): R;
+    toHaveNoSubscriptions(): R;
+    toBeMarble(marble: string): R;
+    toSatisfyOnFlush(func: () => void): R;
   }
 }
 
-export function hot(marbles: string, values?: any, error?: any): HotObservable {
+export function hot(marbles: string, values?: object, error?: object): HotObservable {
   return new HotObservable(stripAlignmentChars(marbles), values, error);
 }
 
-export function cold(marbles: string, values?: any, error?: any): ColdObservable {
+export function cold(marbles: string, values?: object, error?: object): ColdObservable {
   return new ColdObservable(stripAlignmentChars(marbles), values, error);
 }
 
@@ -48,11 +48,10 @@ export function time(marbles: string): number {
 
 const dummyResult = {
   message: () => '',
-  pass: true
+  pass: true,
 };
 
 expect.extend({
-
   toHaveSubscriptions(actual: ObservableWithSubscriptions, marbles: string | string[]) {
     const sanitizedMarbles = Array.isArray(marbles) ? marbles.map(stripAlignmentChars) : stripAlignmentChars(marbles);
     Scheduler.get().expectSubscriptions(actual.getSubscriptions()).toBe(sanitizedMarbles);
@@ -81,17 +80,19 @@ expect.extend({
     flushTests[flushTests.length - 1].ready = true;
     onFlush.push(func);
     return dummyResult;
-  }
+  },
 });
 
 let onFlush: (() => void)[] = [];
 
-beforeEach(() => { Scheduler.init(); onFlush = []; });
+beforeEach(() => {
+  Scheduler.init();
+  onFlush = [];
+});
 afterEach(() => {
   Scheduler.get().flush();
   while (onFlush.length > 0) {
-    // @ts-ignore
-    onFlush.shift()();
+    onFlush.shift()?.();
   }
   Scheduler.reset();
 });
