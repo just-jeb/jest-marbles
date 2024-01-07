@@ -8,20 +8,14 @@ const packageName = normalizePackageName(packageJSON.name);
 const LIB_NAME = pascalCase(packageName);
 const PATHS = {
   entryPoint: resolve(__dirname, 'index.ts'),
-  umd: resolve(__dirname, 'umd'),
-  fesm: resolve(__dirname, 'lib-fesm'),
+  umd: resolve(__dirname, 'dist/umd'),
+  fesm: resolve(__dirname, 'dist/lib-fesm'),
 };
 // https://webpack.js.org/configuration/configuration-types/#exporting-a-function-to-use-env
 // this is equal to 'webpack --env=dev'
 const DEFAULT_ENV = 'dev';
 
-const EXTERNALS = [
-  'jest',
-  'jest-diff',
-  'jest-matcher-utils',
-  /^expect\/.*$/,
-  /^rxjs.*$/,
-];
+const EXTERNALS = ['jest', 'jest-diff', 'jest-matcher-utils', /^expect\/.*$/, /^rxjs.*$/];
 
 const RULES = {
   ts: {
@@ -49,7 +43,7 @@ const RULES = {
         options: {
           compilerOptions: {
             target: 'es2020',
-          }
+          },
         },
       },
     ],
@@ -96,7 +90,7 @@ const config = (env = DEFAULT_ENV) => {
     // Add resolve for `tsx` and `ts` files, otherwise Webpack would
     // only look for common JavaScript file extension (.js)
     resolve: {
-      extensions: ['.ts', '.tsx', '.js']
+      extensions: ['.ts', '.tsx', '.js'],
     },
     // add here all 3rd party libraries that you will use as peerDependncies
     // https://webpack.js.org/guides/author-libraries/#add-externals
@@ -106,7 +100,7 @@ const config = (env = DEFAULT_ENV) => {
     devtool: 'source-map',
     plugins: PLUGINS,
     module: {
-      rules: [RULES.ts]
+      rules: [RULES.ts],
     },
   };
 
@@ -124,7 +118,7 @@ const config = (env = DEFAULT_ENV) => {
     },
   });
 
-  return [UMDConfig, FESMconfig]
+  return [UMDConfig, FESMconfig];
 };
 
 module.exports = config;
@@ -132,18 +126,18 @@ module.exports = config;
 // helpers
 
 function dashToCamelCase(myStr) {
-  return myStr.replace(/-([a-z])/g, g => g[1].toUpperCase())
+  return myStr.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
 }
 
 function toUpperCase(myStr) {
-  return `${myStr.charAt(0).toUpperCase()}${myStr.substr(1)}`
+  return `${myStr.charAt(0).toUpperCase()}${myStr.substr(1)}`;
 }
 
 function pascalCase(myStr) {
-  return toUpperCase(dashToCamelCase(myStr))
+  return toUpperCase(dashToCamelCase(myStr));
 }
 
 function normalizePackageName(rawPackageName) {
   const scopeEnd = rawPackageName.indexOf('/') + 1;
-  return rawPackageName.substring(scopeEnd)
+  return rawPackageName.substring(scopeEnd);
 }
