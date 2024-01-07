@@ -38,9 +38,7 @@
     "test:only-changed": "npm test -- --bail --onlyChanged",
     "eslint": "eslint --ext .ts,.tsx ./",
     "eslint:fix": "npm run eslint -- --fix",
-    "ts:style": "npm run ts:format && npm run ts:lint",
-    "ts:style:fix": "npm run ts:format:fix && npm run ts:lint:fix",
-    "verify": "npm run ts:style && npm test",
+    "verify": "npm run eslint && npm test",
     "cz": "git-cz",
     "prerelease": "npm run build",
     "release": "standard-version --sign",
@@ -61,7 +59,7 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx}": [
+    "./**/*.{ts,tsx}": [
       "eslint --fix"
     ]
   },

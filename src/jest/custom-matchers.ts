@@ -124,13 +124,14 @@ function subscriptionsPass(actualMarbleArray: string[], expectedMarbleArray: str
 }
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace jest {
-    interface Matchers<R, T> {
-      toBeNotifications(notifications: TestMessages): void;
+    interface Matchers<R extends void | Promise<void>> {
+      toBeNotifications(notifications: TestMessages): R;
 
-      toBeSubscriptions(subscriptions: SubscriptionLog[]): void;
+      toBeSubscriptions(subscriptions: SubscriptionLog[]): R;
 
-      toHaveEmptySubscriptions(): void;
+      toHaveEmptySubscriptions(): R;
     }
   }
 }

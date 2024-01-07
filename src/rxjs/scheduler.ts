@@ -24,7 +24,7 @@ export class Scheduler {
 
   public static materializeInnerObservable(observable: Observable<any>, outerFrame: number): TestMessages {
     const scheduler = Scheduler.get();
-    // @ts-ignore
+    // @ts-expect-error to avoid code duplication
     return scheduler.materializeInnerObservable(observable, outerFrame);
   }
 }

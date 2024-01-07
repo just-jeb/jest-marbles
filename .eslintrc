@@ -12,7 +12,9 @@
     "prettier"
   ],
   "rules": {
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    // TODO: remove this override
+    "@typescript-eslint/no-explicit-any": "off"
   },
   "env": {
     "browser": true,
