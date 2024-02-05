@@ -70,8 +70,8 @@
   "devDependencies": {
     "@types/jest": "29.5.12",
     "@types/node": "^12.6.8",
-    "@typescript-eslint/eslint-plugin": "6.20.0",
-    "@typescript-eslint/parser": "6.20.0",
+    "@typescript-eslint/eslint-plugin": "6.21.0",
+    "@typescript-eslint/parser": "6.21.0",
     "commitizen": "^4.0.2",
     "cross-var": "^1.1.0",
     "cz-conventional-changelog": "^3.0.2",
