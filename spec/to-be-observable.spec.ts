@@ -1,4 +1,4 @@
-import { merge, timer } from 'rxjs';
+import { delay, merge, timer } from 'rxjs';
 import { concat, mapTo } from 'rxjs/operators';
 import { cold, hot, Scheduler, time } from '../index';
 
@@ -82,6 +82,13 @@ describe('toBeObservable matcher test', () => {
         }),
       })
     );
+  });
+
+  it('Should work with delays', () => {
+    const source = cold('a');
+    const expected = cold('--a');
+
+    expect(source.pipe(delay(20))).toBeObservable(expected);
   });
 
   it('Should pass if the two objects have the same properties but in different order', () => {
