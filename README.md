@@ -38,7 +38,7 @@ npm i jest-marbles@1 -D
 In the test file:
 
 ```js
-import {cold, hot, time} from 'jest-marbles';
+import {cold, hot, time, schedule} from 'jest-marbles';
 ```
 
 Inside the test:
@@ -162,6 +162,20 @@ Allows you to assert on certain side effects/conditions that should be satisfied
           expect(mock).toHaveBeenCalledTimes(4);
       });
   })
+```
+
+## schedule
+Allows you to schedule task on specified frame
+```js
+  it('should verify subject values', () => {
+    const source = new Subject();
+    const expected = cold('ab');
+
+    schedule(() => source.next('a'), 1);
+    schedule(() => source.next('b'), 2);
+
+    expect(source).toBeObservable(expected);
+  });
 ```
 
 

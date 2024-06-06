@@ -2,6 +2,7 @@ import { ColdObservable } from './src/rxjs/cold-observable';
 import { HotObservable } from './src/rxjs/hot-observable';
 import { Scheduler } from './src/rxjs/scheduler';
 import { stripAlignmentChars } from './src/rxjs/strip-alignment-chars';
+import { Subscription } from 'rxjs';
 
 export type ObservableWithSubscriptions = ColdObservable | HotObservable;
 
@@ -44,6 +45,10 @@ export function cold(marbles: string, values?: object, error?: object): ColdObse
 
 export function time(marbles: string): number {
   return Scheduler.get().createTime(stripAlignmentChars(marbles));
+}
+
+export function schedule(work: () => void, delay: number): Subscription {
+  return Scheduler.get().schedule(work, delay);
 }
 
 const dummyResult = {
