@@ -1,6 +1,6 @@
-import { delay, merge, timer } from 'rxjs';
+import { delay, merge, Subject, timer } from 'rxjs';
 import { concat, mapTo } from 'rxjs/operators';
-import { cold, hot, Scheduler, time } from '../index';
+import { cold, hot, schedule, Scheduler, time } from '../index';
 
 describe('toBeObservable matcher test', () => {
   it('Should concatenate two cold observables into single cold observable', () => {
@@ -82,6 +82,16 @@ describe('toBeObservable matcher test', () => {
         }),
       })
     );
+  });
+
+  it('Should work with schedules', () => {
+    const source = new Subject<string>();
+
+    schedule(() => source.next('a'), 1);
+    schedule(() => source.next('b'), 2);
+    const expected = cold('ab');
+
+    expect(source).toBeObservable(expected);
   });
 
   it('Should work with delays', () => {
