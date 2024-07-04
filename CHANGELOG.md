@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/meltedspark/jest-marbles/compare/v3.0.6...v3.1.0) (2024-07-04)
+
+
+### Features
+
+* expose schedule() method ([#502](https://github.com/meltedspark/jest-marbles/issues/502)) ([f7725f7](https://github.com/meltedspark/jest-marbles/commit/f7725f7a68f829bedd9874c3945d44c256443e4f))
+
+
+### Bug Fixes
+
+* add delay() support ([#501](https://github.com/meltedspark/jest-marbles/issues/501)) ([37f7d54](https://github.com/meltedspark/jest-marbles/commit/37f7d5419e8f3fcd61ff7b9a575622a76ac6ea39))
+
 ### [3.0.6](https://github.com/meltedspark/jest-marbles/compare/v3.0.5...v3.0.6) (2023-12-25)
 
 
