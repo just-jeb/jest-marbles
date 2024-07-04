@@ -84,7 +84,6 @@ describe('toBeObservable matcher test', () => {
     );
   });
 
-
   it('Should work with schedules', () => {
     const source = new Subject<string>();
 
