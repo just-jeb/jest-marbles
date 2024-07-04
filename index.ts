@@ -95,7 +95,7 @@ beforeEach(() => {
   onFlush = [];
 });
 afterEach(() => {
-  Scheduler.get().flush();
+  Scheduler.get().run(() => {});
   while (onFlush.length > 0) {
     onFlush.shift()?.();
   }
