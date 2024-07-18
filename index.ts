@@ -2,7 +2,8 @@ import { ColdObservable } from './src/rxjs/cold-observable';
 import { HotObservable } from './src/rxjs/hot-observable';
 import { Scheduler } from './src/rxjs/scheduler';
 import { stripAlignmentChars } from './src/rxjs/strip-alignment-chars';
-import { Subscription } from 'rxjs';
+import { Observable, skip, Subscription, take, takeLast } from 'rxjs';
+import { toEmitValue } from './src/to-emit-value';
 
 export type ObservableWithSubscriptions = ColdObservable | HotObservable;
 
@@ -21,6 +22,12 @@ declare global {
       toBeMarble(marble: string): R;
 
       toSatisfyOnFlush(func: () => void): R;
+
+      toEmitValueFirst(value: unknown): R;
+
+      toEmitValueLast(value: unknown): R;
+
+      toEmitValueNth(value: unknown, index: number): R;
     }
   }
 }
@@ -32,6 +39,9 @@ declare module 'expect' {
     toHaveNoSubscriptions(): R;
     toBeMarble(marble: string): R;
     toSatisfyOnFlush(func: () => void): R;
+    toEmitValueFirst(value: unknown): R;
+    toEmitValueLast(value: unknown): R;
+    toEmitValueNth(value: unknown, index: number): R;
   }
 }
 
@@ -83,21 +93,33 @@ expect.extend({
     // tslint:disable:no-string-literal
     const flushTests = Scheduler.get()['flushTests'];
     flushTests[flushTests.length - 1].ready = true;
-    onFlush.push(func);
+    Scheduler.onFlush(func);
+    return dummyResult;
+  },
+
+  toEmitValueFirst(observable: Observable<unknown>, expectedValue: unknown) {
+    toEmitValue(observable.pipe(take(1)), expectedValue);
+
+    return dummyResult;
+  },
+
+  toEmitValueLast(observable: Observable<unknown>, expectedValue: unknown) {
+    toEmitValue(observable.pipe(takeLast(1)), expectedValue);
+
+    return dummyResult;
+  },
+
+  toEmitValueNth(observable: Observable<unknown>, expectedValue: unknown, index: number) {
+    toEmitValue(observable.pipe(skip(index), take(1)), expectedValue);
+
     return dummyResult;
   },
 });
 
-let onFlush: (() => void)[] = [];
-
 beforeEach(() => {
   Scheduler.init();
-  onFlush = [];
 });
 afterEach(() => {
-  Scheduler.get().run(() => {});
-  while (onFlush.length > 0) {
-    onFlush.shift()?.();
-  }
+  Scheduler.flush();
   Scheduler.reset();
 });
