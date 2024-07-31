@@ -5,21 +5,36 @@ import { TestScheduler } from 'rxjs/testing';
 import { assertDeepEqual } from './assert-deep-equal';
 
 export class Scheduler {
-  public static instance: TestScheduler | null;
+  private static instance: TestScheduler | null;
+  private static onFlushCallbacks: (() => void)[] = [];
 
   public static init(): void {
-    Scheduler.instance = new TestScheduler(assertDeepEqual);
+    this.instance = new TestScheduler(assertDeepEqual);
+    this.onFlushCallbacks = [];
   }
 
   public static get(): TestScheduler {
-    if (Scheduler.instance) {
-      return Scheduler.instance;
+    if (this.instance) {
+      return this.instance;
     }
     throw new Error('Scheduler is not initialized');
   }
 
   public static reset(): void {
-    Scheduler.instance = null;
+    this.instance = null;
+    this.onFlushCallbacks = [];
+  }
+
+  public static onFlush(callback: () => void): void {
+    this.onFlushCallbacks.push(callback);
+  }
+
+  public static flush(): void {
+    this.get().run(() => {});
+    while (this.onFlushCallbacks.length > 0) {
+      this.onFlushCallbacks.shift()?.();
+    }
+    this.reset();
   }
 
   public static materializeInnerObservable(observable: Observable<any>, outerFrame: number): TestMessages {

@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`toEmitValueFirst matcher test negative cases Should fail if no values emitted 1`] = `
+"[2mexpect([22m[31mreceived[39m[2m).toBeNotifications([22m[32mexpected[39m[2m)[22m
+
+Expected notifications to be:
+  [32m"(a|)"[39m
+But got:
+  [31m""[39m
+
+Difference:
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- (a|)[39m"
+`;
+
+exports[`toEmitValueFirst matcher test negative cases Should fail if no values emitted and completed 1`] = `
+"[2mexpect([22m[31mreceived[39m[2m).toBeNotifications([22m[32mexpected[39m[2m)[22m
+
+Expected notifications to be:
+  [32m"---(a|)"[39m
+But got:
+  [31m"---|"[39m
+
+Difference:
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- ---(a|)[39m
+[31m+ ---|[39m"
+`;
+
+exports[`toEmitValueFirst matcher test negative cases Should fail if other value emits 1`] = `
+"[2mexpect([22m[31mreceived[39m[2m).toBeNotifications([22m[32mexpected[39m[2m)[22m
+
+Expected notifications to be:
+  [32m"---(a|)"[39m
+But got:
+  [31m"---(b|)"[39m
+
+Difference:
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- ---(a|)[39m
+[31m+ ---(b|)[39m"
+`;
