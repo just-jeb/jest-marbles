@@ -75,7 +75,7 @@
     "commitizen": "^4.0.2",
     "cross-var": "^1.1.0",
     "cz-conventional-changelog": "^3.0.2",
-    "eslint": "8.57.0",
+    "eslint": "8.57.1",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-prettier": "5.2.1",
     "gzip-size-cli": "^4.0.0",
