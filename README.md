@@ -152,6 +152,33 @@ But got:
   ["----^------------!"]
 ```
 
+## toEmitValueFirst
+Verifies that the first emitted value from observable matches expected value.
+```js
+  it('Should verify first emitted value', () => {
+    const x = cold('--a---b---c--|');
+    expect(x).toEmitValueFirst('a');
+  });
+```
+
+## toEmitValueLast
+Verifies that the last emitted value from observable matches expected value.
+```js
+  it('Should verify last emitted value', () => {
+    const x = cold('--a---b---c--|');
+    expect(x).toEmitValueLast('c');
+  });
+```
+
+## toEmitValueNth
+Verifies that the N emitted value from observable matches expected value.
+```js
+  it('Should verify second emitted value', () => {
+    const x = cold('--a---b---c--|');
+    expect(x).toEmitValueNth('b', 1);
+  });
+```
+
 ## toSatisfyOnFlush
 Allows you to assert on certain side effects/conditions that should be satisfied when the observable has been flushed (finished)
 ```js
