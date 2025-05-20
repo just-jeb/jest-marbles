@@ -1,4 +1,4 @@
-import { delay, merge, Subject, timer } from 'rxjs';
+import { delay, merge, Subject, switchMap, timer } from 'rxjs';
 import { concat, mapTo } from 'rxjs/operators';
 import { cold, hot, schedule, Scheduler, time } from '../index';
 
@@ -104,6 +104,13 @@ describe('toBeObservable matcher test', () => {
   it('Should pass if the two objects have the same properties but in different order', () => {
     const e$ = hot('-a', { a: { someprop: 'hey', b: 1 } });
     expect(e$).toBeObservable(cold('-b', { b: { b: 1, someprop: 'hey' } }));
+  });
+
+  it('Should work with cold observables created during assertion execution', () => {
+    const source = cold('a').pipe(switchMap(() => cold('--a')));
+    const expected = cold('--a');
+
+    expect(source).toBeObservable(expected);
   });
 
   // TODO: uncomment once .not.toBeObservable works
