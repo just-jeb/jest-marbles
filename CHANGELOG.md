@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.1](https://github.com/meltedspark/jest-marbles/compare/v3.1.0...v3.1.1) (2025-05-20)
+
+
+### Bug Fixes
+
+* fix frame factor ([#628](https://github.com/meltedspark/jest-marbles/issues/628)) ([77cf5ea](https://github.com/meltedspark/jest-marbles/commit/77cf5ea0093ea003843e2d166185080f9ae7c94c)), closes [#573](https://github.com/meltedspark/jest-marbles/issues/573)
+
 ## [3.1.0](https://github.com/meltedspark/jest-marbles/compare/v3.0.6...v3.1.0) (2024-07-04)
 
 
