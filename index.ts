@@ -3,6 +3,7 @@ import { HotObservable } from './src/rxjs/hot-observable';
 import { Scheduler } from './src/rxjs/scheduler';
 import { stripAlignmentChars } from './src/rxjs/strip-alignment-chars';
 import { Subscription } from 'rxjs';
+import { TestScheduler } from 'rxjs/testing';
 
 export type ObservableWithSubscriptions = ColdObservable | HotObservable;
 
@@ -95,7 +96,9 @@ beforeEach(() => {
   onFlush = [];
 });
 afterEach(() => {
-  Scheduler.get().run(() => {});
+  Scheduler.get().run(() => {
+    TestScheduler.frameTimeFactor = 10;
+  });
   while (onFlush.length > 0) {
     onFlush.shift()?.();
   }
