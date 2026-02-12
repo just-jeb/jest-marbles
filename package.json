@@ -76,7 +76,7 @@
     "cross-var": "^1.1.0",
     "cz-conventional-changelog": "^3.0.2",
     "eslint": "8.57.1",
-    "eslint-config-prettier": "9.1.0",
+    "eslint-config-prettier": "9.1.2",
     "eslint-plugin-prettier": "5.2.3",
     "gzip-size-cli": "^4.0.0",
     "husky": "^8.0.0",
