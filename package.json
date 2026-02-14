@@ -87,7 +87,7 @@
     "rxjs": "7.8.2",
     "shx": "^0.3.2",
     "standard-version": "^9.0.0",
-    "strip-json-comments-cli": "^1.0.1",
+    "strip-json-comments-cli": "^3.0.0",
     "ts-jest": "29.4.6",
     "ts-loader": "^9.3.1",
     "typescript": "4.9.5",
