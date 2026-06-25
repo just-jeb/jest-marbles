@@ -33,21 +33,20 @@
   "scripts": {
     "e2e": "jest --config=e2e/jest-browser.config.js && jest --config=e2e/jest-node.config.js",
     "cleanup": "shx rm -rf dist coverage api-docs",
-    "prebuild": "npm run cleanup && npm run verify",
-    "postbuild": "npm run e2e",
     "build": "tsup",
+    "ci": "yarn cleanup && yarn verify && yarn build && yarn e2e",
     "docs": "typedoc -p . --theme minimal --target 'es6' --excludeNotExported --excludePrivate --ignoreCompilerErrors --exclude \"**/src/**/__tests__/*.*\" --out api-docs src/",
     "test": "jest",
-    "test:watch": "npm test -- --watch",
-    "test:coverage": "npm test -- --coverage",
-    "test:only-changed": "npm test -- --bail --onlyChanged",
+    "test:watch": "yarn test --watch",
+    "test:coverage": "yarn test --coverage",
+    "test:only-changed": "yarn test --bail --onlyChanged",
     "eslint": "eslint ./src ./spec ./index.ts",
     "eslint:fix": "eslint --fix ./src ./spec ./index.ts",
-    "verify": "npm run eslint && npm test",
+    "verify": "yarn eslint && yarn test",
     "cz": "git-cz",
-    "prerelease": "npm run build",
+    "prerelease": "yarn build",
     "release": "standard-version --sign",
-    "postrelease": "npm run release:github && npm run release:npm",
+    "postrelease": "yarn release:github && yarn release:npm",
     "release:github": "git push --follow-tags origin master",
     "release:npm": "npm publish",
     "release:preflight:package": "npm pack",
@@ -95,5 +94,6 @@
   },
   "peerDependencies": {
     "rxjs": "^7.0.0"
-  }
+  },
+  "packageManager": "yarn@4.17.0+sha512.c2957de2f9025ab14d63b24d0d8be1f1655810e22c341042c27f7ecd017b180ec12db73d69ac366d71b304ef9f069349ce462de96f04f8f1da317f4f762c95ae"
 }
