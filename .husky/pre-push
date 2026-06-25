@@ -1,1 +1,1 @@
-npm run eslint && npm run test:only-changed
+yarn eslint && yarn test:only-changed

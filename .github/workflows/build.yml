@@ -16,21 +16,15 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: actions/cache@v6
-        id: npm-cache
-        with:
-          path: ~/.npm # Default cache directory for npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-
-
       - uses: actions/setup-node@v6
         with:
           node-version: 22
-          registry-url: 'https://registry.npmjs.org'
+
+      - name: Enable Corepack (provisions Yarn from packageManager field)
+        run: corepack enable
 
       - name: Install dependencies
-        run: npm ci
+        run: yarn install --immutable
 
-      - name: Run build and tests
-        run: npm run build
+      - name: Build and test
+        run: yarn ci
