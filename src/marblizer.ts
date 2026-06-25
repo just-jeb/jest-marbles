@@ -46,7 +46,7 @@ export class Marblizer {
       return result;
     }, {});
 
-    const events = Object.keys(framesToEmissions).map<NotificationEvent>((frame) => framesToEmissions[frame]);
+    const events = Object.values(framesToEmissions);
 
     Marblizer.encloseGroupEvents(events);
     return events;

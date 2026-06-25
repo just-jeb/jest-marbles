@@ -12,7 +12,6 @@
     ],
     "strict": true,
     "allowSyntheticDefaultImports": true,
-    "suppressImplicitAnyIndexErrors": true,
     "forceConsistentCasingInFileNames": true,
     "pretty": true,
     "sourceMap": true,

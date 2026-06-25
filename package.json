@@ -1,14 +1,20 @@
 {
   "name": "jest-marbles",
-  "version": "3.1.1",
+  "version": "3.2.0",
   "description": "Marble testing helpers library for RxJs and Jest",
-  "main": "dist/umd/jest-marbles.js",
-  "module": "dist/lib/index.js",
-  "es2015": "dist/lib-esm/index.js",
-  "typings": "dist/typings/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "typings": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/meltedspark/jest-marbles"
+    "url": "https://github.com/just-jeb/jest-marbles"
   },
   "author": "Evgeny Barabanov",
   "license": "MIT",
@@ -26,18 +32,17 @@
   ],
   "scripts": {
     "e2e": "jest --config=e2e/jest-browser.config.js && jest --config=e2e/jest-node.config.js",
-    "cleanup": "shx rm -rf umd lib lib-esm lib-fesm typings coverage docs",
+    "cleanup": "shx rm -rf dist coverage api-docs",
     "prebuild": "npm run cleanup && npm run verify",
     "postbuild": "npm run e2e",
-    "build": "tsc && tsc --target es2017 --outDir dist/lib-esm && webpack && webpack --env prod",
-    "build:fesm:min": "uglifyjs lib-fesm/index.js --compress --mangle --source-map --output lib-fesm/index.min.js",
-    "docs": "typedoc -p . --theme minimal --target 'es6' --excludeNotExported --excludePrivate --ignoreCompilerErrors --exclude \"**/src/**/__tests__/*.*\" --out docs src/",
+    "build": "tsup",
+    "docs": "typedoc -p . --theme minimal --target 'es6' --excludeNotExported --excludePrivate --ignoreCompilerErrors --exclude \"**/src/**/__tests__/*.*\" --out api-docs src/",
     "test": "jest",
     "test:watch": "npm test -- --watch",
     "test:coverage": "npm test -- --coverage",
     "test:only-changed": "npm test -- --bail --onlyChanged",
-    "eslint": "eslint --ext .ts,.tsx ./src ./spec",
-    "eslint:fix": "npm run eslint -- --fix",
+    "eslint": "eslint ./src ./spec ./index.ts",
+    "eslint:fix": "eslint --fix ./src ./spec ./index.ts",
     "verify": "npm run eslint && npm test",
     "cz": "git-cz",
     "prerelease": "npm run build",
@@ -46,16 +51,11 @@
     "release:github": "git push --follow-tags origin master",
     "release:npm": "npm publish",
     "release:preflight:package": "npm pack",
-    "size": "shx echo \"Gzipped Size:\" && cross-var strip-json-comments --no-whitespace $npm_package_main | gzip-size",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
-    },
-    "validate-commit-msg": {
-      "types": "conventional-commit-types",
-      "maxSubjectLength": 120
     }
   },
   "lint-staged": {
@@ -68,18 +68,19 @@
     "testRegex": "/spec/.*\\.(ts|tsx|js)$"
   },
   "devDependencies": {
+    "@commitlint/cli": "19.8.1",
+    "@commitlint/config-conventional": "19.8.1",
     "@types/jest": "29.5.14",
-    "@types/node": "^20.0.0",
-    "@typescript-eslint/eslint-plugin": "7.18.0",
-    "@typescript-eslint/parser": "7.18.0",
+    "@types/node": "^22.0.0",
+    "@typescript-eslint/eslint-plugin": "8.62.0",
+    "@typescript-eslint/parser": "8.62.0",
     "commitizen": "^4.0.2",
-    "cross-var": "^1.1.0",
     "cz-conventional-changelog": "^3.0.2",
-    "eslint": "8.57.1",
-    "eslint-config-prettier": "9.1.2",
+    "eslint": "9.39.4",
+    "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.6",
-    "gzip-size-cli": "^4.0.0",
-    "husky": "^8.0.0",
+    "globals": "17.7.0",
+    "husky": "9.1.7",
     "jest": "29.7.0",
     "jest-environment-jsdom": "29.7.0",
     "lint-staged": "17.0.8",
@@ -87,14 +88,10 @@
     "rxjs": "7.8.2",
     "shx": "^0.4.0",
     "standard-version": "^9.0.0",
-    "strip-json-comments-cli": "^1.0.1",
     "ts-jest": "29.4.11",
-    "ts-loader": "^9.3.1",
-    "typescript": "4.9.5",
-    "validate-commit-msg": "^2.14.0",
-    "webpack": "5.107.2",
-    "webpack-cli": "5.1.4",
-    "webpack-config-utils": "2.3.1"
+    "tsup": "^8.0.0",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.62.0"
   },
   "peerDependencies": {
     "rxjs": "^7.0.0"
