@@ -12,6 +12,14 @@
       "require": "./dist/index.js"
     }
   },
+  "files": [
+    "dist",
+    "src",
+    "index.ts"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/just-jeb/jest-marbles"
@@ -44,12 +52,11 @@
     "eslint:fix": "eslint --fix ./src ./spec ./index.ts",
     "verify": "yarn eslint && yarn test",
     "cz": "git-cz",
-    "prerelease": "yarn build",
-    "release": "standard-version --sign",
-    "postrelease": "yarn release:github && yarn release:npm",
+    "prepack": "yarn build",
+    "release": "yarn ci && standard-version --sign && yarn release:github && yarn release:npm",
     "release:github": "git push --follow-tags origin master",
-    "release:npm": "npm publish",
-    "release:preflight:package": "npm pack",
+    "release:npm": "yarn npm publish",
+    "release:preflight:package": "yarn pack",
     "prepare": "husky"
   },
   "config": {
