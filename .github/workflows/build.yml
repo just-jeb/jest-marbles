@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
+      matrix:
+        rxjs-version: ['7', '8']
 
     steps:
       - uses: actions/checkout@v7
@@ -25,6 +27,9 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --immutable
+
+      - name: Install rxjs@${{ matrix.rxjs-version }}
+        run: yarn add --dev rxjs@${{ matrix.rxjs-version }}
 
       - name: Build and test
         run: yarn ci
