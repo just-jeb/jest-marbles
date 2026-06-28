@@ -70,18 +70,17 @@
     ]
   },
   "jest": {
-    "preset": "ts-jest",
     "testRegex": "/spec/.*\\.(ts|tsx|js)$",
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/.claude/"
     ],
-    "globals": {
-      "ts-jest": {
+    "transform": {
+      "^.+\\.tsx?$": ["ts-jest", {
         "tsconfig": {
           "types": ["jest", "node"]
         }
-      }
+      }]
     }
   },
   "devDependencies": {
