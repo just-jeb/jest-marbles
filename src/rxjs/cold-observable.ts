@@ -1,19 +1,19 @@
 import { Observable } from 'rxjs';
-import { TestScheduler } from 'rxjs/testing';
+import { ColdObservable as RxColdObservable } from 'rxjs/internal/testing/ColdObservable';
 import { SubscriptionLog } from '../rxjs/types';
 
 import { Scheduler } from './scheduler';
 
-export class ColdObservable extends Observable<any> {
-  source: ReturnType<TestScheduler['createColdObservable']>;
+export class ColdObservable<T = unknown> extends Observable<T> {
+  source: RxColdObservable<T>;
   constructor(
     public marbles: string,
-    public values?: Record<string, any>,
+    public values?: Record<string, T>,
     public error?: any
   ) {
     super();
 
-    this.source = Scheduler.get().createColdObservable(marbles, values, error);
+    this.source = Scheduler.get().createColdObservable<T>(marbles, values, error);
   }
 
   getSubscriptions(): SubscriptionLog[] {

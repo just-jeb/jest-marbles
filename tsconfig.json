@@ -10,6 +10,8 @@
       "es2017",
       "es2020"
     ],
+    "types": ["jest"],
+    "ignoreDeprecations": "6.0",
     "strict": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,

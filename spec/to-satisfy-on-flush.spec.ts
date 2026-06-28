@@ -9,4 +9,13 @@ describe('toSatisfyOnFlush', () => {
       expect(mock).toHaveBeenCalledTimes(4);
     });
   });
+
+  it('should throw when negated', () => {
+    const stream$ = cold('a|');
+    expect(() => {
+      expect(stream$).not.toSatisfyOnFlush(() => {
+        // intentionally empty
+      });
+    }).toThrow('toSatisfyOnFlush cannot be negated');
+  });
 });

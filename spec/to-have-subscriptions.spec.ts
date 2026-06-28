@@ -43,11 +43,6 @@ describe('toHaveSubscriptions matcher', () => {
     expect(x).toHaveNoSubscriptions();
   });
 
-  // it('Should verify that there is at least one subscription', () => {
-  //   const x = cold('--a---b---c--|');
-  //   expect(x).not.toHaveNoSubscriptions();
-  // });
-
   it('Should ignore whitespace to allow vertical alignment', () => {
     const x = hot('          -----a|');
     const expected = '       -----a|';
@@ -56,5 +51,24 @@ describe('toHaveSubscriptions matcher', () => {
     expect(x).toBeMarble(expected);
     expect(x).toHaveSubscriptions(xSubscription);
     expect(x).toHaveSubscriptions([xSubscription]);
+  });
+
+  describe('.not negation', () => {
+    it('Should pass when observable has different subscription points than asserted', () => {
+      const x = cold('--a---b---c--|');
+      const y = cold('----x|', { x });
+      const wrongSub = '----^--------!';
+
+      expect(y.pipe(switchAll())).toBeMarble('------a---b---c--|');
+      // x is subscribed at frame 4 (when y emits x), not matching wrongSub
+      expect(x).not.toHaveSubscriptions(wrongSub);
+    });
+
+    it('toHaveNoSubscriptions should throw when negated', () => {
+      const x = cold('--a|');
+      expect(() => {
+        expect(x).not.toHaveNoSubscriptions();
+      }).toThrow('toHaveNoSubscriptions cannot be negated');
+    });
   });
 });
