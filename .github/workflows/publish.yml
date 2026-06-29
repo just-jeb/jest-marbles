@@ -27,8 +27,8 @@ jobs:
       - name: Build and test
         run: yarn ci
 
-      - name: Update npm to latest
-        run: npm install -g npm@latest
+      - name: Update npm (Node 22 bundles npm 10 which lacks OIDC Trusted Publishers; npm 11+ has it)
+        run: npm install -g npm@^11
 
       - name: Publish to npm
-        run: npm publish --provenance --access public --verbose
+        run: npm publish --provenance --access public
