@@ -1,6 +1,13 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
+
+## [3.2.1](https://github.com/just-jeb/jest-marbles/compare/v3.1.1...v3.2.1) (2026-06-29)
+
+
+### Bug Fixes
+
+* **types:** add generics to cold/hot, fix .not negation ([#551](https://github.com/just-jeb/jest-marbles/issues/551), [#15](https://github.com/just-jeb/jest-marbles/issues/15)) ([#666](https://github.com/just-jeb/jest-marbles/issues/666)) ([bd8438a](https://github.com/just-jeb/jest-marbles/commit/bd8438a7c7b75ad06876d9c92704ab130d054c1a))
 
 ### [3.1.1](https://github.com/meltedspark/jest-marbles/compare/v3.1.0...v3.1.1) (2025-05-20)
 

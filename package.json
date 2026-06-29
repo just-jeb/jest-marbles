@@ -1,6 +1,6 @@
 {
   "name": "jest-marbles",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "Marble testing helpers library for RxJs and Jest",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -76,11 +76,17 @@
       "/.claude/"
     ],
     "transform": {
-      "^.+\\.tsx?$": ["ts-jest", {
-        "tsconfig": {
-          "types": ["jest", "node"]
+      "^.+\\.tsx?$": [
+        "ts-jest",
+        {
+          "tsconfig": {
+            "types": [
+              "jest",
+              "node"
+            ]
+          }
         }
-      }]
+      ]
     }
   },
   "devDependencies": {
