@@ -27,5 +27,12 @@ jobs:
       - name: Build and test
         run: yarn ci
 
+      - name: Debug OIDC environment
+        run: |
+          echo "npm version: $(npm --version)"
+          echo "OIDC URL set: ${ACTIONS_ID_TOKEN_REQUEST_URL:+yes (present)}"
+          echo "OIDC TOKEN set: ${ACTIONS_ID_TOKEN_REQUEST_TOKEN:+yes (present)}"
+          npm config list --json | grep -E "registry|_authToken" || true
+
       - name: Publish to npm
-        run: npm publish --provenance
+        run: npm publish --provenance --access public
