@@ -70,8 +70,18 @@
     ]
   },
   "jest": {
-    "preset": "ts-jest",
-    "testRegex": "/spec/.*\\.(ts|tsx|js)$"
+    "testRegex": "/spec/.*\\.(ts|tsx|js)$",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/.claude/"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": ["ts-jest", {
+        "tsconfig": {
+          "types": ["jest", "node"]
+        }
+      }]
+    }
   },
   "devDependencies": {
     "@commitlint/cli": "19.8.1",

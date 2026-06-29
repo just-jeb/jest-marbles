@@ -113,8 +113,21 @@ describe('toBeObservable matcher test', () => {
     expect(source).toBeObservable(expected);
   });
 
-  // TODO: uncomment once .not.toBeObservable works
-  // it('Should fail on different errors', () => {
-  //   expect(cold('#', {}, 'A')).not.toBeObservable(cold('#', {}, 'B'))
-  // })
+  describe('.not negation', () => {
+    it('Should pass when observables differ (different marble strings)', () => {
+      expect(cold('-a|')).not.toBeObservable(cold('-b|'));
+    });
+
+    it('Should pass when observables differ (different timing)', () => {
+      expect(cold('-a|')).not.toBeObservable(cold('--a|'));
+    });
+
+    it('Should pass on different errors', () => {
+      expect(cold('#', {}, 'A')).not.toBeObservable(cold('#', {}, 'B'));
+    });
+
+    it('Should pass when hot observable differs from cold', () => {
+      expect(hot('-a-|')).not.toBeObservable(cold('--a|'));
+    });
+  });
 });
