@@ -5025,7 +5025,7 @@ __metadata:
     typescript: "npm:5.9.3"
     typescript-eslint: "npm:8.62.0"
   peerDependencies:
-    rxjs: ^7.0.0
+    rxjs: ">=7 <9"
   languageName: unknown
   linkType: soft
 
