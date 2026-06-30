@@ -40,6 +40,10 @@ export class Scheduler {
     return (Scheduler.get() as any)['flushTests'];
   }
 
+  public static captureAnimate(animate: (marbles: string) => void): void {
+    Scheduler.currentAnimate = animate;
+  }
+
   public static markLastNegated(): void {
     const tests = Scheduler.flushTests();
     tests[tests.length - 1][NEGATED] = true;
