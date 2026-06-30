@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.2.2](https://github.com/just-jeb/jest-marbles/compare/v3.2.1...v3.2.2) (2026-06-30)
+
 ## [3.2.1](https://github.com/just-jeb/jest-marbles/compare/v3.1.1...v3.2.1) (2026-06-29)
 
 
