@@ -4,11 +4,18 @@ import { TestScheduler } from 'rxjs/testing';
 
 import { assertDeepEqual } from './assert-deep-equal';
 
+const NEGATED = Symbol('jest-marbles-negated');
+
 export class Scheduler {
   public static instance: TestScheduler | null;
 
+  private static onFlush: (() => void)[] = [];
+  private static currentAnimate: ((marbles: string) => void) | null = null;
+
   public static init(): void {
     Scheduler.instance = new TestScheduler(assertDeepEqual);
+    Scheduler.onFlush = [];
+    Scheduler.currentAnimate = null;
   }
 
   public static get(): TestScheduler {
@@ -20,6 +27,70 @@ export class Scheduler {
 
   public static reset(): void {
     Scheduler.instance = null;
+    Scheduler.currentAnimate = null;
+  }
+
+  private static flushTests(): any[] {
+    return (Scheduler.get() as any)['flushTests'];
+  }
+
+  public static markLastNegated(): void {
+    const tests = Scheduler.flushTests();
+    tests[tests.length - 1][NEGATED] = true;
+  }
+
+  public static markLastReady(): void {
+    const tests = Scheduler.flushTests();
+    tests[tests.length - 1].ready = true;
+  }
+
+  public static queueOnFlush(fn: () => void): void {
+    Scheduler.onFlush.push(fn);
+  }
+
+  private static installNegationAwareAssert(): void {
+    const scheduler = Scheduler.get();
+    const flushTests = Scheduler.flushTests();
+    const hasNegated = flushTests.some((t) => t[NEGATED]);
+    if (!hasNegated) {
+      return;
+    }
+    const negatedSet = new WeakSet<object>(flushTests.filter((t) => t[NEGATED]));
+    const readyTests = flushTests.filter((t) => t.ready);
+    let callIndex = 0;
+
+    (scheduler as any).assertDeepEqual = (actual: any, expected: any) => {
+      const test = readyTests[callIndex++];
+      if (test && negatedSet.has(test)) {
+        let threw = false;
+        try {
+          assertDeepEqual(actual, expected);
+        } catch {
+          threw = true;
+        }
+        if (!threw) {
+          throw new Error(
+            'Expected observables to differ, but they matched.\n' +
+              `  Received: ${JSON.stringify(actual)}\n` +
+              `  Not expected: ${JSON.stringify(expected)}`
+          );
+        }
+      } else {
+        assertDeepEqual(actual, expected);
+      }
+    };
+  }
+
+  public static teardown(): void {
+    const scheduler = Scheduler.get();
+    Scheduler.installNegationAwareAssert();
+    scheduler.run(() => {
+      TestScheduler.frameTimeFactor = 10;
+    });
+    while (Scheduler.onFlush.length > 0) {
+      Scheduler.onFlush.shift()?.();
+    }
+    Scheduler.reset();
   }
 
   public static materializeInnerObservable(observable: Observable<any>, outerFrame: number): TestMessages {
