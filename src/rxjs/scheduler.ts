@@ -44,6 +44,13 @@ export class Scheduler {
     Scheduler.currentAnimate = animate;
   }
 
+  public static animate(marbles: string): void {
+    if (!Scheduler.currentAnimate) {
+      throw new Error('animate() can only be used inside marbleTest()');
+    }
+    Scheduler.currentAnimate(marbles);
+  }
+
   public static markLastNegated(): void {
     const tests = Scheduler.flushTests();
     tests[tests.length - 1][NEGATED] = true;

@@ -8,6 +8,7 @@ export type ObservableWithSubscriptions = ColdObservable<any> | HotObservable<an
 
 export { Scheduler } from './src/rxjs/scheduler';
 export { marbleTest } from './src/marble-test';
+export { animate } from './src/animate';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
