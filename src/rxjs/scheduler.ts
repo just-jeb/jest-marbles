@@ -54,7 +54,7 @@ export class Scheduler {
     Scheduler.onFlush.push(fn);
   }
 
-  private static installNegationAwareAssert(): void {
+  public static installNegationAwareAssert(): void {
     const scheduler = Scheduler.get();
     const flushTests = Scheduler.flushTests();
     const hasNegated = flushTests.some((t) => t[NEGATED]);
