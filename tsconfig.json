@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "module": "esnext",
     "target": "es5",
     "lib": [
@@ -21,6 +21,10 @@
     "declarationDir": "dist/typings",
     "stripInternal": true,
     "skipLibCheck": true,
+    // tsup forces baseUrl:"." into its DTS build (rollup.js, dtsPlugin call),
+    // which TS6 deprecates. We can't override it from here, so silence it until
+    // tsup stops injecting baseUrl. Remove when that's fixed upstream.
+    "ignoreDeprecations": "6.0"
   },
   "files": [
     "index.ts"
