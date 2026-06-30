@@ -94,8 +94,8 @@
     "@commitlint/config-conventional": "21.1.0",
     "@types/jest": "30.0.0",
     "@types/node": "^24.0.0",
-    "@typescript-eslint/eslint-plugin": "8.62.0",
-    "@typescript-eslint/parser": "8.62.0",
+    "@typescript-eslint/eslint-plugin": "8.62.1",
+    "@typescript-eslint/parser": "8.62.1",
     "commit-and-tag-version": "^12.7.3",
     "commitizen": "^4.0.2",
     "cz-conventional-changelog": "^3.0.2",
@@ -113,7 +113,7 @@
     "ts-jest": "29.4.11",
     "tsup": "^8.0.0",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.62.0"
+    "typescript-eslint": "8.62.1"
   },
   "peerDependencies": {
     "rxjs": "^7.0.0"
