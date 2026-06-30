@@ -11,11 +11,17 @@ export class Scheduler {
 
   private static onFlush: (() => void)[] = [];
   private static currentAnimate: ((marbles: string) => void) | null = null;
+  private static prevFrameTimeFactor = 0;
 
   public static init(): void {
-    Scheduler.instance = new TestScheduler(assertDeepEqual);
+    const scheduler = new TestScheduler(assertDeepEqual);
+    (scheduler as any).runMode = true;
+    scheduler.maxFrames = Infinity;
+    Scheduler.instance = scheduler;
     Scheduler.onFlush = [];
     Scheduler.currentAnimate = null;
+    Scheduler.prevFrameTimeFactor = TestScheduler.frameTimeFactor;
+    TestScheduler.frameTimeFactor = 1;
   }
 
   public static get(): TestScheduler {
@@ -85,11 +91,12 @@ export class Scheduler {
     const scheduler = Scheduler.get();
     Scheduler.installNegationAwareAssert();
     scheduler.run(() => {
-      TestScheduler.frameTimeFactor = 10;
+      /* run() forces frameTimeFactor = 1 internally; no override needed */
     });
     while (Scheduler.onFlush.length > 0) {
       Scheduler.onFlush.shift()?.();
     }
+    TestScheduler.frameTimeFactor = Scheduler.prevFrameTimeFactor;
     Scheduler.reset();
   }
 
