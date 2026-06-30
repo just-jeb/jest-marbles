@@ -65,6 +65,10 @@ export class Scheduler {
     Scheduler.onFlush.push(fn);
   }
 
+  public static clearFlushTests(): void {
+    Scheduler.flushTests().length = 0;
+  }
+
   public static installNegationAwareAssert(): void {
     const scheduler = Scheduler.get();
     const flushTests = Scheduler.flushTests();
