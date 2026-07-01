@@ -28,8 +28,11 @@ v4 runs rxjs's `TestScheduler` in **run mode**:
 - **Time operators use real virtual time.** For example, `debounceTime(250)` on
   `cold('a 250ms b|')` yields `cold('250ms a 1ms (b|)')` — `a` debounces out
   at 250ms and `b` flushes on completion 1ms later.
-- **New `marbleTest`** for tests that need `animate()`, virtualized
-  `setTimeout`/`Date.now`, or imperative time control:
+- **New `marbleTest`** for tests that need `animate()`, or that exercise
+  operators using RxJS's default scheduler (`delay`, `timer`, `interval`,
+  `debounceTime`, …) so they resolve against virtual time. Note: it virtualizes
+  RxJS's own schedulers, **not** the global `setTimeout`/`Date.now` — raw calls
+  to those in code under test still run in real time.
 
 ```js
 it('drives animationFrames', marbleTest(() => {
@@ -208,7 +211,7 @@ Use `Nms`, `Ns`, or `Nm` inside a marble string to express large durations witho
 ```
 
 ## marbleTest
-Wraps a test body in a real `TestScheduler.run()` context. Use this when you need `animate()`, virtualized `setTimeout`/`Date.now`, or imperative time control. Pass the return value directly to `it`:
+Wraps a test body in a real `TestScheduler.run()` context. Use this when you need `animate()`, or when the code under test uses operators backed by RxJS's default scheduler (`delay`, `timer`, `interval`, `debounceTime`, …) and you want them to resolve against virtual time. It virtualizes RxJS's schedulers only — not the global `setTimeout`/`Date.now`. Pass the return value directly to `it`:
 ```js
   it(
     'runs assertions inside a real run() context',
