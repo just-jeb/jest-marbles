@@ -89,14 +89,16 @@ describe('toBeObservable matcher test', () => {
 
     schedule(() => source.next('a'), 1);
     schedule(() => source.next('b'), 2);
-    const expected = cold('ab');
+    // With 1ms frames: schedule(fn, 1) fires at 1ms (frame 1), schedule(fn, 2) at 2ms (frame 2)
+    const expected = cold('-ab');
 
     expect(source).toBeObservable(expected);
   });
 
   it('Should work with delays', () => {
     const source = cold('a');
-    const expected = cold('--a');
+    // delay(20) shifts by 20ms; with 1ms frames the expected marble uses time-progression syntax
+    const expected = cold('20ms a');
 
     expect(source.pipe(delay(20))).toBeObservable(expected);
   });

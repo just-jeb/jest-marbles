@@ -15,8 +15,31 @@ This library will help you to test your reactive code in easy and clear way.
  - RxJs
  - Familiarity with [marbles syntax](https://rxjs.dev/guide/testing/marble-testing#marble-syntax)
 
-# Not supported (but planning to)
- - Time progression syntax
+# v4 migration (run mode)
+
+v4 runs rxjs's `TestScheduler` in **run mode**:
+
+- **Frames are 1ms each (was 10).** `time('--|')` now returns `2`, not `20`.
+  Re-baseline any hard-coded frame numbers.
+- **Marble diagrams are unchanged** — `cold('--a--b|')` vs `cold('--a--b|')`
+  still passes; both sides shift by the same factor.
+- **`TestScheduler.frameTimeFactor` is no longer honored.** Express durations
+  with time-progression syntax: `cold('a 250ms b|')`.
+- **Time operators use real virtual time.** For example, `debounceTime(250)` on
+  `cold('a 250ms b|')` yields `cold('250ms a 1ms (b|)')` — `a` debounces out
+  at 250ms and `b` flushes on completion 1ms later.
+- **New `marbleTest`** for tests that need `animate()`, or that exercise
+  operators using RxJS's default scheduler (`delay`, `timer`, `interval`,
+  `debounceTime`, …) so they resolve against virtual time. Note: it virtualizes
+  RxJS's own schedulers, **not** the global `setTimeout`/`Date.now` — raw calls
+  to those in code under test still run in real time.
+
+```js
+it('drives animationFrames', marbleTest(() => {
+  animate('--x--x');
+  expect(source$).toBeObservable(cold('--a--(b|)'));
+}));
+```
 
 # Usage
 
@@ -38,7 +61,7 @@ npm i jest-marbles@1 -D
 In the test file:
 
 ```js
-import {cold, hot, time, schedule} from 'jest-marbles';
+import { cold, hot, time, schedule, marbleTest, animate } from 'jest-marbles';
 ```
 
 Inside the test:
@@ -176,6 +199,43 @@ Allows you to schedule task on specified frame
 
     expect(source).toBeObservable(expected);
   });
+```
+
+## time-progression syntax
+Use `Nms`, `Ns`, or `Nm` inside a marble string to express large durations without drawing every frame:
+```js
+  it('debounces emissions', marbleTest(() => {
+    const src = cold('a 250ms b|');
+    expect(src.pipe(debounceTime(250))).toBeObservable(cold('250ms a 1ms (b|)'));
+  }));
+```
+
+## marbleTest
+Wraps a test body in a real `TestScheduler.run()` context. Use this when you need `animate()`, or when the code under test uses operators backed by RxJS's default scheduler (`delay`, `timer`, `interval`, `debounceTime`, …) and you want them to resolve against virtual time. It virtualizes RxJS's schedulers only — not the global `setTimeout`/`Date.now`. Pass the return value directly to `it`:
+```js
+  it(
+    'runs assertions inside a real run() context',
+    marbleTest(() => {
+      const src = cold('a 250ms b|');
+      expect(src.pipe(debounceTime(250))).toBeObservable(cold('250ms a 1ms (b|)'));
+    })
+  );
+```
+
+## animate
+Only valid inside `marbleTest`. Drives `animationFrames`-based timing by scheduling virtual animation-frame ticks at the positions marked in the marble string:
+```js
+  it(
+    'drives animationFrames-based timing',
+    marbleTest(() => {
+      animate('--x--x');
+      const src = animationFrames().pipe(
+        map(({ elapsed }) => elapsed),
+        take(2)
+      );
+      expect(src).toBeObservable(cold('--a--(b|)', { a: 2, b: 5 }));
+    })
+  );
 ```
 
 

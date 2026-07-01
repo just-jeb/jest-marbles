@@ -3,7 +3,7 @@ import { MarblesGlossary } from './marbles-glossary';
 import { NotificationEvent } from './notification-event';
 import { NotificationKindChars, ValueLiteral } from './notification-kind';
 
-const frameStep = 10;
+const frameStep = 1;
 
 export class Marblizer {
   public static marblize(messages: TestMessages): string {
