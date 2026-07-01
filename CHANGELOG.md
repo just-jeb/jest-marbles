@@ -2,6 +2,43 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [4.0.0](https://github.com/just-jeb/jest-marbles/compare/v3.3.0...v4.0.0) (2026-07-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* marble frames are now 1ms each (was 10). time('--|') returns 2, not 20.
+TestScheduler.frameTimeFactor is no longer honored — use Nms time-progression syntax.
+
+Re-baselined: Marblizer.frameStep 10→1; spec frame values ÷10; delay(20) expects
+'20ms a'; schedule test expects '-ab'.
+
+* refactor: expose installNegationAwareAssert for reuse by marbleTest
+
+* feat: add marbleTest wrapper for run-mode tests
+
+* feat: add animate() global for animationFrames testing inside marbleTest
+
+* test: verify default-scheduler operators virtualize inside marbleTest
+
+* docs: document run-mode timing, time-progression syntax, and marbleTest (v4)
+
+* fix: clear residual flushTests after marbleTest run to prevent double-assert
+
+A negated assertion that fails inside marbleTest threw during run()'s flush
+AND again in afterEach teardown, because rxjs's flush() leaves the flushTest
+in place when the assert callback throws. marbleTest now clears pending
+flushTests in a finally so teardown cannot re-assert residue. Adds the
+negation-parity spec that exposed this.
+
+* test: pin single-throw negation and fake setTimeout/Date.now virtualization
+
+* docs: correct marbleTest virtualization claim (RxJS providers, not global setTimeout/Date.now)
+
+### Features
+
+* time progression / run mode (v4) — closes [#117](https://github.com/just-jeb/jest-marbles/issues/117) ([#674](https://github.com/just-jeb/jest-marbles/issues/674)) ([cb6fc17](https://github.com/just-jeb/jest-marbles/commit/cb6fc17c81e48e138f7507b52018e1caf94c0ccb))
+
 ## [3.3.0](https://github.com/just-jeb/jest-marbles/compare/v3.2.2...v3.3.0) (2026-06-30)
 
 
