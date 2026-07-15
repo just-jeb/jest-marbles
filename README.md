@@ -201,6 +201,8 @@ Allows you to schedule task on specified frame
   });
 ```
 
+> **Note:** calling `.next()` directly on a plain `Subject` inside the test body runs immediately, before `TestScheduler` ever subscribes during its deferred flush — the emission is silently dropped. Always drive manual emissions through `schedule()` (above) so they execute at the right point in virtual time.
+
 ## time-progression syntax
 Use `Nms`, `Ns`, or `Nm` inside a marble string to express large durations without drawing every frame:
 ```js
