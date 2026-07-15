@@ -115,6 +115,13 @@ describe('toBeObservable matcher test', () => {
     expect(source).toBeObservable(expected);
   });
 
+  it('should not throw for merged cold observables producing adjacent grouped emissions (#406)', () => {
+    const values = { a: 1, b: 2, c: 3, d: 4 };
+    const base = merge(cold('-ac', values), cold('-bd', values));
+
+    expect(base).toBeObservable(cold('-(ab)(cd)', values));
+  });
+
   describe('.not negation', () => {
     it('Should pass when observables differ (different marble strings)', () => {
       expect(cold('-a|')).not.toBeObservable(cold('-b|'));

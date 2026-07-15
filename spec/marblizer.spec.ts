@@ -59,4 +59,18 @@ describe('Marblizer test', () => {
     ]);
     expect(marble).toEqual(['---^--!', '-^---!']);
   });
+
+  it('Should not throw for adjacent grouped emissions with a negative computed gap (#406)', () => {
+    // Two 2-value groups one frame apart: group at frame 1 reports end=1+4=5,
+    // group at frame 2 has start=2, so the naive gap is 2-5=-3.
+    const sample: TestMessages = [
+      { frame: 1, notification: { kind: 'N', value: 'a' } },
+      { frame: 1, notification: { kind: 'N', value: 'b' } },
+      { frame: 2, notification: { kind: 'N', value: 'c' } },
+      { frame: 2, notification: { kind: 'N', value: 'd' } },
+    ];
+
+    const marble = Marblizer.marblize(sample);
+    expect(marble).toEqual('-(ab)(cd)');
+  });
 });

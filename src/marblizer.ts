@@ -11,7 +11,7 @@ export class Marblizer {
     let marbles = '';
     for (let i = 0, prevEndFrame = 0; i < emissions.length; prevEndFrame = emissions[i].end, i++) {
       marbles = `${marbles}${
-        MarblesGlossary.TimeFrame.repeat(emissions[i].start - prevEndFrame) + emissions[i].marbles
+        MarblesGlossary.TimeFrame.repeat(Math.max(0, emissions[i].start - prevEndFrame)) + emissions[i].marbles
       }`;
     }
     return marbles;
