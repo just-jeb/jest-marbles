@@ -1,4 +1,4 @@
-import { delay, merge, Subject, switchMap, timer } from 'rxjs';
+import { delay, merge, of, Subject, switchMap, timer } from 'rxjs';
 import { concat, mapTo } from 'rxjs/operators';
 import { cold, hot, schedule, Scheduler, time } from '../index';
 
@@ -120,6 +120,12 @@ describe('toBeObservable matcher test', () => {
     const base = merge(cold('-ac', values), cold('-bd', values));
 
     expect(base).toBeObservable(cold('-(ab)(cd)', values));
+  });
+
+  it('throws a clear error when expected is a plain observable without marble metadata (#65)', () => {
+    expect(() => {
+      expect(of('foo')).toBeObservable(of('bar') as any);
+    }).toThrow(/cold\(\) or hot\(\)/);
   });
 
   describe('.not negation', () => {

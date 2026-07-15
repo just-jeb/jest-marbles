@@ -84,6 +84,13 @@ expect.extend({
   },
 
   toBeObservable(actual: Observable<unknown>, expected: ObservableWithSubscriptions) {
+    if (typeof expected?.marbles !== 'string') {
+      throw new Error(
+        'toBeObservable() expected argument must be created via cold() or hot() — ' +
+          'received a plain Observable with no marble metadata. ' +
+          "Wrap it, e.g. cold('(a|)', { a: value }), or compare plain observables via firstValueFrom()/lastValueFrom() instead."
+      );
+    }
     if (this.isNot) {
       Scheduler.expectObservable(actual).toBe(expected.marbles, expected.values, expected.error);
       Scheduler.markObservableNegated(actual);
