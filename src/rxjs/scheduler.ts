@@ -12,6 +12,10 @@ export class Scheduler {
   private static onFlush: (() => void)[] = [];
   private static currentAnimate: ((marbles: string) => void) | null = null;
   private static prevFrameTimeFactor = 0;
+  // Known limitation: matching the same observable with two different expected marbles (e.g. two
+  // `toBeObservable` calls with different `expected` args) reuses the first cached flush-test and the
+  // second `.toBe()` call silently overwrites the first's expected assertion — an unusual, out-of-scope
+  // usage pattern, not fixed here.
   private static observableCache = new WeakMap<Observable<any>, { result: any; flushTest: any }>();
 
   public static init(): void {
