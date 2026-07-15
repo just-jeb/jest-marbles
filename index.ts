@@ -85,21 +85,21 @@ expect.extend({
 
   toBeObservable(actual: Observable<unknown>, expected: ObservableWithSubscriptions) {
     if (this.isNot) {
-      Scheduler.get().expectObservable(actual).toBe(expected.marbles, expected.values, expected.error);
-      Scheduler.markLastNegated();
+      Scheduler.expectObservable(actual).toBe(expected.marbles, expected.values, expected.error);
+      Scheduler.markObservableNegated(actual);
       return dummyFail;
     }
-    Scheduler.get().expectObservable(actual).toBe(expected.marbles, expected.values, expected.error);
+    Scheduler.expectObservable(actual).toBe(expected.marbles, expected.values, expected.error);
     return dummyPass;
   },
 
   toBeMarble(actual: ObservableWithSubscriptions, marbles: string) {
     if (this.isNot) {
-      Scheduler.get().expectObservable(actual).toBe(stripAlignmentChars(marbles));
-      Scheduler.markLastNegated();
+      Scheduler.expectObservable(actual).toBe(stripAlignmentChars(marbles));
+      Scheduler.markObservableNegated(actual);
       return dummyFail;
     }
-    Scheduler.get().expectObservable(actual).toBe(stripAlignmentChars(marbles));
+    Scheduler.expectObservable(actual).toBe(stripAlignmentChars(marbles));
     return dummyPass;
   },
 
@@ -107,8 +107,8 @@ expect.extend({
     if (this.isNot) {
       throw new Error('toSatisfyOnFlush cannot be negated');
     }
-    Scheduler.get().expectObservable(actual);
-    Scheduler.markLastReady();
+    Scheduler.expectObservable(actual);
+    Scheduler.markObservableReady(actual);
     Scheduler.queueOnFlush(func);
     return dummyPass;
   },

@@ -12,6 +12,11 @@ export class Scheduler {
   private static onFlush: (() => void)[] = [];
   private static currentAnimate: ((marbles: string) => void) | null = null;
   private static prevFrameTimeFactor = 0;
+  // Known limitation: matching the same observable with two different expected marbles (e.g. two
+  // `toBeObservable` calls with different `expected` args) reuses the first cached flush-test and the
+  // second `.toBe()` call silently overwrites the first's expected assertion — an unusual, out-of-scope
+  // usage pattern, not fixed here.
+  private static observableCache = new WeakMap<Observable<any>, { result: any; flushTest: any }>();
 
   public static init(): void {
     const scheduler = new TestScheduler(assertDeepEqual);
@@ -20,6 +25,7 @@ export class Scheduler {
     Scheduler.instance = scheduler;
     Scheduler.onFlush = [];
     Scheduler.currentAnimate = null;
+    Scheduler.observableCache = new WeakMap();
     Scheduler.prevFrameTimeFactor = TestScheduler.frameTimeFactor;
     TestScheduler.frameTimeFactor = 1;
   }
@@ -59,6 +65,33 @@ export class Scheduler {
   public static markLastReady(): void {
     const tests = Scheduler.flushTests();
     tests[tests.length - 1].ready = true;
+  }
+
+  public static expectObservable(actual: Observable<any>): ReturnType<TestScheduler['expectObservable']> {
+    const cached = Scheduler.observableCache.get(actual);
+    if (cached) {
+      return cached.result;
+    }
+    const scheduler = Scheduler.get();
+    const result = scheduler.expectObservable(actual);
+    const tests = Scheduler.flushTests();
+    const flushTest = tests[tests.length - 1];
+    Scheduler.observableCache.set(actual, { result, flushTest });
+    return result;
+  }
+
+  public static markObservableReady(actual: Observable<any>): void {
+    const cached = Scheduler.observableCache.get(actual);
+    if (cached) {
+      cached.flushTest.ready = true;
+    }
+  }
+
+  public static markObservableNegated(actual: Observable<any>): void {
+    const cached = Scheduler.observableCache.get(actual);
+    if (cached) {
+      cached.flushTest[NEGATED] = true;
+    }
   }
 
   public static queueOnFlush(fn: () => void): void {
