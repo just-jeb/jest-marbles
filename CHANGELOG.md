@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [4.0.1](https://github.com/just-jeb/jest-marbles/compare/v4.0.0...v4.0.1) (2026-07-15)
+
+
+### Bug Fixes
+
+* **marblizer:** clamp negative frame gaps to prevent uncaught RangeError ([#406](https://github.com/just-jeb/jest-marbles/issues/406)) ([6c4dff7](https://github.com/just-jeb/jest-marbles/commit/6c4dff7c102629b84ccd57bf8a1811bdde775c6b))
+* **matchers:** throw a clear error when toBeObservable's expected lacks marble metadata ([#65](https://github.com/just-jeb/jest-marbles/issues/65)) ([9cc03ce](https://github.com/just-jeb/jest-marbles/commit/9cc03ce61805150e804f386c47448fb0bf90d66e))
+* **scheduler:** reuse a single subscription when multiple matchers target the same observable ([#395](https://github.com/just-jeb/jest-marbles/issues/395)) ([c211619](https://github.com/just-jeb/jest-marbles/commit/c211619f594ae256427102e86e849a6874964ee6))
+
 ## [4.0.0](https://github.com/just-jeb/jest-marbles/compare/v3.3.0...v4.0.0) (2026-07-01)
 
 
