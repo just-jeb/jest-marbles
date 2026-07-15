@@ -62,11 +62,6 @@ export class Scheduler {
     tests[tests.length - 1][NEGATED] = true;
   }
 
-  public static markLastReady(): void {
-    const tests = Scheduler.flushTests();
-    tests[tests.length - 1].ready = true;
-  }
-
   public static expectObservable(actual: Observable<any>): ReturnType<TestScheduler['expectObservable']> {
     const cached = Scheduler.observableCache.get(actual);
     if (cached) {
