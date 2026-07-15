@@ -123,8 +123,10 @@ describe('toBeObservable matcher test', () => {
   });
 
   it('throws a clear error when expected is a plain observable without marble metadata (#65)', () => {
+    const value = of('foo');
+    const expected = of('foo');
     expect(() => {
-      expect(of('foo')).toBeObservable(of('bar') as any);
+      expect(value).toBeObservable(expected as any);
     }).toThrow(/cold\(\) or hot\(\)/);
   });
 
