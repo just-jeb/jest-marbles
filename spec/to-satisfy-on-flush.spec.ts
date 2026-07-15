@@ -18,4 +18,15 @@ describe('toSatisfyOnFlush', () => {
       });
     }).toThrow('toSatisfyOnFlush cannot be negated');
   });
+
+  it('does not double-subscribe when toBeObservable also targets the same observable (#395)', () => {
+    const mock = jest.fn();
+    const coldObservable = cold('blah|');
+    const stream$ = coldObservable.pipe(tap(mock));
+
+    expect(stream$).toBeObservable(coldObservable);
+    expect(stream$).toSatisfyOnFlush(() => {
+      expect(mock).toHaveBeenCalledTimes(4);
+    });
+  });
 });
