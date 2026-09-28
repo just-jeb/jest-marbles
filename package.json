@@ -117,7 +117,7 @@
   },
   "resolutions": {
     "@istanbuljs/load-nyc-config/js-yaml": "3.15.0",
-    "esbuild": "0.28.1"
+    "esbuild": "0.28.2"
   },
   "peerDependencies": {
     "rxjs": ">=7 <9"
