@@ -111,7 +111,7 @@
     "rxjs": "7.8.2",
     "shx": "^0.4.0",
     "ts-jest": "29.4.15",
-    "tsup": "^8.0.0",
+    "tsup": "^9.0.0",
     "typescript": "6.0.3",
     "typescript-eslint": "8.71.2"
   },
