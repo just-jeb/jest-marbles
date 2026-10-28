@@ -93,7 +93,7 @@
     "@commitlint/cli": "21.2.4",
     "@commitlint/config-conventional": "21.2.4",
     "@types/jest": "30.0.0",
-    "@types/node": "^24.0.0",
+    "@types/node": "^26.0.0",
     "@typescript-eslint/eslint-plugin": "8.72.0",
     "@typescript-eslint/parser": "8.72.0",
     "commit-and-tag-version": "^12.7.3",
