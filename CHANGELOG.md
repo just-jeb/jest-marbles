@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [4.0.2](https://github.com/just-jeb/jest-marbles/compare/v4.0.1...v4.0.2) (2026-11-15)
+
+### Bug Fixes
+
+* **matchers:** compare values behind the marble string and count duplicate subscriptions ([#730](https://github.com/just-jeb/jest-marbles/issues/730)) ([c4b453c](https://github.com/just-jeb/jest-marbles/commit/c4b453c859d56a8cc1b7327eb508f0a6b9bacbb7)), closes [#729](https://github.com/just-jeb/jest-marbles/issues/729), references [#406](https://github.com/just-jeb/jest-marbles/issues/406)
+
 ## [4.0.1](https://github.com/just-jeb/jest-marbles/compare/v4.0.0...v4.0.1) (2026-07-15)
 
 
