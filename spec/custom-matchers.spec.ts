@@ -8,12 +8,12 @@ Marblizer.marblize = marblizeMock;
 
 const matcherContextMock: jest.MatcherContext = {
   utils: {
-    printRecieved: jest.fn(),
+    printReceived: jest.fn(),
     printExpected: jest.fn(),
     matcherHint: jest.fn(),
     diff: jest.fn(),
   },
-  equals: jest.fn((a, b) => a === b),
+  equals: jest.fn((a, b) => JSON.stringify(a) === JSON.stringify(b)),
 } as any;
 
 const { toBeSubscriptions, toBeNotifications, toHaveEmptySubscriptions } = customTestMatchers;
@@ -53,6 +53,24 @@ describe('toBeSubscriptions test', () => {
     const { pass } = toBeSubscriptions.call(matcherContextMock, actual, expected) as jest.CustomMatcherResult;
     expect(pass).toBeFalsy();
   });
+
+  it('Should fail if one expected subscription would have to match two identical actual subscriptions', () => {
+    marblizeSubscriptionsMock.mockReturnValueOnce(['^--!', '^--!']).mockReturnValueOnce(['^--!', '--^--!']);
+    const { pass } = toBeSubscriptions.call(matcherContextMock, actual, expected) as jest.CustomMatcherResult;
+    expect(pass).toBeFalsy();
+  });
+
+  it('Should fail if two identical expected subscriptions are matched by distinct actual subscriptions', () => {
+    marblizeSubscriptionsMock.mockReturnValueOnce(['^--!', '--^--!']).mockReturnValueOnce(['^--!', '^--!']);
+    const { pass } = toBeSubscriptions.call(matcherContextMock, actual, expected) as jest.CustomMatcherResult;
+    expect(pass).toBeFalsy();
+  });
+
+  it('Should pass if identical subscriptions appear the same number of times on both sides', () => {
+    marblizeSubscriptionsMock.mockReturnValueOnce(['^', '^--!', '^']).mockReturnValueOnce(['^--!', '^', '^']);
+    const { pass } = toBeSubscriptions.call(matcherContextMock, actual, expected) as jest.CustomMatcherResult;
+    expect(pass).toBeTruthy();
+  });
 });
 
 describe('toBeNotifications test', () => {
@@ -74,7 +92,7 @@ describe('toBeNotifications test', () => {
 
   it('Should pass if the expected notifications equal to the actual notifications', () => {
     marblizeMock.mockReturnValueOnce('---a---b|').mockReturnValueOnce('---a---b|');
-    const { pass } = toBeNotifications.call(matcherContextMock, actual, expected) as jest.CustomMatcherResult;
+    const { pass } = toBeNotifications.call(matcherContextMock, actual, actual) as jest.CustomMatcherResult;
     expect(pass).toBeTruthy();
   });
 
@@ -82,6 +100,25 @@ describe('toBeNotifications test', () => {
     marblizeMock.mockReturnValueOnce('---a---b|').mockReturnValueOnce('---a----b|');
     const { pass } = toBeNotifications.call(matcherContextMock, actual, expected) as jest.CustomMatcherResult;
     expect(pass).toBeFalsy();
+  });
+
+  it('Should fail if the marble strings match but the values differ, and show the notifications in the message', () => {
+    const numeric = [{ frame: 0, notification: { kind: 'N', value: 1 } as const }];
+    const textual = [{ frame: 0, notification: { kind: 'N', value: '1' } as const }];
+    marblizeMock.mockReturnValueOnce('1').mockReturnValueOnce('1');
+    (matcherContextMock.utils.diff as jest.Mock).mockClear();
+    const { pass, message } = toBeNotifications.call(matcherContextMock, numeric, textual) as jest.CustomMatcherResult;
+    expect(pass).toBeFalsy();
+    message();
+    expect(matcherContextMock.utils.diff).toHaveBeenCalledWith(textual, numeric, expect.anything());
+  });
+
+  it('Should show marble strings in the message when the strings differ', () => {
+    marblizeMock.mockReturnValueOnce('---a---b|').mockReturnValueOnce('---a----b|');
+    (matcherContextMock.utils.diff as jest.Mock).mockClear();
+    const { message } = toBeNotifications.call(matcherContextMock, actual, expected) as jest.CustomMatcherResult;
+    message();
+    expect(matcherContextMock.utils.diff).toHaveBeenCalledWith('---a----b|', '---a---b|', expect.anything());
   });
 
   it('Should call marblizer when all the values are characters and there is a completion notification', () => {

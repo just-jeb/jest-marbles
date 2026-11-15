@@ -1,6 +1,14 @@
 import { TestMessages, SubscriptionLog } from '../rxjs/types';
 import { Marblizer } from '../marblizer';
 
+function kindsAndValues(messages: TestMessages) {
+  return messages.map(({ notification }) => ({
+    kind: notification.kind,
+    value: notification.kind === 'N' ? notification.value : undefined,
+    error: notification.kind === 'E' ? notification.error : undefined,
+  }));
+}
+
 function canMarblize(...messages: TestMessages[]) {
   return messages.every(isMessagesMarblizable);
 }
@@ -24,11 +32,24 @@ export const customTestMatchers: jest.ExpectExtendMap = {
   toBeNotifications(actual: TestMessages, expected: TestMessages) {
     let actualMarble: string | TestMessages = actual;
     let expectedMarble: string | TestMessages = expected;
+    let pass: boolean;
     if (canMarblize(actual, expected)) {
-      actualMarble = Marblizer.marblize(actual);
-      expectedMarble = Marblizer.marblize(expected);
+      const actualString = Marblizer.marblize(actual);
+      const expectedString = Marblizer.marblize(expected);
+      // Comparing marble strings keeps the frame tolerance users rely on (an emission that lands inside
+      // a preceding group's span, see #406). The string is lossy about values, though: 1 and '1', or a
+      // '|' value and a completion, render the same. So the kinds and values are compared as well.
+      const marblesMatch = this.equals(actualString, expectedString);
+      pass = marblesMatch && this.equals(kindsAndValues(actual), kindsAndValues(expected));
+      // Identical strings would hide a value-only mismatch in the failure message; show the
+      // notifications themselves in that case.
+      if (pass || !marblesMatch) {
+        actualMarble = actualString;
+        expectedMarble = expectedString;
+      }
+    } else {
+      pass = this.equals(actual, expected);
     }
-    const pass = this.equals(actualMarble, expectedMarble);
 
     const message = pass
       ? () =>
@@ -113,14 +134,16 @@ function subscriptionsPass(actualMarbleArray: string[], expectedMarbleArray: str
   if (actualMarbleArray.length !== expectedMarbleArray.length) {
     return false;
   }
-  let pass = true;
+  // Multiset comparison: each expected entry can match at most one actual entry.
+  const remaining = [...expectedMarbleArray];
   for (const actualMarble of actualMarbleArray) {
-    if (!expectedMarbleArray.includes(actualMarble)) {
-      pass = false;
-      break;
+    const index = remaining.indexOf(actualMarble);
+    if (index === -1) {
+      return false;
     }
+    remaining.splice(index, 1);
   }
-  return pass;
+  return true;
 }
 
 declare global {
