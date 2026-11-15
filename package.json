@@ -53,9 +53,8 @@
     "verify": "yarn eslint && yarn test",
     "cz": "git-cz",
     "prepack": "yarn build",
-    "release": "yarn ci && commit-and-tag-version --sign && yarn release:github && yarn release:npm",
+    "release": "yarn ci && commit-and-tag-version --sign && yarn release:github",
     "release:github": "git push --follow-tags origin master",
-    "release:npm": "yarn npm publish",
     "release:preflight:package": "yarn pack",
     "prepare": "husky"
   },
