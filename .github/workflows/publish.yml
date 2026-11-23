@@ -1,16 +1,31 @@
 name: publish
 
+# Publishes to npm whenever master carries a version that npm does not have yet.
+# npm is the source of truth: a rerun after a partial failure skips the publish
+# and only finishes the tag and GitHub release.
+# Keep this filename: npm's Trusted Publisher (OIDC) setting is bound to it.
+
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - master
+  workflow_dispatch:
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+permissions: {}
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write  # create the version tag and GitHub release
       id-token: write  # required for npm OIDC (Trusted Publishers)
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v7
 
@@ -24,11 +39,72 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
+      - name: Read package name and version
+        id: pkg
+        run: |
+          set -euo pipefail
+          name="$(node -p "require('./package.json').name")"
+          version="$(node -p "require('./package.json').version")"
+          echo "name=${name}" >> "$GITHUB_OUTPUT"
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+
+      - name: Check whether this version is already on npm
+        id: check
+        env:
+          PKG_NAME: ${{ steps.pkg.outputs.name }}
+          PKG_VERSION: ${{ steps.pkg.outputs.version }}
+        run: |
+          set -euo pipefail
+          errfile="$(mktemp)"
+          rc=0
+          out="$(npm view "${PKG_NAME}@${PKG_VERSION}" version 2>"$errfile")" || rc=$?
+          if [ "$rc" -eq 0 ] && [ "$out" = "$PKG_VERSION" ]; then
+            echo "published=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::${PKG_NAME}@${PKG_VERSION} is already on npm; nothing to publish."
+          elif [ "$rc" -eq 0 ] && [ -z "$out" ]; then
+            echo "published=false" >> "$GITHUB_OUTPUT"
+          elif [ "$rc" -ne 0 ] && grep -q 'E404' "$errfile"; then
+            echo "published=false" >> "$GITHUB_OUTPUT"
+          else
+            cat "$errfile" >&2
+            echo "::error::Unexpected answer from npm view (exit ${rc}): '${out}'"
+            exit 1
+          fi
+
       - name: Build and test
+        if: steps.check.outputs.published == 'false'
         run: yarn ci
 
-      - name: Update npm (Node 22 bundles npm 10 which lacks OIDC Trusted Publishers; npm 11+ has it)
+      - name: Update npm (npm 11+ is needed for OIDC Trusted Publishers)
+        if: steps.check.outputs.published == 'false'
         run: npm install -g npm@^11
 
       - name: Publish to npm
+        if: steps.check.outputs.published == 'false'
         run: npm publish --provenance --access public
+
+      - name: Create tag and GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PKG_VERSION: ${{ steps.pkg.outputs.version }}
+        run: |
+          set -euo pipefail
+          tag="v${PKG_VERSION}"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "::notice::Release ${tag} already exists; skipping."
+            exit 0
+          fi
+          notes="$(mktemp)"
+          # The CHANGELOG section for this version: from its heading to the next version heading.
+          awk -v v="$PKG_VERSION" '
+            /^##+ \[?[0-9]+\.[0-9]+\.[0-9]+/ {
+              if (found) exit
+              if (index($0, "[" v "]") || $2 == v) { found = 1; next }
+            }
+            found { print }
+          ' CHANGELOG.md > "$notes"
+          if grep -q '[^[:space:]]' "$notes"; then
+            gh release create "$tag" --target "$GITHUB_SHA" --title "$tag" --notes-file "$notes"
+          else
+            gh release create "$tag" --target "$GITHUB_SHA" --title "$tag" --generate-notes
+          fi
