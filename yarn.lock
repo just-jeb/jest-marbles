@@ -648,7 +648,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@conventional-changelog/git-client@npm:^3.1.0":
+"@conventional-changelog/git-client@npm:^3.1.0, @conventional-changelog/git-client@npm:^3.1.2":
   version: 3.2.0
   resolution: "@conventional-changelog/git-client@npm:3.2.0"
   dependencies:
@@ -2919,28 +2919,28 @@ __metadata:
   linkType: hard
 
 "commit-and-tag-version@npm:^13.0.0":
-  version: 13.3.0
-  resolution: "commit-and-tag-version@npm:13.3.0"
+  version: 13.5.0
+  resolution: "commit-and-tag-version@npm:13.5.0"
   dependencies:
     "@conventional-changelog/git-client": "npm:3.1.0"
     "@conventional-changelog/template": "npm:1.4.0"
     chalk: "npm:^6.0.1"
-    conventional-changelog: "npm:8.1.0"
+    conventional-changelog: "npm:8.1.3"
     conventional-changelog-config-spec: "npm:2.1.0"
     conventional-changelog-conventionalcommits: "npm:10.4.0"
     conventional-recommended-bump: "npm:12.1.0"
     detect-indent: "npm:^7.0.2"
-    detect-newline: "npm:^3.1.0"
+    detect-newline: "npm:^4.0.1"
     dotgitignore: "npm:^2.1.0"
-    fast-xml-parser: "npm:^5.10.1"
+    fast-xml-parser: "npm:^5.11.2"
     figures: "npm:^6.1.0"
-    find-up: "npm:^5.0.0"
+    find-up: "npm:^8.0.0"
     semver: "npm:^7.7.2"
     yaml: "npm:^2.9.0"
-    yargs: "npm:^17.7.2"
+    yargs: "npm:^18.2.0"
   bin:
     commit-and-tag-version: bin/cli.js
-  checksum: 10c0/b39869b3c3044efef899f32f141a8924099571fefa1c279fc72c18c4e315283c0bbf839f72402c03bd60b0304652193914a15c960c5631df9b475351b29428e4
+  checksum: 10c0/a7022bc029d0fc02694e50d446e61dda780c403d1b21f49c9be799ce2c0221e5ccc26941f033ef5774b010c3ca80b6e0343c810ee817060333cd37c525dbb514
   languageName: node
   linkType: hard
 
@@ -3032,7 +3032,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"conventional-changelog-writer@npm:^9.2.0":
+"conventional-changelog-writer@npm:^9.2.1":
   version: 9.3.0
   resolution: "conventional-changelog-writer@npm:9.3.0"
   dependencies:
@@ -3047,21 +3047,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"conventional-changelog@npm:8.1.0":
-  version: 8.1.0
-  resolution: "conventional-changelog@npm:8.1.0"
+"conventional-changelog@npm:8.1.3":
+  version: 8.1.3
+  resolution: "conventional-changelog@npm:8.1.3"
   dependencies:
-    "@conventional-changelog/git-client": "npm:^3.1.0"
+    "@conventional-changelog/git-client": "npm:^3.1.2"
     "@simple-libs/hosted-git-info": "npm:^2.0.0"
     "@simple-libs/normalize-package-data": "npm:^1.0.0"
     argue-cli: "npm:^3.1.0"
     conventional-changelog-preset-loader: "npm:^6.0.1"
-    conventional-changelog-writer: "npm:^9.2.0"
-    conventional-commits-parser: "npm:^7.1.0"
+    conventional-changelog-writer: "npm:^9.2.1"
+    conventional-commits-filter: "npm:^6.0.1"
+    conventional-commits-parser: "npm:^7.1.2"
     fd-package-json: "npm:^2.0.0"
   bin:
     conventional-changelog: ./dist/cli/index.js
-  checksum: 10c0/f9bedd4fc8a91c3092abde678ac672dec85481ba68a83eada0b34550b91a06c1e9e80b0ae27381d010bed2aa1c38933468ccc3be08e249fae1d9c0fe54660514
+  checksum: 10c0/1aba0e039c68c2be30be341895239e084eb370f6d7bb23b99b8694413e65d7117f282fc610969619b1b2cd56d4487cf6d139f1cc013a39d5227da7a201e3301e
   languageName: node
   linkType: hard
 
@@ -3103,7 +3104,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"conventional-commits-parser@npm:^7.1.0":
+"conventional-commits-parser@npm:^7.1.0, conventional-commits-parser@npm:^7.1.2":
   version: 7.1.4
   resolution: "conventional-commits-parser@npm:7.1.4"
   dependencies:
@@ -3322,6 +3323,13 @@ __metadata:
   version: 3.1.0
   resolution: "detect-newline@npm:3.1.0"
   checksum: 10c0/c38cfc8eeb9fda09febb44bcd85e467c970d4e3bf526095394e5a4f18bc26dd0cf6b22c69c1fa9969261521c593836db335c2795218f6d781a512aea2fb8209d
+  languageName: node
+  linkType: hard
+
+"detect-newline@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "detect-newline@npm:4.0.1"
+  checksum: 10c0/1cc1082e88ad477f30703ae9f23bd3e33816ea2db6a35333057e087d72d466f5a777809b71f560118ecff935d2c712f5b59e1008a8b56a900909d8fd4621c603
   languageName: node
   linkType: hard
 
@@ -3825,29 +3833,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-xml-builder@npm:^1.3.1":
-  version: 1.3.1
-  resolution: "fast-xml-builder@npm:1.3.1"
+"fast-xml-builder@npm:^1.3.2":
+  version: 1.3.2
+  resolution: "fast-xml-builder@npm:1.3.2"
   dependencies:
     path-expression-matcher: "npm:^1.6.2"
     xml-naming: "npm:^0.3.0"
-  checksum: 10c0/5aaf30465e6ba4ae9780eb3916878d5bd40763a3fd6b8b079a76aabe8f3e9e852327280e7c1be2b63ec141424b6ec61b7ab8acca8b3948779b164b004a294b4c
+  checksum: 10c0/804ab2f79937b92a03a583fa54b3dde389064fc98f775746d5ff1aec67691b38374b91dc26b7ebc76157712b9938f8b6e414f6cff44810e566e5f86646200065
   languageName: node
   linkType: hard
 
-"fast-xml-parser@npm:^5.10.1":
-  version: 5.12.0
-  resolution: "fast-xml-parser@npm:5.12.0"
+"fast-xml-parser@npm:^5.11.2":
+  version: 5.12.1
+  resolution: "fast-xml-parser@npm:5.12.1"
   dependencies:
     "@nodable/entities": "npm:^3.1.0"
-    fast-xml-builder: "npm:^1.3.1"
+    fast-xml-builder: "npm:^1.3.2"
     is-unsafe: "npm:^2.0.3"
     path-expression-matcher: "npm:^1.6.2"
     strnum: "npm:^2.5.1"
     xml-naming: "npm:^0.3.0"
   bin:
     fxparser: src/cli/cli.js
-  checksum: 10c0/a63d7bb83aa4a0375762598ddc46535eb02237b046fa235c67e10079a4d706c34467d8336fb492b8020f6dd90070817e08792d1acb93fa4e8b8bd1aee99f705f
+  checksum: 10c0/bac77c14de9eb09d28ff2931890fb72cc5c6a0dd73a6b586f677c032669d5006196b30f1505f0d32fbf640e16f5b2fdcc6d6276251f3d53dc3b7d85dd8c651e5
   languageName: node
   linkType: hard
 
@@ -3972,6 +3980,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"find-up@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "find-up@npm:8.0.0"
+  dependencies:
+    locate-path: "npm:^8.0.0"
+    unicorn-magic: "npm:^0.3.0"
+  checksum: 10c0/4c6d2cb92f74bd42ec7344c881a46f6455010d3993f8f55b09bb64298c0a13e11e10200147624db8938590890a15ade69c40f0172698388d0999899f0f2a70a5
+  languageName: node
+  linkType: hard
+
 "findup-sync@npm:^4.0.0":
   version: 4.0.0
   resolution: "findup-sync@npm:4.0.0"
@@ -4085,6 +4103,13 @@ __metadata:
   version: 1.6.0
   resolution: "get-east-asian-width@npm:1.6.0"
   checksum: 10c0/7e72e9550fd49ca5b246f9af6bb2afc129c96412845ff6556b3274fd44817a381702ca17028efe9866b261a3d44254cbf21e6c90cf05b4b61675630af776d431
+  languageName: node
+  linkType: hard
+
+"get-east-asian-width@npm:^1.5.0":
+  version: 1.7.0
+  resolution: "get-east-asian-width@npm:1.7.0"
+  checksum: 10c0/680a5f611a186e4a065291f31821f7e4ad7742625be814e05b8ab5535c6fa53562bc0333a83138fca5f2e1030ed960a561b2fd4629e0cff0dc68b19cf46d7c53
   languageName: node
   linkType: hard
 
@@ -5388,6 +5413,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"locate-path@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "locate-path@npm:8.0.0"
+  dependencies:
+    p-locate: "npm:^6.0.0"
+  checksum: 10c0/4c837878b6d1b8557c5d1c624d11d6721d77f4627c14bd84182c85cbb9ec8fc01b5b5f089e21fab17b30fc5ecc14216a3d31f754dfcc5299f1fe9f4c83482fee
+  languageName: node
+  linkType: hard
+
 "lodash.map@npm:^4.5.1":
   version: 4.6.0
   resolution: "lodash.map@npm:4.6.0"
@@ -5828,6 +5862,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"p-limit@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "p-limit@npm:4.0.0"
+  dependencies:
+    yocto-queue: "npm:^1.0.0"
+  checksum: 10c0/a56af34a77f8df2ff61ddfb29431044557fcbcb7642d5a3233143ebba805fc7306ac1d448de724352861cb99de934bc9ab74f0d16fe6a5460bdbdf938de875ad
+  languageName: node
+  linkType: hard
+
 "p-locate@npm:^3.0.0":
   version: 3.0.0
   resolution: "p-locate@npm:3.0.0"
@@ -5852,6 +5895,15 @@ __metadata:
   dependencies:
     p-limit: "npm:^3.0.2"
   checksum: 10c0/2290d627ab7903b8b70d11d384fee714b797f6040d9278932754a6860845c4d3190603a0772a663c8cb5a7b21d1b16acb3a6487ebcafa9773094edc3dfe6009a
+  languageName: node
+  linkType: hard
+
+"p-locate@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "p-locate@npm:6.0.0"
+  dependencies:
+    p-limit: "npm:^4.0.0"
+  checksum: 10c0/d72fa2f41adce59c198270aa4d3c832536c87a1806e0f69dffb7c1a7ca998fb053915ca833d90f166a8c082d3859eabfed95f01698a3214c20df6bb8de046312
   languageName: node
   linkType: hard
 
@@ -6597,6 +6649,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"string-width@npm:^8.2.1":
+  version: 8.3.0
+  resolution: "string-width@npm:8.3.0"
+  dependencies:
+    get-east-asian-width: "npm:^1.5.0"
+    strip-ansi: "npm:^7.1.2"
+  checksum: 10c0/bc354b27772777c314e6792106f01586e959f36abb3d4b8ad46c4d4ee92d5e906acb10c1f3be97a85ae0ba1b11389094bc5672999fc5f03f12d22a4725fa30fe
+  languageName: node
+  linkType: hard
+
 "string_decoder@npm:^1.1.1":
   version: 1.3.0
   resolution: "string_decoder@npm:1.3.0"
@@ -6615,7 +6677,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"strip-ansi@npm:^7.0.1, strip-ansi@npm:^7.1.0":
+"strip-ansi@npm:^7.0.1, strip-ansi@npm:^7.1.0, strip-ansi@npm:^7.1.2":
   version: 7.2.0
   resolution: "strip-ansi@npm:7.2.0"
   dependencies:
@@ -7073,6 +7135,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"unicorn-magic@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "unicorn-magic@npm:0.3.0"
+  checksum: 10c0/0a32a997d6c15f1c2a077a15b1c4ca6f268d574cf5b8975e778bb98e6f8db4ef4e86dfcae4e158cd4c7e38fb4dd383b93b13eefddc7f178dea13d3ac8a603271
+  languageName: node
+  linkType: hard
+
 "universalify@npm:^2.0.0":
   version: 2.0.1
   resolution: "universalify@npm:2.0.1"
@@ -7476,9 +7545,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"yargs@npm:^18.2.0":
+  version: 18.2.0
+  resolution: "yargs@npm:18.2.0"
+  dependencies:
+    cliui: "npm:^9.0.1"
+    escalade: "npm:^3.1.1"
+    get-caller-file: "npm:^2.0.5"
+    string-width: "npm:^8.2.1"
+    y18n: "npm:^5.0.5"
+    yargs-parser: "npm:^22.0.0"
+  checksum: 10c0/7419338c3c00f9143ec6b6ab168335061c6f5342d161642aec23ff119e28cac1c417e0eca1d7dc82fd084f07207cc5d34c7d8315f605c0e3dbf12c350e405f3f
+  languageName: node
+  linkType: hard
+
 "yocto-queue@npm:^0.1.0":
   version: 0.1.0
   resolution: "yocto-queue@npm:0.1.0"
   checksum: 10c0/dceb44c28578b31641e13695d200d34ec4ab3966a5729814d5445b194933c096b7ced71494ce53a0e8820685d1d010df8b2422e5bf2cdea7e469d97ffbea306f
+  languageName: node
+  linkType: hard
+
+"yocto-queue@npm:^1.0.0":
+  version: 1.2.2
+  resolution: "yocto-queue@npm:1.2.2"
+  checksum: 10c0/36d4793e9cf7060f9da543baf67c55e354f4862c8d3d34de1a1b1d7c382d44171315cc54abf84d8900b8113d742b830108a1434f4898fb244f9b7e8426d4b8f5
   languageName: node
   linkType: hard
